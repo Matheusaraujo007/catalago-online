@@ -127,7 +127,7 @@
         <button class="menu-btn" id="btn-produtos">📦 Produtos</button>
         <div class="submenu" id="submenu-produtos">
           <button class="menu-btn" onclick="loadPage('cadastro.html')">Lista de Produtos</button>
-          <button class="menu-btn" onclick="loadPage('inventario.html')">Inventário</button>
+          
           <button class="menu-btn" onclick="loadPage('categorias.html')">Categorias</button>
         </div>
 
@@ -135,7 +135,7 @@
         <button class="menu-btn" id="btn-clientes">👥 Clientes</button>
         <div class="submenu" id="submenu-clientes">
           <button class="menu-btn" onclick="loadPage('clientes.html')">Lista de Clientes</button>
-          <button class="menu-btn" onclick="loadPage('mensagen.html')">Mensagem</button>
+          
         </div>
 
         <!-- Descontos -->
@@ -147,8 +147,6 @@
         <button class="menu-btn" id="btn-marketing">📢 Marketing</button>
         <div class="submenu" id="submenu-marketing">
           <button class="menu-btn" onclick="loadPage('banner1.html')">Banner 1</button>
-          <button class="menu-btn" onclick="loadPage('banner2.html')">Banner 2</button>
-          s<button class="menu-btn" onclick="loadPage('banner3.html')">Banner 3</button>
       </div>
       </div>
 
@@ -157,23 +155,11 @@
 
         <!-- Loja Online -->
         <button class="menu-btn" id="btn-loja-online">🛍️ Loja Online</button>
-        <div class="submenu" id="submenu-loja">
-          <button class="menu-btn" onclick="loadPage('layout.html')">Layout</button>
-          <button class="menu-btn" onclick="loadPage('paginas.html')">Páginas</button>
-          <button class="menu-btn" onclick="loadPage('blog.html')">Blog</button>
-          <button class="menu-btn" onclick="loadPage('novo.html')">Novo</button>
-          <button class="menu-btn" onclick="loadPage('menus.html')">Menus</button>
-          <button class="menu-btn" onclick="loadPage('filtros.html')">Filtros</button>
-          <button class="menu-btn" onclick="loadPage('redes.html')">Links de redes sociais</button>
-          <button class="menu-btn" onclick="loadPage('emConstrucao.html')">Página em construção</button>
-        </div>
+        
       </div>
     </div>
 
-    <div class="settings-section">
-      <button class="menu-btn" onclick="loadPage('configuracoes.html')">⚙️ Configurações</button>
-    </div>
-  </div>
+    
 
   <!-- CONTEÚDO PRINCIPAL -->
   <div class="main-content">
@@ -182,9 +168,10 @@
 
   <script>
     // Alternar submenus
-    document.getElementById("btn-loja-online").addEventListener("click", function() {
-      this.classList.toggle("active");
-    });
+    document.getElementById("btn-loja-online").addEventListener("click", function () {
+  window.open("https://catalago-online.vercel.app/", "_blank");
+});
+
 
     document.getElementById("btn-produtos").addEventListener("click", function() {
       this.classList.toggle("active");
