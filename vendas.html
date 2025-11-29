@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📦 Relatório de Vendas</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #222;
+    }
+
+    .venda-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 15px auto;
+      max-width: 800px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .venda-card:hover {
+      transform: scale(1.01);
+    }
+
+    .acoes {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .btn-detalhes { background: #007bff; color: white; }
+    .btn-detalhes:hover { background: #0069d9; }
+    .btn-editar { background: #ffc107; color: black; }
+    .btn-editar:hover { background: #e0a800; }
+    .btn-cancelar { background: #dc3545; color: white; }
+    .btn-cancelar:hover { background: #c82333; }
+    .btn-pdf { background: #28a745; color: white; }
+    .btn-pdf:hover { background: #218838; }
+
+    .status {
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+
+    .pago { color: green; }
+    .pendente { color: orange; }
+    .cancelado { color: red; }
+
+    /* 💡 Ajuste do tamanho da imagem dos produtos */
+    .itens {
+      margin-top: 10px;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 10px 0;
+    }
+
+    .item img {
+      width: 60px;          /* ✅ tamanho fixo */
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;    /* garante que a imagem não distorça */
+      border: 1px solid #ddd;
+    }
+
+    .item div {
+      flex: 1;
+    }
+
+    .item p {
+      margin: 2px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 Relatório de Vendas</h1>
+  <div id="listaVendas"></div>
+
+  <script>
+    async function carregarVendas() {
+      try {
+        const res = await fetch("/api/vendas");
+        const vendas = await res.json();
+
+        const container = document.getElementById("listaVendas");
+        container.innerHTML = "";
+
+        vendas.forEach(v => {
+          const div = document.createElement("div");
+          div.className = "venda-card";
+          div.innerHTML = `
+            <h2>Venda #${v.id}</h2>
+            <p><b>Cliente:</b> ${v.cliente_nome ?? "Não informado"}<br>
+${v.cliente_telefone ? `<small>📞 ${v.cliente_telefone}</small>` : ""}
+${v.cliente_email ? `<br><small>✉️ ${v.cliente_email}</small>` : ""}
+</p>
+            <p><b>Data:</b> ${new Date(v.data_venda).toLocaleString()}</p>
+            <p><b>Status:</b> <span class="status ${v.status}">${v.status}</span></p>
+            <p><b>Pagamento:</b> ${v.metodo_pagamento ?? "—"}</p>
+            <p><b>Total:</b> R$ ${Number(v.valor_total).toFixed(2)}</p>
+            ${v.observacoes ? `<p><b>Obs:</b> ${v.observacoes}</p>` : ""}
+
+            <div class="itens">
+              <h3>Itens da Venda:</h3>
+              ${v.itens?.length ? v.itens.map(i => `
+                <div class="item">
+                  <img src="${i.imagem || 'https://via.placeholder.com/60'}" alt="">
+                  <div>
+                    <p>${i.produto_nome}</p>
+                    <p>${i.quantidade}x R$ ${Number(i.preco_unitario).toFixed(2)} = <b>R$ ${Number(i.subtotal).toFixed(2)}</b></p>
+                  </div>
+                </div>
+              `).join("") : "<p>Nenhum item encontrado.</p>"}
+            </div>
+
+            <div class="acoes">
+              <button class="btn-detalhes" onclick="verDetalhes(${v.id})">🔍 Detalhes</button>
+              <button class="btn-editar" onclick="editarStatus(${v.id})">✏️ Editar</button>
+              <button class="btn-cancelar" onclick="cancelarVenda(${v.id})">❌ Cancelar</button>
+              <button class="btn-pdf" onclick="gerarPDF(${v.id})">📄 PDF</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error("Erro ao carregar vendas:", err);
+      }
+    }
+
+    // Funções de ação (futuro: conectar à API)
+    function verDetalhes(id) {
+      alert(`📋 Detalhes da venda #${id}`);
+    }
+    function editarStatus(id) {
+      const novoStatus = prompt("Digite o novo status (pago, pendente, cancelado):");
+      if (!novoStatus) return;
+      alert(`Status da venda #${id} alterado para: ${novoStatus}`);
+    }
+    function cancelarVenda(id) {
+      if (confirm("Deseja realmente cancelar esta venda?")) {
+        alert(`Venda #${id} foi cancelada.`);
+      }
+    }
+    function gerarPDF(id) {
+      alert(`📄 Gerando PDF da venda #${id}...`);
+    }
+
+    carregarVendas();
+  </script>
+</body>
+</html>

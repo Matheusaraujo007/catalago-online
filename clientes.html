@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clientes</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body { font-family: "Poppins", sans-serif; background: #f5f5f5; color: #333; padding: 20px; }
+  h1 { color: #222; text-align: center; margin-bottom: 20px; }
+  .btn-novo { background: #1e1e2f; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 20px; transition: background 0.3s; }
+  .btn-novo:hover { background: #34344a; }
+  .form-container { display: none; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
+  input { width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 6px; }
+  button.salvar { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+  th, td { text-align: left; padding: 12px 15px; border-bottom: 1px solid #ddd; }
+  th { background: #1e1e2f; color: white; }
+  td button { background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+  td button:hover { background: #c82333; }
+</style>
+</head>
+<body>
+
+<h1>Gerenciar Clientes</h1>
+
+<button class="btn-novo" onclick="toggleForm()">➕ Novo Cliente</button>
+
+<div class="form-container" id="form-cliente">
+  <h2>Adicionar Cliente</h2>
+  <input type="text" id="nome" placeholder="Nome completo" required>
+  <input type="email" id="email" placeholder="E-mail" required>
+  <input type="tel" id="telefone" placeholder="Telefone" required>
+  <input type="text" id="cidade" placeholder="Cidade" required>
+  <button class="salvar" onclick="salvarCliente()">Salvar Cliente</button>
+</div>
+
+<h2>Lista de Clientes</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Telefone</th>
+      <th>Cidade</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody id="lista-clientes">
+    <tr><td colspan="6" style="text-align:center; color:#888;">Carregando...</td></tr>
+  </tbody>
+</table>
+
+<script>
+const tabela = document.getElementById('lista-clientes');
+const form = document.getElementById('form-cliente');
+
+function toggleForm() {
+  form.style.display = form.style.display === 'block' ? 'none' : 'block';
+}
+
+async function carregarClientes() {
+  try {
+    const res = await fetch('/api/clientes');
+    const clientes = await res.json();
+    atualizarTabela(clientes);
+  } catch (err) {
+    console.error("Erro ao carregar clientes:", err);
+    tabela.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Erro ao carregar clientes</td></tr>`;
+  }
+}
+
+async function salvarCliente() {
+  const nome = document.getElementById('nome').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const telefone = document.getElementById('telefone').value.trim();
+  const cidade = document.getElementById('cidade').value.trim();
+
+  if (!nome || !email || !telefone || !cidade) {
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  try {
+    await fetch('/api/clientes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, email, telefone, cidade })
+    });
+    document.getElementById('nome').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('telefone').value = '';
+    document.getElementById('cidade').value = '';
+    toggleForm();
+    carregarClientes();
+  } catch (err) {
+    console.error("Erro ao salvar cliente:", err);
+  }
+}
+
+async function removerCliente(id) {
+  if (!confirm("Deseja realmente excluir este cliente?")) return;
+  try {
+    await fetch('/api/clientes', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    });
+    carregarClientes();
+  } catch (err) {
+    console.error("Erro ao remover cliente:", err);
+  }
+}
+
+function atualizarTabela(clientes) {
+  if (!clientes || clientes.length === 0) {
+    tabela.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#888;">Nenhum cliente cadastrado</td></tr>`;
+    return;
+  }
+
+  tabela.innerHTML = clientes.map(c => `
+    <tr>
+      <td>${c.id}</td>
+      <td>${c.nome}</td>
+      <td>${c.email}</td>
+      <td>${c.telefone}</td>
+      <td>${c.cidade}</td>
+      <td><button onclick="removerCliente(${c.id})">Excluir</button></td>
+    </tr>
+  `).join('');
+}
+
+// Carrega os clientes ao abrir a página
+carregarClientes();
+</script>
+
+</body>
+</html>

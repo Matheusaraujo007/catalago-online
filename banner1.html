@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cadastro de Banners</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f3f4f6;
+    margin: 0;
+    padding: 20px;
+  }
+  .container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 12px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  label { font-weight: 600; margin-top: 10px; display: block; }
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover { background: #0056b3; }
+  #preview img {
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 8px;
+  }
+  .banner-list {
+    margin-top: 40px;
+  }
+  .banner-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Cadastro de Banner</h1>
+
+  <label>Título:</label>
+  <input type="text" id="titulo" placeholder="Digite o título do banner" />
+
+  <label>Descrição:</label>
+  <textarea id="descricao" placeholder="Digite uma descrição opcional"></textarea>
+
+  <label>Link (opcional):</label>
+  <input type="text" id="link" placeholder="https://seusite.com/promo" />
+
+  <label>Imagem:</label>
+  <input type="file" id="imagem" accept="image/*" />
+  <div id="preview"></div>
+
+  <button onclick="salvarBanner()">Salvar Banner</button>
+
+  <div class="banner-list" id="listaBanners">
+    <h2>Banners Cadastrados</h2>
+  </div>
+</div>
+
+<script>
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+
+async function salvarBanner() {
+  const titulo = document.getElementById('titulo').value;
+  const descricao = document.getElementById('descricao').value;
+  const link = document.getElementById('link').value;
+  const file = document.getElementById('imagem').files[0];
+
+  if (!file) return alert('Selecione uma imagem.');
+
+  const imagem_base64 = await getBase64(file);
+
+  const res = await fetch('/api/banner1', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ titulo, descricao, link, imagem_base64 })
+  });
+
+  if (res.ok) {
+    alert('Banner salvo com sucesso!');
+    document.getElementById('titulo').value = '';
+    document.getElementById('descricao').value = '';
+    document.getElementById('link').value = '';
+    document.getElementById('imagem').value = '';
+    document.getElementById('preview').innerHTML = '';
+    carregarBanners();
+  } else {
+    const data = await res.json();
+    alert('Erro: ' + data.message);
+  }
+}
+
+document.getElementById('imagem').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  if (file) {
+    const base64 = await getBase64(file);
+    document.getElementById('preview').innerHTML = `<img src="${base64}" alt="Preview">`;
+  }
+});
+
+async function carregarBanners() {
+  const res = await fetch('/api/banner1');
+  const banners = await res.json();
+
+  const container = document.getElementById('listaBanners');
+  container.innerHTML = '<h2>Banners Cadastrados</h2>';
+
+  banners.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'banner-item';
+    div.innerHTML = `
+      <strong>${b.titulo || '(Sem título)'}</strong><br>
+      <img src="${b.imagem_base64}" style="max-width:100%;border-radius:6px;margin-top:5px;">
+      <p>${b.descricao || ''}</p>
+      <small>Criado em: ${new Date(b.criado_em).toLocaleString()}</small>
+      <br>
+      <button onclick="excluirBanner(${b.id})" style="margin-top:8px;background:#dc3545;border:none;padding:8px 12px;border-radius:6px;color:white;cursor:pointer;">
+        Excluir
+      </button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+async function excluirBanner(id) {
+  if (!confirm('Tem certeza que deseja excluir este banner?')) return;
+
+  const res = await fetch(`/api/banner1?id=${id}`, { method: 'DELETE' });
+
+  if (res.ok) {
+    alert('Banner excluído com sucesso!');
+    carregarBanners();
+  } else {
+    const data = await res.json();
+    alert('Erro ao excluir: ' + data.message);
+  }
+}
+
+// Carrega os banners ao abrir a página
+carregarBanners();
+</script>
+
+</body>
+</html>

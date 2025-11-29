@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciar Promoções</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #1c1c1c;
+      color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #2a2a2a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    select, input, button {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+
+    select, input {
+      background: #333;
+      color: #f5f5f5;
+    }
+
+    button {
+      background: #ffcc00;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ffdd33;
+      transition: 0.3s;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1f1f1f;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333;
+      color: #ffcc00;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #262626;
+    }
+
+    tr:hover {
+      background-color: #383838;
+      transition: 0.3s;
+    }
+
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background: #ff5e4d;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerenciar Promoções</h1>
+
+    <form id="formPromocao">
+      <select id="produtoSelect" required>
+        <option value="">Selecione um produto</option>
+      </select>
+
+      <select id="tipoDesconto" required>
+        <option value="">Tipo de desconto</option>
+        <option value="percentual">Percentual (%)</option>
+        <option value="fixo">Valor fixo (R$)</option>
+      </select>
+
+      <input type="number" id="valorDesconto" placeholder="Valor do desconto" required>
+
+      <input type="date" id="dataFim" placeholder="Data de término" required>
+
+      <button type="submit">Adicionar Promoção</button>
+    </form>
+
+    <table id="tabelaPromocoes">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Tipo</th>
+          <th>Desconto</th>
+          <th>Validade</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="5" style="text-align:center;color:#aaa;">Carregando promoções...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    async function carregarProdutos() {
+      const select = document.getElementById('produtoSelect');
+      const res = await fetch('/api/produtos');
+      const produtos = await res.json();
+
+      produtos.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.nome;
+        select.appendChild(opt);
+      });
+    }
+
+    async function carregarPromocoes() {
+      const tbody = document.querySelector('#tabelaPromocoes tbody');
+      const res = await fetch('/api/promocoes');
+      const promocoes = await res.json();
+
+      tbody.innerHTML = "";
+
+      if (promocoes.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;color:#aaa;'>Nenhuma promoção cadastrada</td></tr>";
+        return;
+      }
+
+      promocoes.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${p.nome_produto}</td>
+          <td>${p.tipo}</td>
+          <td>${p.valor}</td>
+          <td>${p.data_fim.split('T')[0].split('-').reverse().join('/')}</td>
+          <td><button class="delete-btn" onclick="removerPromocao(${p.id})">Remover</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById('formPromocao').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const dados = {
+        produto_id: document.getElementById('produtoSelect').value,
+        tipo: document.getElementById('tipoDesconto').value,
+        valor: document.getElementById('valorDesconto').value,
+        data_fim: document.getElementById('dataFim').value
+      };
+
+      await fetch('/api/promocoes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+
+      alert('Promoção adicionada com sucesso!');
+      carregarPromocoes();
+    });
+
+    async function removerPromocao(id) {
+      if (!confirm('Deseja realmente remover esta promoção?')) return;
+
+      await fetch(`/api/promocoes?id=${id}`, { method: 'DELETE' });
+      carregarPromocoes();
+    }
+
+    carregarProdutos();
+    carregarPromocoes();
+  </script>
+</body>
+</html>

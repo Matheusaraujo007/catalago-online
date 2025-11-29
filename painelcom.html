@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Sistema</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+
+  body {
+    display: flex;
+    height: 100vh;
+    background: #f4f6f8;
+    color: #333;
+  }
+
+  /* ====== SIDEBAR ====== */
+  .sidebar {
+    width: 250px;
+    background: #1e1e2f;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .sidebar h2 {
+    text-align: center;
+    font-size: 20px;
+    margin: 20px 0;
+    letter-spacing: 1px;
+  }
+
+  .menu-section {
+    padding-bottom: 10px;
+    border-top: 1px solid #2f2f40;
+  }
+
+  .menu-title {
+    font-size: 13px;
+    color: #bbb;
+    margin: 12px 20px 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .menu-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s, padding-left 0.3s;
+  }
+
+  .menu-btn:hover {
+    background: #2e2e45;
+    padding-left: 25px;
+  }
+
+  .submenu {
+    display: none;
+    flex-direction: column;
+  }
+
+  .submenu .menu-btn {
+    background: #29293d;
+    padding-left: 40px;
+    font-size: 14px;
+  }
+
+  .submenu .menu-btn:hover {
+    background: #34344a;
+  }
+
+  .menu-btn.active + .submenu {
+    display: flex;
+  }
+
+  /* ====== CONFIG BUTTON AT BOTTOM ====== */
+  .settings-section {
+    border-top: 1px solid #2f2f40;
+    padding: 10px 0;
+  }
+
+  /* ====== MAIN CONTENT ====== */
+  .main-content {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div>
+      <h2>Painel</h2>
+
+      <button class="menu-btn" onclick="loadPage('inicio.html')">🏠 Início</button>
+
+      <div class="menu-section">
+        <div class="menu-title">Gestão</div>
+
+        <button class="menu-btn" onclick="loadPage('vendas.html')">💰 Vendas</button>
+
+        <!-- Produtos -->
+        <button class="menu-btn" id="btn-produtos">📦 Produtos</button>
+        <div class="submenu" id="submenu-produtos">
+          <button class="menu-btn" onclick="loadPage('cadastro.html')">Lista de Produtos</button>
+          <button class="menu-btn" onclick="loadPage('inventario.html')">Inventário</button>
+          <button class="menu-btn" onclick="loadPage('categorias.html')">Categorias</button>
+        </div>
+
+        <!-- Clientes -->
+        <button class="menu-btn" id="btn-clientes">👥 Clientes</button>
+        <div class="submenu" id="submenu-clientes">
+          <button class="menu-btn" onclick="loadPage('clientes.html')">Lista de Clientes</button>
+          <button class="menu-btn" onclick="loadPage('mensagen.html')">Mensagem</button>
+        </div>
+
+        <!-- Descontos -->
+        <button class="menu-btn" id="btn-descontos">🏷️ Descontos</button>
+        <div class="submenu" id="submenu-descontos">
+          <button class="menu-btn" onclick="loadPage('promocao.html')">Promoções</button>
+        </div>
+
+        <button class="menu-btn" id="btn-marketing">📢 Marketing</button>
+        <div class="submenu" id="submenu-marketing">
+          <button class="menu-btn" onclick="loadPage('banner1.html')">Banner 1</button>
+          <button class="menu-btn" onclick="loadPage('banner2.html')">Banner 2</button>
+          s<button class="menu-btn" onclick="loadPage('banner3.html')">Banner 3</button>
+      </div>
+      </div>
+
+      <div class="menu-section">
+        <div class="menu-title">Canais de Venda</div>
+
+        <!-- Loja Online -->
+        <button class="menu-btn" id="btn-loja-online">🛍️ Loja Online</button>
+        <div class="submenu" id="submenu-loja">
+          <button class="menu-btn" onclick="loadPage('layout.html')">Layout</button>
+          <button class="menu-btn" onclick="loadPage('paginas.html')">Páginas</button>
+          <button class="menu-btn" onclick="loadPage('blog.html')">Blog</button>
+          <button class="menu-btn" onclick="loadPage('novo.html')">Novo</button>
+          <button class="menu-btn" onclick="loadPage('menus.html')">Menus</button>
+          <button class="menu-btn" onclick="loadPage('filtros.html')">Filtros</button>
+          <button class="menu-btn" onclick="loadPage('redes.html')">Links de redes sociais</button>
+          <button class="menu-btn" onclick="loadPage('emConstrucao.html')">Página em construção</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <button class="menu-btn" onclick="loadPage('configuracoes.html')">⚙️ Configurações</button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main-content">
+    <iframe id="iframe-content" src="inicio.html"></iframe>
+  </div>
+
+  <script>
+    // Alternar submenus
+    document.getElementById("btn-loja-online").addEventListener("click", function() {
+      this.classList.toggle("active");
+    });
+
+    document.getElementById("btn-produtos").addEventListener("click", function() {
+      this.classList.toggle("active");
+    });
+
+    document.getElementById("btn-clientes").addEventListener("click", function() {
+      this.classList.toggle("active");
+    });
+
+    document.getElementById("btn-descontos").addEventListener("click", function() {
+      this.classList.toggle("active");
+    });
+
+    document.getElementById("btn-marketing").addEventListener("click", function() {
+  this.classList.toggle("active");
+    });
+
+    // Função para carregar páginas no iframe
+    function loadPage(page) {
+      document.getElementById("iframe-content").src = page;
+    }
+
+    
+
+  </script>
+
+</body>
+</html>

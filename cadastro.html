@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Empresarial - Cadastro de Produtos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: "Poppins", sans-serif; background: linear-gradient(135deg, #f0e248, #ddb12d); margin:0; padding:0; overflow-x:hidden; animation: fadeIn 1s ease-in; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+  header { background: linear-gradient(90deg,#252526,#212226); color:rgb(239, 224, 2); text-align:center; padding:20px; font-size:1.7em; letter-spacing:1px; box-shadow:0 4px 12px rgba(0,0,0,0.2); animation:slideDown 0.7s ease-out; }
+  @keyframes slideDown { from{transform:translateY(-50px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+  main { max-width:950px; margin:40px auto; background:rgb(50, 49, 49); padding:35px; border-radius:20px; box-shadow:0 8px 25px rgba(0,0,0,0.1); animation:zoomIn 0.6s ease-out; }
+  @keyframes zoomIn { from{opacity:0; transform:scale(0.9);} to{opacity:1; transform:scale(1);} }
+  h2 { color:#ffff08; margin-bottom:20px; position:relative; }
+  h2::after { content:""; position:absolute; width:60px; height:3px; bottom:-6px; left:0; background: linear-gradient(90deg,#fff942,#ac9c05); border-radius:3px; }
+  form { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  label { font-weight:500; color:#d8e546; }
+  input, select, textarea { width:100%; padding:10px; border:1px solid #eaf86f; border-radius:8px; font-size:1em; margin-top:5px; background:#eaf86f; transition:0.3s; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:#f3ec17; box-shadow:0 0 5px rgba(55, 55, 55, 0.3); }
+  textarea { grid-column: span 2; resize:none; }
+  .preview { grid-column: span 2; display:flex; flex-wrap:wrap; gap:10px; }
+  .preview img { width:90px; height:90px; object-fit:cover; border-radius:8px; border:1px solid #eaf86f; transition: transform 0.3s ease; }
+  .preview img:hover { transform:scale(1.05); }
+  .btn { grid-column: span 2; text-align:right; }
+  button { background: linear-gradient(90deg,#f1d606,#131313); color:white; padding:12px 25px; font-size:1em; border:none; border-radius:10px; cursor:pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  button:hover { transform:scale(1.05); box-shadow:0 4px 15px rgba(64, 64, 63, 0.3); }
+  #filtroInput { width:100%; padding:10px; border-radius:8px; border:1px solid #f7f258; font-size:1em; margin-bottom:20px; transition:0.3s; }
+  #filtroInput:focus { border-color:#f8d435; box-shadow:0 0 5px rgba(55, 56, 56, 0.3); outline:none; }
+  table { width:100%; margin-top:20px; border-collapse:collapse; animation:fadeIn 0.8s ease-in; }
+  th, td { border-bottom:1px solid #ffff50; padding:12px; text-align:left; vertical-align:middle; }
+  th { background:#ffff50; color:#303132; font-weight:600; }
+  tr { transition:background-color 0.3s, transform 0.2s; }
+  tr:hover { background-color:#fff397; transform:scale(1.01); }
+  .no-data { text-align:center; color:#64748b; font-style:italic; }
+  .miniatura img { width:60px; height:60px; border-radius:8px; object-fit:cover; border:1px solid #cbd5e1; transition:0.3s; }
+  .miniatura img:hover { transform:scale(1.1); }
+  .acoes button { margin-right:6px; padding:6px 12px; font-size:0.9em; border-radius:6px; transition:0.3s; }
+  .editar { background-color:#16a34a; }
+  .editar:hover { background-color:#15803d; transform:scale(1.05); }
+  .excluir { background-color:#dc2626; }
+  .excluir:hover { background-color:#b91c1c; transform:scale(1.05); }
+  .add-cat-btn { background: linear-gradient(90deg,#ffe32b,#3d3d3c); color:white; border:none; border-radius:8px; padding:8px 12px; font-size:1.4em; font-weight:bold; width:15px; height:30px; cursor:pointer; transition:0.3s; display:flex; align-items:center; justify-content:center; position:relative; left:950px; top:-55px; }
+  .add-cat-btn:hover { background: linear-gradient(90deg,#343433,#ffe32b); transform:scale(1.1); box-shadow:0 3px 5px rgba(37,99,235,0.3); }
+</style>
+</head>
+<body>
+<header>📦 Cadastro de Produtos</header>
+<main>
+<h2>Adicionar Novo Produto</h2>
+<form id="productForm">
+  <div>
+    <label>Nome do Produto:</label>
+    <input type="text" id="nome" required>
+  </div>
+  <div>
+    <label>Categoria:</label>
+    <select id="categoria" required>
+      <option value="">Selecione...</option>
+      <option>Eletrônicos</option>
+      <option>Vestuário</option>
+      <option>Alimentos</option>
+      <option>Beleza</option>
+      <option>Outros</option>
+    </select>
+  </div>
+  <button type="button" id="addCategoriaBtn" class="add-cat-btn" title="Adicionar nova categoria">+</button>
+
+  <div>
+    <label>Preço de Venda (R$):</label>
+    <input type="number" id="venda" step="0.01" required>
+  </div>
+  <div>
+    <label>Quantidade em Estoque:</label>
+    <input type="number" id="estoque" required>
+  </div>
+  <div>
+    <label>Código Interno:</label>
+    <input type="text" id="codigo" required>
+  </div>
+  <div style="grid-column: span 2;">
+    <label>Descrição:</label>
+    <textarea id="descricao" rows="3"></textarea>
+  </div>
+  <div style="grid-column: span 2;">
+    <label>Imagens do Produto:</label>
+    <input type="file" id="imagens" multiple accept="image/*">
+    <div class="preview" id="preview"></div>
+  </div>
+  <div class="btn">
+    <button type="submit">Salvar Produto</button>
+  </div>
+</form>
+
+<h2>🔍 Filtrar Produtos</h2>
+<input type="text" id="filtroInput" placeholder="Pesquisar por Nome, Categoria ou Código...">
+
+<h2>📋 Produtos Cadastrados</h2>
+<table id="productTable">
+  <thead>
+    <tr>
+      <th>Imagem</th>
+      <th>Nome</th>
+      <th>Categoria</th>
+      <th>Preço (R$)</th>
+      <th>Estoque</th>
+      <th>Código</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="no-data"><td colspan="7">Nenhum produto cadastrado ainda.</td></tr>
+  </tbody>
+</table>
+</main>
+
+<script>
+const form = document.getElementById('productForm');
+const tableBody = document.querySelector('#productTable tbody');
+const preview = document.getElementById('preview');
+const inputImagens = document.getElementById('imagens');
+const filtroInput = document.getElementById('filtroInput');
+
+let imagensSelecionadas = [];
+let produtos = [];
+let produtoEditando = null;
+
+// Pré-visualização das imagens
+inputImagens.addEventListener('change', () => {
+  preview.innerHTML = "";
+  imagensSelecionadas = [];
+  Array.from(inputImagens.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      preview.appendChild(img);
+      imagensSelecionadas.push(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// Carregar produtos
+async function carregarProdutos() {
+  try {
+    const res = await fetch('/api/produtos');
+    produtos = await res.json();
+    atualizarTabela();
+  } catch(err) {
+    console.error(err);
+    tableBody.innerHTML = `<tr class="no-data"><td colspan="7">Erro ao carregar produtos</td></tr>`;
+  }
+}
+
+// Atualizar tabela
+function atualizarTabela() {
+  tableBody.innerHTML = "";
+  if(produtos.length === 0) {
+    tableBody.innerHTML = `<tr class="no-data"><td colspan="7">Nenhum produto cadastrado ainda.</td></tr>`;
+    return;
+  }
+  produtos.forEach((p,i) => {
+    const imagem = p.imagens?.length > 0 ? `<img src="${p.imagens[0]}"/>` : '—';
+    const linha = document.createElement('tr');
+    linha.innerHTML = `
+      <td class="miniatura">${imagem}</td>
+      <td>${p.nome}</td>
+      <td>${p.categoria}</td>
+      <td>${parseFloat(p.preco).toFixed(2)}</td>
+      <td>${p.estoque}</td>
+      <td>${p.codigo}</td>
+      <td class="acoes">
+        <button class="editar" onclick="editarProduto(${i})">Editar</button>
+        <button class="excluir" onclick="excluirProduto(${i})">Excluir</button>
+      </td>
+    `;
+    tableBody.appendChild(linha);
+  });
+}
+
+// Adicionar/Editar Produto
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nome = document.getElementById('nome').value;
+  const categoria = document.getElementById('categoria').value;
+  const venda = document.getElementById('venda').value;
+  const estoque = document.getElementById('estoque').value;
+  const codigo = document.getElementById('codigo').value;
+  const descricao = document.getElementById('descricao').value;
+
+  if(!nome || !categoria || !venda || !estoque || !codigo){
+    alert('Por favor, preencha todos os campos obrigatórios.');
+    return;
+  }
+
+  try {
+    let res, produtoSalvo;
+    if(produtoEditando) {
+      // Editar pelo nome
+      res = await fetch('/api/produtos', {
+        method: 'PUT',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          nomeAntigo: produtoEditando.nome,
+          nome, categoria, venda, estoque, codigo, descricao, imagens: imagensSelecionadas
+        })
+      });
+      produtoSalvo = await res.json();
+      const index = produtos.findIndex(p => p.nome === produtoEditando.nome);
+      produtos[index] = produtoSalvo;
+      produtoEditando = null;
+    } else {
+      // Novo produto
+      res = await fetch('/api/produtos', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({nome, categoria, venda, estoque, codigo, descricao, imagens: imagensSelecionadas})
+      });
+      produtoSalvo = await res.json();
+      produtos.unshift(produtoSalvo);
+    }
+    atualizarTabela();
+    form.reset();
+    preview.innerHTML = "";
+    imagensSelecionadas = [];
+  } catch(err){
+    console.error(err);
+    alert('Erro ao salvar produto');
+  }
+});
+
+// Frontend: substitua window.excluirProduto
+window.excluirProduto = async function(index){
+  if(!confirm('Tem certeza que deseja excluir este produto?')) return;
+  const nome = produtos[index].nome;
+
+  try {
+    // usa query string para DELETE (mais confiável em alguns ambientes)
+    const res = await fetch(`/api/produtos?nome=${encodeURIComponent(nome)}`, {
+      method: 'DELETE'
+    });
+
+    // tenta extrair json para mostrar erro se existir
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e){ data = { message: text }; }
+
+    if (!res.ok) {
+      console.error('Erro ao excluir produto:', data);
+      alert('Erro ao excluir produto: ' + (data.message || res.statusText));
+      return;
+    }
+
+    // remover do array local e atualizar tabela
+    produtos.splice(index,1);
+    atualizarTabela();
+    alert('Produto excluído com sucesso!');
+  } catch(err){
+    console.error('Erro de rede ao excluir:', err);
+    alert('Erro de rede ao excluir produto');
+  }
+}
+
+// Editar Produto
+window.editarProduto = function(index){
+  produtoEditando = produtos[index];
+  
+  // Preenche os campos do formulário
+  document.getElementById('nome').value = produtoEditando.nome;
+  document.getElementById('categoria').value = produtoEditando.categoria;
+  document.getElementById('venda').value = produtoEditando.preco;
+  document.getElementById('estoque').value = produtoEditando.estoque;
+  document.getElementById('codigo').value = produtoEditando.codigo;
+  document.getElementById('descricao').value = produtoEditando.descricao;
+
+  // Mostra as imagens existentes do produto
+  imagensSelecionadas = produtoEditando.imagens || [];
+  preview.innerHTML = "";
+
+  if (imagensSelecionadas.length > 0) {
+    imagensSelecionadas.forEach(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      preview.appendChild(img);
+    });
+  }
+};
+
+// Filtro
+filtroInput.addEventListener('input',()=>{
+  const termo = filtroInput.value.toLowerCase();
+  const linhas = tableBody.querySelectorAll('tr');
+  linhas.forEach(linha=>{
+    if(linha.classList.contains('no-data')) return;
+    const nome = linha.children[1].textContent.toLowerCase();
+    const categoria = linha.children[2].textContent.toLowerCase();
+    const codigo = linha.children[5].textContent.toLowerCase();
+    linha.style.display = (nome.includes(termo) || categoria.includes(termo) || codigo.includes(termo)) ? '' : 'none';
+  });
+});
+
+// Carregar categorias
+async function carregarCategorias(){
+  try{
+    const res = await fetch('/api/categorias');
+    const categorias = await res.json();
+    const select = document.getElementById('categoria');
+    select.innerHTML = '<option value="">Selecione...</option>';
+    categorias.forEach(cat=>{
+      const option = document.createElement('option');
+      option.value = cat.nome;
+      option.textContent = cat.nome;
+      select.appendChild(option);
+    });
+  } catch(err){ console.error('Erro ao carregar categorias:', err); }
+}
+
+// === ADICIONAR NOVA CATEGORIA ===
+const addCatBtn = document.getElementById('addCategoriaBtn');
+
+addCatBtn.addEventListener('click', async () => {
+  const nomeCategoria = prompt("Digite o nome da nova categoria:");
+  if (!nomeCategoria || nomeCategoria.trim() === "") return;
+
+  try {
+    // Envia para o banco via /api/categorias (POST)
+    const res = await fetch('/api/categorias', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome: nomeCategoria })
+    });
+
+    if (!res.ok) throw new Error("Erro ao salvar categoria");
+
+    const novaCategoria = await res.json();
+
+    // Atualiza o select com a nova categoria
+    const select = document.getElementById('categoria');
+    const option = document.createElement('option');
+    option.value = novaCategoria.nome;
+    option.textContent = novaCategoria.nome;
+    select.appendChild(option);
+    select.value = novaCategoria.nome;
+
+    alert(`✅ Categoria "${novaCategoria.nome}" adicionada com sucesso!`);
+  } catch (err) {
+    console.error(err);
+    alert("❌ Erro ao adicionar categoria.");
+  }
+});
+
+carregarProdutos();
+carregarCategorias();
+</script>
+</body>
+</html>

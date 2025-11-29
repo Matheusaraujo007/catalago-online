@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Loja — ManchinhaPx Arts</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#8a8ac2; --card:#565555; --accent:#ffcc00; --muted:#bfbfbf; --white:#8e7a0b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:"Poppins",sans-serif; background:linear-gradient(180deg,#e5e5e6,#ffffff);
+  color:var(--white);
+}
+header{
+  padding:18px 24px; display:flex; align-items:center; justify-content:space-between;
+  background:linear-gradient(90deg,#2e2e30,#474646); border-bottom:1px solid rgba(109, 106, 106, 0.03);
+}
+.brand{display:flex; align-items:center; gap:12px}
+.brand .logo{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,#a5a3a3,#111);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent)}
+.search{flex:1; margin:0 20px}
+.search input{width:100%; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:#0b0b0b; color:var(--white)}
+
+/* Grid produtos */
+.container{max-width:1200px;margin:28px auto;padding:0 18px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.filters select, .filters button{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:#0b0b0b;color:var(--white)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .search { display: block; width: 100%; margin: 10px 0; }
+  .search input { font-size: 14px; padding: 8px; }
+}
+@media(max-width:420px){.grid{grid-template-columns:1fr}}
+
+.card{background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+.thumb{height:160px;border-radius:8px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.title{font-weight:600;font-size:1rem;color: #000 !important; }
+.price{font-weight:700;color:var(--accent)}
+.actions{display:flex;gap:8px;margin-top:auto}
+.btn{flex:1;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+.btn.info{background:transparent;border:1px solid rgba(219, 19, 19, 0.06);color:var(--white)}
+.btn.buy {
+    background: #000 !important;   /* fundo preto */
+    color: #fff !important;         /* texto branco */
+}
+
+
+
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+/* arrow shared style (round, like banner) */
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(15,15,15,0.6);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition: background 0.2s, transform .12s;
+}
+.arrow-btn:hover{ background: rgba(255,255,255,0.1); transform: translateY(-50%) scale(1.03); }
+.arrow-left{ left: 10px; }
+.arrow-right{ right: 10px; }
+
+/* carrinho lateral */
+.cart{position:fixed;right:0;top:0;height:100vh;width:360px;background:#0b0b0b;padding:18px;transform:translateX(100%);transition:transform .28s ease;box-shadow:-8px 0 30px rgba(0,0,0,0.6);z-index:80}
+.cart.open{transform:translateX(0)}
+.cart h3{margin:0 0 12px}
+.cart .item{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.cart .item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
+.cart .total{display:flex;justify-content:space-between;margin-top:14px;font-weight:700;color:var(--accent)}
+
+/* floating cart button (estilo WhatsApp) */
+.cart-float {
+  position: fixed;
+  bottom: 110px; /* above whatsapp button */
+  right: 22px;
+  width: 55px;
+  height: 55px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+  z-index: 9998;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+  animation: pulseCart 1.9s infinite ease-in-out;
+}
+.cart-float:focus { outline: 3px solid rgba(255,204,0,0.18); transform: translateY(-3px); }
+.cart-float:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.45); }
+
+@keyframes pulseCart {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.cart-float svg { width:24px; height:24px; }
+
+.cart-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width:16px;
+  height:16px;
+  border-radius:999px;
+  background:#000;
+  color:var(--accent);
+  font-weight:700;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 6px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.5);
+}
+
+/* whatsapp float (kept as before) */
+.whatsapp-float {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 55px;
+  height: 55px;
+  background: #25d366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+  z-index: 9999;
+  animation: pulse 1.8s infinite ease-in-out;
+  transition: .3s;
+}
+.whatsapp-float:hover { transform: scale(1.12); box-shadow: 0 0 22px rgba(0, 255, 0, 0.65); }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+
+footer{padding:28px 18px;color:var(--muted);text-align:center}
+
+.whatsapp-float svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+
+/* banners (kept) */
+.banner-carousel {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 12px;
+  background: #0a0a0a;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+.banner-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+.banner-track img {
+  min-width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.banner-carousel .arrow-btn { width:48px; height:48px; }
+
+.products-grid {
+  display: block !important;
+  gap: 0;
+}
+
+@media (max-width: 1100px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 450px) {
+  .products-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.product-card {
+  min-width: 220px;
+  flex-shrink: 0;
+}
+
+
+
+/* product arrow buttons (made round like banner) */
+#prevProducts, #nextProducts {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(15,15,15,0.6);
+  color: #faf8f8;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display:flex;align-items:center;justify-content:center;
+}
+#prevProducts { left: 8px; }
+#nextProducts { right: 8px; }
+
+/* checkout modal and placa/luminoso modals */
+.checkout-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+.checkout-box { background: #121212; padding: 25px; border-radius: 12px; width: 90%; max-width: 420px; color: white; position: relative; }
+.checkout-box input, .checkout-box textarea { width: 100%; padding: 10px; background: #1d1d1d; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 12px; }
+.close-checkout { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; }
+.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: #FDD835; color: #000; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+
+/* modal placa / luminoso */
+.modal-placa-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 999999; }
+.modal-placa-box {
+    width: 90%;
+    max-width: 380px; /* diminuímos o tamanho */
+    background: #161616;
+    padding: 18px; /* padding menor */
+    border-radius: 14px;
+    color: #fff;
+    animation: placaZoom .25s ease;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    max-height: 85vh;         /* impede de ultrapassar tela */
+    overflow-y: auto;         /* ativa rolagem se necessário */
+}
+@keyframes placaZoom { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-placa-box input, .modal-placa-box textarea { width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid #333; background: #111; color: white; }
+
+/* small responsive tweaks */
+@media(max-width:480px){
+  .arrow-btn, #prevProducts, #nextProducts { width: 38px; height: 38px; }
+  .carousel-track img, .banner-track img { height: 220px; }
+}
+
+/* ===== MODAL PADRONIZADO ===== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.modal .dialog {
+  width: 100%;
+  max-width: 460px;       /* TAMANHO FIXO */
+  height: auto;
+  background: #161616;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
+  overflow: visible !important;       /* evita esticar */
+}
+
+/* Forçar o carrossel a ter o MESMO TAMANHO SEMPRE */
+.modal .carousel {
+  width: 100%;
+  height: 35vh; /* ocupa 35% da tela */
+  max-height: 260px; /* mas não passa do tamanho original */
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .3s ease;
+}
+
+
+
+/* Botões */
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #00000070;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+#modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+#modalDesc {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+#modalPrice {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+#qty {
+  width: 75px;
+  padding: 7px;
+}
+
+
+
+
+/* --- CORREÇÃO DEFINITIVA DO MODAL NO MOBILE --- */
+
+
+  .carousel-track img {
+    height: 100% !important;
+    object-fit: cover;
+}
+
+
+
+
+
+  #modalTitle {
+    font-size: 18px !important;
+  }
+
+  #modalDesc {
+    font-size: 13px !important;
+  }
+
+  #modalPrice {
+    font-size: 16px !important;
+  }
+
+  #qty {
+    padding: 6px !important;
+    width: 65px !important;
+  }
+
+  #addToCartModal {
+    padding: 10px !important;
+    font-size: 14px !important;
+  }
+
+
+
+#fullTrack {
+    pointer-events: none;
+}
+
+#fullTrack img {
+    pointer-events: auto;
+}
+
+
+/* ===== CARROSSEL POR CATEGORIA ===== */
+.categoria-section {
+  margin: 35px 0;
+}
+
+.categoria-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.categoria-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.categoria-track {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 0;
+  flex-wrap: nowrap;
+
+  /* ESSENCIAL NO MOBILE */
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.categoria-track::-webkit-scrollbar {
+  height: 0;
+}
+
+.cat-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(15,15,15,0.6);
+  color: #fff;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cat-arrow.left { left: -5px; }
+.cat-arrow.right { right: -5px; }
+
+/* Garantir que o botão VOLTAR apareça no modal */
+#btnVoltar {
+  display: block !important;
+  margin-top: 10px !important;
+  z-index: 20 !important;
+}
+
+.modal .dialog {
+  overflow: visible !important;
+}
+
+@media (max-width: 600px) {
+  .modal .dialog {
+    max-height: 90vh;
+    overflow-y: auto !important;
+    padding-bottom: 20px; /* espaço para o botão aparecer */
+  }
+}
+
+.modal .dialog {
+  display: flex;
+  flex-direction: column;
+  height: 92vh; /* altura do modal toda */
+}
+
+.modal .dialog .conteudo-modal {
+  overflow-y: auto;
+  padding-right: 8px;
+  flex: 1; /* ocupa o restante do espaço */
+}
+
+
+/* Altura padrão no PC */
+.banner-carousel,
+.banner-track img {
+    height: 300px !important;
+}
+
+/* Ajuste perfeito no mobile */
+@media (max-width: 600px) {
+    .banner-carousel,
+    .banner-track img {
+        height: 160px !important; /* banner menor e sem cortar */
+    }
+}
+
+/* Ajuste ainda menor para telas muito pequenas */
+@media (max-width: 400px) {
+    .banner-carousel,
+    .banner-track img {
+        height: 130px !important;
+    }
+}
+
+.logo-img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 12px; /* deixe redondo se quiser */
+}
+
+/* ============================
+   🎨 TEMA CLARO COMPLETO
+   ============================ */
+
+/* Fundo geral */
+body {
+    background: #f5f5f5 !important;
+    color: #000 !important;
+}
+
+/* Header */
+header {
+    background: #ffffff !important;
+    color: #000 !important;
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Campos de busca */
+.search input {
+    background: #ffffff !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+}
+
+/* Cards */
+.product-card {
+    background: #ffffff !important;
+    border: 1px solid #e6e6e6 !important;
+    border-radius: 12px !important;
+    color: #000 !important;
+}
+
+/* Nome do produto */
+.product-card .title {
+    color: #000 !important;
+    font-weight: 600 !important;
+}
+
+/* Categoria */
+.product-card div[style*="color:var(--muted)"],
+.product-card .categoria {
+    color: #333 !important;
+}
+
+/* Preço normal */
+.product-card .price {
+    color: #000 !important;
+}
+
+/* Preço promocional */
+.product-card .price div {
+    color: #d32f2f !important;
+}
+
+/* Botões dentro dos cards */
+.btn.info {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+}
+
+.btn.buy {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+/* Carrossel de categorias */
+.categoria-carrossel {
+    background: #ffffff !important;
+}
+
+/* Setas do carrossel */
+.cat-btn {
+    background: #ffffff !important;
+    border: 1px solid #ccc !important;
+    color: #000 !important;
+}
+
+/* Dots indicadores */
+.cat-dot {
+    background: #999 !important;
+}
+
+.cat-dot.active {
+    background: #000 !important;
+}
+
+/* Modal (detalhes do produto) */
+.modal .dialog {
+    background: #ffffff !important;
+    color: #000 !important;
+}
+
+.modal .dialog img {
+    border: 1px solid #ddd !important;
+}
+
+.modal .close {
+    color: #000 !important;
+}
+
+/* Carrinho */
+.cart {
+    background: #ffffff !important;
+    color: #000 !important;
+    border-left: 1px solid #ddd !important;
+}
+
+.cart .total {
+    color: #000 !important;
+}
+
+/* Botão flutuante do carrinho */
+.cart-float {
+    background: #d0cccc !important;
+}
+
+.cart-badge {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+/* Footer */
+footer {
+    color: #000 !important;
+    background: #f7f7f7 !important;
+}
+
+/* ====== ESTILO NUVEMSHOP ====== */
+.filters select,
+.filters button {
+  padding: 11px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #000;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.filters select:hover,
+.filters button:hover {
+  border-color: #222;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+/* Botão LIMPAR */
+#clearFilters {
+  background: #f04a4a;
+  border: none;
+  color: #fff;
+}
+
+#clearFilters:hover {
+  background: #d23b3b;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px !important;  /* AQUI — descola dos banners */
+}
+
+/* ===== DESKTOP ===== */
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.logo-topo {
+    width: 90px;
+    border-radius: 20px; /* arredondamento */
+}
+
+.linha-baixo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.campo-pesquisa {
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 20px; /* borda arredondada */
+    border: 1px solid #ccc;
+}
+
+
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+
+    .topo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 10px;
+        gap: 10px;
+    }
+
+    /* Logo centralizada e arredondada */
+    .logo-topo {
+        width: 130px;
+        border-radius: 25px; /* mais arredondado no mobile */
+    }
+
+    /* Linha com 2 colunas */
+    .linha-baixo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        align-items: center;
+    }
+
+    .nome-loja {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 5px;
+        color: #000;
+    }
+
+    /* Pesquisa arredondada */
+    .campo-pesquisa {
+        width: 100%;
+        padding: 12px;
+        text-align: right;
+        border-radius: 25px; /* bem arredondado */
+        border: 1px solid #aaa;
+    }
+}
+
+/* ---- Estilo padrão (PC) ---- */
+.sub-frase {
+    display: none; /* some no PC */
+}
+
+
+/* ---- MOBILE ---- */
+@media (max-width: 600px) {
+
+    .sub-frase {
+        display: block;
+        font-size: 14px;
+        color: #333;
+        margin-top: -5px;
+        padding-left: 5px;
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .linha-baixo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        width: 100%;
+        gap: 2px;
+    }
+
+    /* Nome da loja fica no canto esquerdo */
+    .nome-loja {
+        grid-column: 1;
+        grid-row: 1;
+        font-size: 18px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    /* Frase fica logo abaixo */
+    .sub-frase {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    /* Barra de pesquisa à direita */
+    .campo-pesquisa {
+        grid-column: 2;
+        grid-row: 1 / span 2; /* ocupa duas linhas */
+        width: 100%;
+        padding: 12px;
+        border-radius: 25px;
+        text-align: left;
+    }
+
+    .search input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px; /* borda mais arredondada se quiser */
+    border: 1px solid rgba(255,255,255,0.06);
+    background: #0b0b0b;
+    color: var(--white);
+    text-align: left; /* texto digitado na esquerda */
+}
+
+/* Placeholder alinhado à esquerda */
+.search input::placeholder {
+    text-align: left;
+    color: #aaaaaa;
+}
+}
+
+
+
+</style>
+</head>
+<body>
+<header class="topo">
+    <img src="/public/mpxartss.jpeg" class="logo-topo" alt="Logo">
+
+    <div class="linha-baixo">
+        <h1 class="nome-loja">Manchinha Px Arts</h1>
+
+        <!-- AQUI ENTRA A FRASE -->
+        <p class="sub-frase">Acessórios para Caminhão</p>
+
+        <input type="text" id="q" class="campo-pesquisa" placeholder="Pesquisar...">
+    </div>
+</header>
+
+
+
+
+<main class="container">
+<section class="banner-carousel" id="bannerCarousel">
+  <button class="arrow-btn arrow-left" id="prevBanner">❮</button>
+  <div class="banner-track" id="bannerTrack"></div>
+  <button class="arrow-btn arrow-right" id="nextBanner">❯</button>
+</section>
+
+  
+
+  <!-- AQUI — COLOQUE OS FILTROS -->
+<div class="filters">
+  <select id="filterCategoria"><option value="">Todas categorias</option></select>
+  <select id="sort"><option value="recent">Mais recentes</option>
+  <option value="price_asc">Preço ↑</option>
+  <option value="price_desc">Preço ↓</option></select>
+  <button id="clearFilters">Limpar filtros</button>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+  <h2 style="margin:0">Produtos</h2>
+  <div style="color:var(--muted)">Mostrando <span id="prodCount">0</span> produtos</div>
+</div>
+
+<div id="productsGrid" class="products-grid"></div>
+
+</main>
+
+<!-- Modal produto -->
+<div class="modal" id="modal">
+  <div class="dialog" role="dialog" aria-modal="true" >
+
+    <button class="close" id="closeModal" style="position:absolute;top:14px;right:14px">✕</button>
+    <div class="carousel" style="width:100%">
+      <button class="arrow-btn arrow-left" id="prevImg">❮</button>
+      <div class="carousel-track" id="carouselTrack"></div>
+      <button class="arrow-btn arrow-right" id="nextImg">❯</button>
+    </div>
+    <div class="conteudo-modal" style="display:flex;flex-direction:column;gap:12px;padding:6px">
+
+      <h3 id="modalTitle"></h3>
+      <!-- SOMENTE PARA CATEGORIA BANDEIRA -->
+<div id="artePersonalizadaBox" style="display:none; border:1px solid #ddd;padding:12px;border-radius:10px;background:#f9f9f9;color:#000;">
+  <h4 style="margin:0 0 8px 0; font-size:16px;">🎨 Arte Personalizada</h4>
+
+  <label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+    <input type="radio" name="opcaoArte" value="sem_taxa" checked>
+    Já tenho a arte pronta (sem taxa)
+  </label>
+
+  <label style="display:flex;align-items:center;gap:6px;">
+    <input type="radio" name="opcaoArte" value="com_taxa">
+    Preciso que criem a arte do zero (+ R$ 50,00)
+  </label>
+</div>
+
+      <p id="modalDesc" style="color:var(--muted)"></p>
+      <div style="margin:8px 0">
+        <span style="font-weight:700" id="modalPrice"></span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="qty" type="number" value="1" min="1"
+  style="width:80px;padding:8px;border-radius:8px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:#0b0b0b;color:var(--white)">
+        <button class="btn buy" id="addToCartModal">Adicionar ao carrinho</button>
+      </div>
+      <button id="btnVoltar" style="background-color:#333;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px;width:100%;">← Voltar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Carrinho -->
+<aside class="cart" id="cart">
+  <button id="btnVoltarCarrinho" style="background-color: #333;color: #fff;border: none;padding: 10px 20px;border-radius: 8px;cursor: pointer;font-weight: bold;width: 100%;margin-bottom: 10px;">← Voltar</button>
+  <h3>Carrinho</h3>
+  <div id="cartItems" style="overflow:auto;max-height:65vh;padding-right:6px"></div>
+  <div class="total"><div>Total</div><div id="cartTotal">R$ 0,00</div></div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button id="btnCheckout" style="flex:1;padding:12px;border-radius:8px;border:none;background:var(--accent);color:#000;font-weight:700">Finalizar compra</button>
+    <button id="btnClear" style="padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)">Limpar</button>
+  </div>
+</aside>
+
+<!-- BOTÃO FLUTUANTE CARRINHO -->
+<div class="cart-float" id="cartFloat" role="button" tabindex="0" aria-label="Abrir carrinho">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M6 7 L6 5a6 6 0 0112 0v2" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="3" y="7" width="18" height="13" rx="2" stroke="#000" stroke-width="1.6" fill="transparent"/>
+  </svg>
+  <div class="cart-badge" id="cartCountFloat">0</div>
+</div>
+
+<!-- BOTÃO WHATSAPP -->
+<a href="https://wa.me/5588994907177?text=Olá!%20Quero%20fazer%20um%20pedido%20🙂" 
+   target="_blank" class="whatsapp-float" aria-label="Abrir WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+      <path d="M20.52 3.48A11.77 11.77 0 0 0 12 0a11.77 11.77 0 0 0-8.52 3.48A11.77 11.77 0 0 0 0 12a11.58 11.58 0 0 0 1.56 5.82L0 24l6.36-1.62A11.92 11.92 0 0 0 12 23.94h.01A11.77 11.77 0 0 0 20.52 3.48ZM12 21.39a9.63 9.63 0 0 1-4.91-1.35l-.35-.21-3.77.96 1-3.67-.23-.38A9.66 9.66 0 0 1 2.61 12 9.38 9.38 0 0 1 12 2.61 9.38 9.38 0 0 1 21.39 12 9.38 9.38 0 0 1 12 21.39Zm5.14-7.24c-.28-.14-1.65-.81-1.9-.9s-.44-.14-.63.14-.72.9-.89 1.08-.33.21-.6.07a7.94 7.94 0 0 1-2.34-1.44 8.73 8.73 0 0 1-1.62-2c-.17-.28 0-.43.13-.57.13-.14.28-.33.42-.5a1.9 1.9 0 0 0 .28-.47.51.51 0 0 0-.02-.49c-.07-.14-.63-1.51-.86-2.07s-.46-.48-.63-.49h-.54a1 1 0 0 0-.71.33 3 3 0 0 0-.94 2.19A5.34 5.34 0 0 0 7 11.23a12.06 12.06 0 0 0 4.19 4.67c1.55.94 2.15 1.09 2.92.92a2.47 2.47 0 0 0 1.62-1.14 2 2 0 0 0 .14-1.14c-.06-.12-.25-.21-.53-.35Z"/>
+    </svg>
+</a>
+
+<footer>© ManchinhaPx Arts</footer>
+
+<!-- ============================
+     CHECKOUT MODAL
+============================ -->
+<div id="checkoutModal" class="checkout-modal" style="display:none;">
+  <div class="checkout-box">
+    <button id="closeCheckout" class="close-checkout">✖</button>
+    <h2>Finalizar Pedido</h2>
+    <div class="checkout-form">
+      <label>Nome completo *</label>
+      <input id="nomeCliente" type="text" placeholder="Seu nome">
+      <label>Telefone *</label>
+      <input id="telefoneCliente" type="tel" placeholder="(DDD) 00000-0000">
+      <label>Forma de entrega:</label>
+      <div class="tipo-entrega">
+        <label><input type="radio" name="tipoEntrega" value="retirada" checked> Retirada Em Loja</label>
+        <label><input type="radio" name="tipoEntrega" value="entrega"> Envio Por Transportadora</label>
+      </div>
+    </div>
+    <button id="confirmarCheckout" class="btn-confirmar-pedido">Confirmar Pedido</button>
+  </div>
+</div>
+
+<!-- ============================
+     MODAL PLACA
+============================ -->
+<div id="modalPlaca" class="modal-placa-bg">
+  <div class="modal-placa-box">
+    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📌 Monte Sua Placa</h2>
+    <p style="font-size:14px; opacity:.9; margin-bottom:12px;">➡️ Preencha as informações abaixo:</p>
+    <label>1️⃣ Cor da placa:</label>
+    <input id="mp_cor" type="text" placeholder="Ex: Preta, Azul, Cromada">
+    <label>2️⃣ Nome na parte de cima (Cidade/Estado):</label>
+    <input id="mp_topo" type="text" placeholder="Ex: Fortaleza - CE">
+    <label>3️⃣ Bandeira (se quiser):</label>
+    <input id="mp_bandeira" type="text" placeholder="Ex: Brasil, Ceará...">
+    <label>4️⃣ QRA (nome/apelido grande no centro):</label>
+    <input id="mp_qra" type="text" placeholder="Seu QRA aqui">
+    <label>5️⃣ Nome ou frase extra embaixo:</label>
+    <input id="mp_extra" type="text" placeholder="Ex: Deus é fiel">
+    <label>6️⃣ Mais informações (desenhos, símbolos, estilo de letra):</label>
+    <textarea id="mp_info" placeholder="Desenhos, símbolos, personagens, estilo de letra..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="cancelPlaca" class="btn info" style="flex:1;background:transparent">Cancelar</button>
+      <button id="btnEnviarPlaca" class="btn-confirmar-pedido" style="flex:1">Enviar Placa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================
+     MODAL LUMINOSO (Faixa Refletiva)
+============================ -->
+<div id="modalLuminoso" class="modal-placa-bg">
+  <div class="modal-placa-box">
+    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📌 Monte Seu Luminoso</h2>
+    <p style="font-size:14px; opacity:.9; margin-bottom:12px;">❌ POR FAVOR, ENVIAR AS INFORMAÇÕES DIGITADAS‼️<br>➡ Preencha as informações abaixo:</p>
+    <label>1️⃣ Indique o número do modelo da faixa:</label>
+    <input id="lum_modelo" type="text" placeholder="Ex: Modelo 01, 02...">
+    <label>2️⃣ Mais informações (desenhos, símbolos, personagens, estilo de letra, etc):</label>
+    <textarea id="lum_info" placeholder="Desenhos, símbolos, estilo..."></textarea>
+    <label>3️⃣ Algum nome em específico:</label>
+    <input id="lum_nome" type="text" placeholder="Nome (opcional)">
+    <label>4️⃣ QRA (nome/apelido grande no centro):</label>
+    <input id="lum_qra" type="text" placeholder="QRA">
+    <label>5️⃣ Nome ou frase extra embaixo:</label>
+    <input id="lum_extra" type="text" placeholder="Frase extra">
+    <label>6️⃣ Mais informações (desenhos, símbolos, personagens, estilo de letra, etc):</label>
+    <textarea id="lum_more" placeholder="Detalhes extras..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="cancelLum" class="btn info" style="flex:1;background:transparent">Cancelar</button>
+      <button id="btnEnviarLum" class="btn-confirmar-pedido" style="flex:1">Enviar Faixa</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FULLSCREEN DE IMAGEM -->
+<div id="imgFull" style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:100000;
+">
+  
+<button id="closeFull" style="
+    position:absolute;
+    top:20px;
+    right:20px;
+    font-size:30px;
+    color:#fff;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    z-index:999999 !important;
+">✕</button>
+
+
+  <div id="fullTrack" style="
+    display:flex; width:100%; height:100%;
+    transition:transform .3s;">
+  </div>
+</div>
+
+<!-- ========== MODAL ENTREGA J&T EXPRESS ========== -->
+<div id="modalEntrega" class="modal-placa-bg" style="display:none;">
+  <div class="modal-placa-box">
+    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📦 Endereço para Entrega</h2>
+
+    <p style="font-size:14px; opacity:.9; margin-bottom:12px;">
+      📌 Por favor nos envie seu endereço para emitirmos o tag de envio pela transportadora J&T Express!<br>
+      🚨 POR FAVOR, ENVIAR AS INFORMAÇÕES DIGITADAS!
+    </p>
+
+    <label>Endereço + número:</label>
+    <input id="ent_endereco" type="text" placeholder="Rua, Nº...">
+
+    <label>Número telefone:</label>
+    <input id="ent_tel" type="text" placeholder="DDD + número">
+
+    <label>CEP:</label>
+    <input id="ent_cep" type="text">
+
+    <label>Bairro:</label>
+    <input id="ent_bairro" type="text">
+
+    <label>Complemento:</label>
+    <input id="ent_complemento" type="text">
+
+    <label>Nome completo:</label>
+    <input id="ent_nome" type="text">
+
+    <label>CPF:</label>
+    <input id="ent_cpf" type="text">
+
+    <label>Próximo a:</label>
+    <input id="ent_proximo" type="text">
+
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="cancelEntrega" class="btn info" style="flex:1;background:transparent">Cancelar</button>
+      <button id="btnEnviarEntrega" class="btn-confirmar-pedido" style="flex:1">Confirmar Endereço</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+/* ========== CONFIG ========= */
+const BACKEND = "https://catalago-ashen.vercel.app";
+const API_BASE = BACKEND + '/api';
+
+let banners = [];
+let produtos = [];
+let promocoes = [];
+let categorias = [];
+let cart = JSON.parse(localStorage.getItem('mp_cart') || '[]');
+
+const money = v => Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+
+document.addEventListener('DOMContentLoaded', () => {
+  /* UI Refs */
+  const grid = document.getElementById('productsGrid');
+  const prodCount = document.getElementById('prodCount');
+  const q = document.getElementById('q');
+  const filterCategoria = document.getElementById('filterCategoria');
+  const sortSel = document.getElementById('sort');
+  const cartEl = document.getElementById('cart');
+  const cartItems = document.getElementById('cartItems');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartCountFloat = document.getElementById('cartCountFloat');
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalPrice = document.getElementById('modalPrice');
+  const qtyInput = document.getElementById('qty');
+  const addToCartModal = document.getElementById('addToCartModal');
+  const cartFloat = document.getElementById('cartFloat');
+
+  // abrir modal ENTREGA ao selecionar "entrega"
+document.querySelectorAll("input[name='tipoEntrega']").forEach(r => {
+  r.addEventListener("change", e => {
+    if (e.target.value === "entrega") {
+      document.getElementById("modalEntrega").style.display = "flex";
+    }
+  });
+});
+
+// fechar modal
+document.getElementById("cancelEntrega").onclick = () => {
+  document.getElementById("modalEntrega").style.display = "none";
+};
+
+// salvar dados de entrega
+document.getElementById("btnEnviarEntrega").onclick = () => {
+  const dadosEntrega = {
+    endereco: document.getElementById("ent_endereco").value.trim(),
+    telefone: document.getElementById("ent_tel").value.trim(),
+    cep: document.getElementById("ent_cep").value.trim(),
+    bairro: document.getElementById("ent_bairro").value.trim(),
+    complemento: document.getElementById("ent_complemento").value.trim(),
+    nome: document.getElementById("ent_nome").value.trim(),
+    cpf: document.getElementById("ent_cpf").value.trim(),
+    proximo: document.getElementById("ent_proximo").value.trim(),
+  };
+
+  window.__dados_entrega = dadosEntrega;
+
+  document.getElementById("modalEntrega").style.display = "none";
+  alert("Endereço salvo! Agora finalize seu pedido.");
+};
+
+
+
+  /* Banner controls */
+  async function carregarBanners(){
+    try{
+      const res = await fetch(API_BASE + '/banner1');
+      banners = await res.json();
+      const track = document.getElementById('bannerTrack');
+      if(!banners.length){ track.innerHTML = '<div style="color:#aaa;text-align:center;width:100%">Nenhum banner cadastrado</div>'; return; }
+      track.innerHTML = banners.map(b=>{
+        const img = b.imagem_base64 ? (b.imagem_base64.startsWith('data:image') ? b.imagem_base64 : `data:image/jpeg;base64,${b.imagem_base64}`) : '/placeholder.png';
+        return b.link ? `<a href="${b.link}" target="_blank"><img src="${img}" alt="${b.titulo||''}">` : `<img src="${img}" alt="${b.titulo||''}">`;
+      }).join('');
+      startBannerCarousel();
+    }catch(err){ console.error('Erro ao carregar banners:', err); }
+  }
+  let currentBanner = 0;
+  function startBannerCarousel(){
+    const track = document.getElementById('bannerTrack'); if(!banners.length) return;
+    const prevBtn = document.getElementById('prevBanner'); const nextBtn = document.getElementById('nextBanner');
+    prevBtn.onclick = () => { currentBanner = (currentBanner - 1 + banners.length) % banners.length; track.style.transform = `translateX(-${currentBanner * 100}%)`; };
+    nextBtn.onclick = () => { currentBanner = (currentBanner + 1) % banners.length; track.style.transform = `translateX(-${currentBanner * 100}%)`; };
+    setInterval(()=>{ currentBanner = (currentBanner + 1) % banners.length; track.style.transform = `translateX(-${currentBanner * 100}%)`; }, 6000);
+  }
+
+  function ativarSwipeCategoria(track) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // --- MOBILE TOUCH ---
+    track.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].pageX;
+        scrollLeft = track.scrollLeft;
+    });
+
+    track.addEventListener("touchmove", (e) => {
+        const x = e.touches[0].pageX;
+        const walk = (startX - x) * 1.5; // velocidade
+        track.scrollLeft = scrollLeft + walk;
+    });
+
+    // --- PC MOUSE DRAG ---
+    track.addEventListener("mousedown", (e) => {
+        isDown = true;
+        startX = e.pageX;
+        scrollLeft = track.scrollLeft;
+        track.style.cursor = "grabbing";
+    });
+
+    track.addEventListener("mouseleave", () => {
+        isDown = false;
+        track.style.cursor = "grab";
+    });
+
+    track.addEventListener("mouseup", () => {
+        isDown = false;
+        track.style.cursor = "grab";
+    });
+
+    track.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX;
+        const walk = (startX - x) * 1.3; 
+        track.scrollLeft = scrollLeft + walk;
+    });
+
+    track.style.cursor = "grab";
+}
+
+
+  /* Fetch produtos/promocoes */
+  async function fetchProdutos(){
+    try{
+      const r = await fetch(API_BASE + '/produtos');
+      produtos = await r.json();
+      
+      await fetchPromocoes();
+      renderProdutos();
+    }catch(e){ console.error('Erro produtos', e); grid.innerHTML = '<div style="color:#f33">Erro ao carregar produtos</div>'; }
+  }
+  async function fetchPromocoes(){
+    try{ const r = await fetch(API_BASE + '/promocoes'); promocoes = await r.json(); }catch(e){ promocoes = []; console.error('Erro ao buscar promoções', e); }
+  }
+  function aplicarPromocao(prod){
+    const precoOriginal = Number(prod.preco || 0);
+    const promo = promocoes.find(p => p.nome_produto === prod.nome && p.ativo !== false);
+    if(!promo) return { preco: precoOriginal, label: null };
+    if(promo.data_fim && new Date(promo.data_fim) < new Date()) return { preco: precoOriginal, label: null };
+    if(promo.tipo === 'percentual'){ const preco = precoOriginal * (1 - Number(promo.valor)/100); return { preco, label: `${promo.valor}% OFF` }; }
+    const preco = precoOriginal - Number(promo.valor);
+    return { preco: Math.max(0, preco), label: `R$ ${Number(promo.valor).toFixed(2)} OFF` };
+  }
+
+ /* ===============================
+      CARROSSEL POR CATEGORIA
+=============================== */
+
+function renderCategoriasComCarrossel(lista) {
+    const container = document.getElementById("productsGrid");
+    container.innerHTML = ""; // grade antiga é apagada
+
+    // AGRUPAR POR CATEGORIA
+    const grupos = {};
+    lista.forEach(p => {
+        const cat = p.categoria_nome || p.categoria || "Outros";
+        if (!grupos[cat]) grupos[cat] = [];
+        grupos[cat].push(p);
+    });
+
+    // CRIAR BLOCOS POR CATEGORIA
+    Object.keys(grupos).forEach(cat => {
+        const produtosDaCategoria = grupos[cat];
+
+        const bloco = document.createElement("section");
+        bloco.className = "categoria-section";
+
+        bloco.innerHTML = `
+            <h2 class="categoria-title">${cat}</h2>
+
+            <div class="categoria-wrap">
+                <button class="cat-arrow left" onclick="scrollCategoria('${cat}', -1)">❮</button>
+
+                <div class="categoria-track" id="cat_${cat.replace(/\s+/g,'_')}"></div>
+
+                <button class="cat-arrow right" onclick="scrollCategoria('${cat}', 1)">❯</button>
+            </div>
+        `;
+
+        container.appendChild(bloco);
+
+        const track = bloco.querySelector(".categoria-track");
+
+        produtosDaCategoria.forEach(p => {
+            let img = "/placeholder.png";
+            if (p.imagem_base64)
+                img = p.imagem_base64.startsWith("data:image")
+                    ? p.imagem_base64
+                    : `data:image/jpeg;base64,${p.imagem_base64}`;
+
+            track.innerHTML += `
+    <article class="product-card" style="min-width:220px;flex-shrink:0;">
+        <div class="thumb"><img src="${img}"></div>
+        <div class="title">${escapeHtml(p.nome)}</div>
+        <div style="color:var(--muted);font-size:13px">${p.categoria_nome || p.categoria}</div>
+
+        ${(() => {
+            const promo = aplicarPromocao(p);
+
+            if (promo.preco < Number(p.preco)) {
+                return `
+                <div class="price">
+                    <small style="text-decoration:line-through;color:var(--muted)">
+                        ${money(p.preco)}
+                    </small>
+                    <div style="color:#0f0;font-weight:700">
+                        ${money(promo.preco)}
+                        <span style="font-size:12px;color:#0f0">${promo.label}</span>
+                    </div>
+                </div>`;
+            }
+
+            return `<div class="price">${money(p.preco)}</div>`;
+        })()}
+
+        <div class="actions">
+            <button class="btn info" onclick="openProduct(${p.id})">Ver detalhes</button>
+            <button class="btn buy" onclick="addToCart(${p.id},1)">Adicionar</button>
+        </div>
+    </article>
+`;
+
+            
+        });
+        ativarTravamentoDeScroll(track);
+        ativarSwipeCategoria(track);
+    });
+    
+}
+
+window.scrollCategoria = function (cat, dir) {
+    const id = `cat_${cat.replace(/\s+/g, "_")}`;
+    const track = document.getElementById(id);
+    track.scrollBy({ left: dir * 300, behavior: "smooth" });
+};
+
+// Impedir página de rolar enquanto arrasta o carrossel
+function ativarTravamentoDeScroll(track) {
+    let startX = 0;
+    let startY = 0;
+    let isHorizontal = false;
+
+    track.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isHorizontal = false;
+    }, { passive: true });
+
+    track.addEventListener("touchmove", (e) => {
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+
+        // Detecta se o movimento é horizontal
+        if (!isHorizontal && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+            isHorizontal = true;
+        }
+
+        // Se for HORIZONTAL → trava scroll vertical e move o carrossel
+        if (isHorizontal) {
+            e.preventDefault(); 
+            track.scrollLeft -= dx;
+        }
+
+        // Atualiza ponto atual
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    }, { passive: false });
+}
+
+
+
+  function renderProdutos(){
+    const term = q.value.trim().toLowerCase();
+    let list = produtos.slice();
+    if(term) list = list.filter(p => (p.nome + ' ' + (p.categoria_nome||p.categoria||'')).toLowerCase().includes(term));
+    const cat = filterCategoria.value; if(cat) list = list.filter(p => (p.categoria_nome||p.categoria) === cat);
+    const s = sortSel.value;
+    if(s === 'price_asc') list.sort((a,b)=>Number(a.preco)-Number(b.preco));
+    if(s === 'price_desc') list.sort((a,b)=>Number(b.preco)-Number(a.preco));
+    if(s === 'recent') list.sort((a,b)=>b.id-a.id);
+    prodCount.textContent = list.length;
+    
+
+    renderCategoriasComCarrossel(list);
+    updateCartUI();
+  }
+  // Clique para abrir fullscreen
+  document.querySelectorAll("#carouselTrack img").forEach((img, index) => {
+  img.style.cursor = "zoom-in";
+  img.onclick = () => openFullScreen(imagens, index);
+});
+
+
+  function escapeHtml(text){ return String(text||'').replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[s]); }
+
+  /* Cart functions */
+  function saveCart(){ localStorage.setItem('mp_cart', JSON.stringify(cart)); updateCartUI(); }
+  function updateCartUI(){
+    const count = cart.reduce((s,i)=>s + (i.qt||0), 0);
+    cartCountFloat.textContent = count;
+    cartItems.innerHTML = cart.length === 0
+      ? '<div style="color:var(--muted);padding:12px">Carrinho vazio</div>'
+      : cart.map(it => {
+          const prod = produtos.find(p=>p.id==it.id) || {};
+          let imgCart = '/placeholder.png';
+
+// IMAGEM PERSONALIZADA PARA A TAXA DE ARTE
+if (it.id === 999999) {
+    return `
+        <div class="item">
+            <img src="/public/icone-tax.png" alt="Taxa de Arte" style="width:56px;height:56px;object-fit:cover;border-radius:8px;">
+            <div style="flex:1">
+                <div style="font-weight:600">Taxa de Arte Personalizada</div>
+                <div style="color:var(--muted)">${money(it.price)}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+                <button style="background:transparent;border:none;color:#f55;cursor:pointer"
+                        onclick="decrease(999999)">−</button>
+            </div>
+        </div>
+    `;
+}
+
+
+
+          if (prod.imagem_base64) imgCart = prod.imagem_base64.startsWith('data:image') ? prod.imagem_base64 : `data:image/jpeg;base64,${prod.imagem_base64}`;
+          return `
+            <div class="item">
+              <img src="${imgCart}" alt="">
+              <div style="flex:1">
+                <div style="font-weight:600">${escapeHtml(prod.nome||'Produto')}</div>
+                <div style="color:var(--muted)">${money(it.price)} x ${it.qt}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <button style="background:transparent;border:none;color:var(--accent);cursor:pointer" onclick="increase(${it.id})">+</button>
+                <button style="background:transparent;border:none;color:#f55;cursor:pointer" onclick="decrease(${it.id})">−</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+    const totalVal = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
+    cartTotalEl.textContent = money(totalVal);
+  }
+
+  function addToCart(id, qtd=1){
+    const prod = produtos.find(p=>p.id==id);
+    if(!prod){ alert('Produto não encontrado'); return; }
+    const promo = aplicarPromocao(prod);
+    const existing = cart.find(i=>i.id==id);
+    if(existing) existing.qt += qtd;
+    else cart.push({ id: prod.id, qt: qtd, price: Number(promo.preco || prod.preco) });
+    saveCart();
+    /*openCart(); habilitar so por nescessidade do cliente*/ 
+  }
+  function increase(id){ const it = cart.find(i=>i.id==id); if(it){ it.qt++; saveCart(); } }
+  function decrease(id){ const it = cart.find(i=>i.id==id); if(it){ it.qt--; if(it.qt<=0) cart = cart.filter(x=>x.id!=id); saveCart(); } }
+  function clearCart(){ if(confirm('Limpar carrinho?')){ cart = []; saveCart(); } }
+
+  /* product modal */
+  let currentIndex = 0;
+  function openProduct(id){
+    const p = produtos.find(x => x.id == id); if(!p) return;
+    const imagens = Array.isArray(p.imagens) && p.imagens.length > 0 ? p.imagens : (p.imagem_base64 ? [p.imagem_base64] : []);
+    const track = document.getElementById('carouselTrack');
+    if(!imagens.length) track.innerHTML = '<div style="color:#aaa">Sem imagem</div>';
+    else track.innerHTML = imagens.map(img => {
+      const src = img.startsWith('data:image') ? img : `data:image/jpeg;base64,${img}`;
+      return `<img src="${src}" alt="">`;
+    }).join('');
+
+    // ➜ Ativar clique para fullscreen
+    
+
+document.querySelectorAll("#carouselTrack img").forEach((img, index) => {
+  img.style.cursor = "zoom-in";
+  img.onclick = () => openFullScreen(imagens, index);
+});
+
+    currentIndex = 0;
+    track.style.transform = `translateX(0%)`;
+    const prevImg = document.getElementById('prevImg');
+    const nextImg = document.getElementById('nextImg');
+    prevImg.onclick = ()=>{ if(imagens.length){ currentIndex = (currentIndex - 1 + imagens.length) % imagens.length; track.style.transform = `translateX(-${currentIndex * 100}%)`; } };
+    nextImg.onclick = ()=>{ if(imagens.length){ currentIndex = (currentIndex + 1) % imagens.length; track.style.transform = `translateX(-${currentIndex * 100}%)`; } };
+
+    modalTitle.textContent = p.nome;
+    modalDesc.textContent = p.descricao || '';
+    // MOSTRAR OPÇÃO DE ARTE PERSONALIZADA SOMENTE PARA A CATEGORIA BANDEIRA
+const isBandeira = (p.categoria_nome || p.categoria || '').toLowerCase().includes("bandeira");
+const boxArte = document.getElementById("artePersonalizadaBox");
+
+if (isBandeira) {
+    boxArte.style.display = "block";
+} else {
+    boxArte.style.display = "none";
+}
+
+    const promo = aplicarPromocao(p);
+    if(promo.preco < Number(p.preco || 0)){
+      modalPrice.innerHTML = `<small style="text-decoration:line-through;color:var(--muted)">${money(p.preco)}</small>
+      <div style="color:#0f0;font-weight:700">${money(promo.preco)} <span style="font-size:12px;color:#0f0">${promo.label}</span></div>`;
+    } else modalPrice.textContent = money(p.preco);
+    qtyInput.value = 1;
+    // Remover eventual taxa antiga antes de adicionar novamente
+function removeTaxaArte() {
+    cart = cart.filter(item => item.id !== 999999); // id reservado para a taxa
+    saveCart();
+}
+
+    addToCartModal.onclick = () => {
+    const quantidade = Number(qtyInput.value || 1);
+
+    // 1) Remover taxa antiga caso exista
+    removeTaxaArte();
+
+    // 2) Verificar categoria é BANDEIRA
+    const isBandeira = (p.categoria_nome || p.categoria || '').toLowerCase().includes("bandeira");
+
+    // 3) Se for bandeira, verificar escolha do cliente
+    if (isBandeira) {
+        const opcao = document.querySelector("input[name='opcaoArte']:checked").value;
+
+        if (opcao === "com_taxa") {
+            cart.push({
+                id: 999999, // ID reservado para a taxa
+                qt: 1,
+                price: 50,
+                virtual: true,
+                nome: "Taxa de Arte Personalizada"
+            });
+        }
+    }
+
+    // 4) Adicionar o produto normalmente
+    addToCart(p.id, quantidade);
+
+    closeModal();
+};
+
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){ modal.style.display = 'none'; document.body.style.overflow = 'auto'; }
+
+  /* open/close cart */
+  function openCart(){ cartEl.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeCart(){ cartEl.classList.remove('open'); document.body.style.overflow = 'auto'; }
+
+  
+
+  /* event bindings */
+  cartFloat.addEventListener('click', openCart);
+  document.getElementById('btnVoltarCarrinho').addEventListener('click', closeCart);
+  document.getElementById('btnClear').addEventListener('click', clearCart);
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  document.getElementById('btnVoltar').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+
+  // banner arrow ids
+  document.getElementById('prevBanner').addEventListener('click', ()=>{ /* handled in startBannerCarousel */ });
+  document.getElementById('nextBanner').addEventListener('click', ()=>{ /* handled in startBannerCarousel */ });
+
+  // checkout modal controls
+  document.getElementById('closeCheckout').addEventListener('click', ()=>{ document.getElementById('checkoutModal').style.display = 'none'; });
+  // Botão Finalizar compra abre o modal de Checkout
+document.getElementById('btnCheckout').addEventListener('click', () => {
+    document.getElementById('checkoutModal').style.display = 'flex';
+});
+
+  /* ========== PLACA / LUMINOSO flow ========== */
+  const modalPlaca = document.getElementById('modalPlaca');
+  const modalLuminoso = document.getElementById('modalLuminoso');
+
+  // cancel buttons
+  document.getElementById('cancelPlaca').addEventListener('click', ()=>{ modalPlaca.style.display = 'none'; });
+  document.getElementById('cancelLum').addEventListener('click', ()=>{ modalLuminoso.style.display = 'none'; });
+
+  // helpers to collect placa/luminoso values
+  function coletarPlaca(){
+    return {
+      cor: document.getElementById('mp_cor').value.trim(),
+      topo: document.getElementById('mp_topo').value.trim(),
+      bandeira: document.getElementById('mp_bandeira').value.trim(),
+      qra: document.getElementById('mp_qra').value.trim(),
+      extra: document.getElementById('mp_extra').value.trim(),
+      info: document.getElementById('mp_info').value.trim()
+    };
+  }
+  function coletarLum(){
+    return {
+      modelo: document.getElementById('lum_modelo').value.trim(),
+      info: document.getElementById('lum_info').value.trim(),
+      nome: document.getElementById('lum_nome').value.trim(),
+      qra: document.getElementById('lum_qra').value.trim(),
+      extra: document.getElementById('lum_extra').value.trim(),
+      more: document.getElementById('lum_more').value.trim()
+    };
+  }
+
+  // main send: builds message based on cart + placa/luminoso data (if present) and opens WhatsApp
+  function sendOrder({ placaData = null, lumData = null, cliente }) {
+    const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
+    const resumoItens = cart.map(it => {
+
+  // --- item especial: taxa de arte personalizada ---
+  if (it.id === 999999) {
+    return `${it.qt} x Taxa de Arte Bandeira Personalizada: R$ ${(it.price).toFixed(2)}`;
+  }
+
+  // produtos normais
+      const prod = produtos.find(p=>p.id==it.id);
+      return `${it.qt} x ${prod?.nome || 'Produto'}: R$ ${(it.price).toFixed(2)}`;
+    }).join('\n--------\n');
+
+    let secPlaca = '';
+    if(placaData){
+      secPlaca = `
+Detalhes da Placa Pesonalizada
+
+1️⃣ Cor da placa:
+ ${placaData.cor}
+
+2️⃣ Nome na parte de cima (Cidade/Estado):
+ ${placaData.topo}
+
+3️⃣ Bandeira (se quiser):
+ ${placaData.bandeira}
+
+4️⃣ QRA (nome/apelido grande no centro):
+ ${placaData.qra}
+
+5️⃣ Nome ou frase extra embaixo:
+ ${placaData.extra}
+
+6️⃣ Mais informações (desenhos, símbolos, personagens, estilo de letra, etc):
+ ${placaData.info}
+--------`;
+    }
+
+    let secLum = '';
+    if(lumData){
+      secLum = `
+Detalhes Faixa Refletiva (Luminoso)
+
+1️⃣ Indique o número do modelo da faixa:
+ ${lumData.modelo}
+
+2️⃣ Mais informações (desenhos, símbolos, personagens, estilo de letra, etc):
+ ${lumData.info}
+
+3️⃣ Algum nome em específico:
+ ${lumData.nome}
+
+4️⃣ QRA (nome/apelido grande no centro):
+ ${lumData.qra}
+
+5️⃣ Nome ou frase extra embaixo:
+ ${lumData.extra}
+
+6️⃣ Mais informações:
+ ${lumData.more}
+--------`;
+    }
+
+        // Recupera dados do modal de entrega
+    let dadosEntrega = window.__dados_entrega || null;
+
+    let secEntrega = "";
+    if (dadosEntrega) {
+      secEntrega = `
+📦 *ENDEREÇO PARA ENTREGA (J&T)*
+
+Endereço: ${dadosEntrega.endereco}
+Telefone: ${dadosEntrega.telefone}
+CEP: ${dadosEntrega.cep}
+Bairro: ${dadosEntrega.bairro}
+Complemento: ${dadosEntrega.complemento}
+Nome: ${dadosEntrega.nome}
+CPF: ${dadosEntrega.cpf}
+Próximo à: ${dadosEntrega.proximo}
+--------
+`;
+    }
+
+
+    const mensagem = `Olá, meu nome é ${cliente.nome}, esse é o meu pedido realizado através da loja Manchinha Px Arts
+--------
+${resumoItens}
+--------
+Quantidade de itens: ${cart.length}
+Total dos itens: ${money(valor_total)}
+--------
+${secPlaca}
+${secLum}
+${secEntrega}   
+Valor da entrega: A DEFINIR
+Valor Total: ${money(valor_total)}
+--------
+Entrega: Manchinha Px Arts
+Contato: (88) 99490-7177
+--------
+Pedido feito com Manchinha Px Arts`;
+
+    const linkWhats = `https://wa.me/5588994907177?text=${encodeURIComponent(mensagem)}`;
+    window.open(linkWhats, '_blank');
+    // cleanup
+    cart = [];
+    saveCart();
+    document.getElementById('checkoutModal').style.display = 'none';
+    modalPlaca.style.display = 'none';
+    modalLuminoso.style.display = 'none';
+    closeCart();
+    alert('Pedido preparado e enviado para o WhatsApp!');
+  }
+
+  // Click handlers for modal send buttons
+  document.getElementById('btnEnviarPlaca').addEventListener('click', () => {
+    // when clicked in the flow where Placa is required:
+    const placaData = coletarPlaca();
+    // store temporarily in window flow store
+    window.__order_pending_placa = placaData;
+    modalPlaca.style.display = 'none';
+    // if next is luminoso (we flagged earlier), open it, else send
+    if(window.__order_pending_next === 'luminoso'){
+      modalLuminoso.style.display = 'flex';
+    } else {
+      const cliente = { nome: document.getElementById('nomeCliente').value.trim() || 'Cliente' };
+      sendOrder({ placaData, lumData: null, cliente });
+    }
+  });
+
+  document.getElementById('btnEnviarLum').addEventListener('click', () => {
+    const lumData = coletarLum();
+    modalLuminoso.style.display = 'none';
+    // if placa data was previously collected in this flow, include it
+    const placaData = window.__order_pending_placa || null;
+    const cliente = { nome: document.getElementById('nomeCliente').value.trim() || 'Cliente' };
+    sendOrder({ placaData, lumData, cliente });
+    // clear pending flags
+    window.__order_pending_placa = null;
+    window.__order_pending_next = null;
+  });
+
+  // Confirmar checkout main handler: decides the flow
+  document.getElementById('confirmarCheckout').addEventListener('click', () => {
+    const nome = document.getElementById('nomeCliente').value.trim();
+    const telefone = document.getElementById('telefoneCliente').value.trim();
+    if(!nome || !telefone){ alert('Por favor, preencha pelo menos o nome e o telefone.'); return; }
+
+    // detect products: check both "Placa Personalizada" variants and "Placas Personalizadas" to be safe
+    const temPlaca = cart.some(i => {
+      const prod = produtos.find(p=>p.id==i.id);
+      if(!prod) return false;
+      const cat = (prod.categoria_nome || prod.categoria || '').trim();
+      return ['Placa Personalizada','Placas Personalizadas','Placa Personalizadas'].includes(cat);
+    });
+    const temLum = cart.some(i => {
+      const prod = produtos.find(p=>p.id==i.id);
+      if(!prod) return false;
+      const cat = (prod.categoria_nome || prod.categoria || '').trim();
+      return ['Luminoso','Faixa Refletiva','Faixa'].includes(cat);
+    });
+
+    // No special items -> send directly
+    if(!temPlaca && !temLum){
+      // send immediately (no extra modal)
+      const cliente = { nome };
+      sendOrder({ placaData: null, lumData: null, cliente });
+      return;
+    }
+
+    // If both: open placa first, then luminoso
+    if(temPlaca && temLum){
+      // ensure pending flags
+      window.__order_pending_next = 'luminoso';
+      // open placa modal
+      modalPlaca.style.display = 'flex';
+      return;
+    }
+
+    // If only placa
+    if(temPlaca && !temLum){
+      window.__order_pending_next = null;
+      modalPlaca.style.display = 'flex';
+      return;
+    }
+
+    // If only luminoso
+    if(temLum && !temPlaca){
+      window.__order_pending_next = null;
+      modalLuminoso.style.display = 'flex';
+      return;
+    }
+  });
+
+  // Expose some functions globally
+  window.addToCart = addToCart;
+  window.openProduct = openProduct;
+  window.increase = (id)=>{ increase(id); };
+  window.decrease = (id)=>{ decrease(id); };
+
+  // Search / filters bindings
+  q.addEventListener('input', renderProdutos);
+  filterCategoria.addEventListener('change', renderProdutos);
+  sortSel.addEventListener('change', renderProdutos);
+  document.getElementById('clearFilters').addEventListener('click', ()=>{ q.value=''; filterCategoria.value=''; sortSel.value='recent'; renderProdutos(); });
+
+
+  // === FULLSCREEN IMAGE ===
+  let fullIndex = 0;  // ← ADICIONEI ESTA LINHA AQUI
+
+const imgFull = document.getElementById("imgFull");
+const fullTrack = document.getElementById("fullTrack");
+const closeFull = document.getElementById("closeFull");
+
+function openFullScreen(imagens, startIndex = 0) {
+  fullTrack.innerHTML = imagens.map(img => `
+    <img src="${img.startsWith('data:image') ? img : `data:image/jpeg;base64,${img}`}"
+         style="min-width:100%; object-fit:contain;">
+  `).join('');
+
+  fullIndex = startIndex;
+  fullTrack.style.transform = `translateX(-${fullIndex * 100}%)`;
+
+  imgFull.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+closeFull.onclick = () => {
+  imgFull.style.display = "none";
+  document.body.style.overflow = "auto";
+  fullIndex = 0; // reset para não travar a navegação
+};
+
+
+// Swipe lateral (mobile)
+let startX = 0;
+fullTrack.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+fullTrack.addEventListener("touchend", e => {
+  const endX = e.changedTouches[0].clientX;
+  if (endX < startX - 50) fullNext();
+  if (endX > startX + 50) fullPrev();
+});
+
+function fullNext(){
+  if(fullIndex < fullTrack.children.length - 1){
+    fullIndex++;
+    fullTrack.style.transform = `translateX(-${fullIndex * 100}%)`;
+  }
+}
+
+function fullPrev(){
+  if(fullIndex > 0){
+    fullIndex--;
+    fullTrack.style.transform = `translateX(-${fullIndex * 100}%)`;
+  }
+}
+
+  // initial load
+  fetchProdutos();
+  carregarBanners();
+  updateCartUI();
+});
+</script>
+</body>
+</html>

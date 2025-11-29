@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Produtos</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    padding: 20px;
+  }
+
+  h1 {
+    color: #222;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .btn-novo {
+    background: #1e1e2f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: background 0.3s;
+  }
+
+  .btn-novo:hover {
+    background: #34344a;
+  }
+
+  .form-container {
+    display: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  button.salvar {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background: #1e1e2f;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Gestão de Produtos</h1>
+
+  <button class="btn-novo" onclick="toggleForm()">➕ Novo Produto</button>
+
+  <div class="form-container" id="form-produto">
+    <h2>Cadastrar Produto</h2>
+    <input type="text" id="nome" placeholder="Nome do Produto" required>
+    <input type="number" id="preco" placeholder="Preço (R$)" required>
+    <input type="number" id="estoque" placeholder="Estoque disponível" required>
+    <input type="text" id="categoria" placeholder="Categoria" required>
+    <button class="salvar" onclick="salvarProduto()">Salvar Produto</button>
+  </div>
+
+  <h2>Lista de Produtos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th>Categoria</th>
+      </tr>
+    </thead>
+    <tbody id="lista-produtos">
+      <tr><td colspan="5" style="text-align:center; color:#888;">Nenhum produto cadastrado</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    let produtos = [];
+    const tabela = document.getElementById('lista-produtos');
+    const form = document.getElementById('form-produto');
+
+    function toggleForm() {
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+
+    async function salvarProduto() {
+  const nome = document.getElementById('nome').value;
+  const preco = document.getElementById('preco').value;
+  const estoque = document.getElementById('estoque').value;
+  const categoria = document.getElementById('categoria').value;
+
+  if (!nome || !preco || !estoque || !categoria) {
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  const produto = { nome, preco, estoque, categoria };
+
+  const resposta = await fetch('/api/produtos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(produto)
+  });
+
+  if (resposta.ok) {
+    alert('✅ Produto salvo com sucesso!');
+    carregarProdutos();
+    toggleForm();
+  } else {
+    alert('❌ Erro ao salvar o produto.');
+  }
+}
+
+async function carregarProdutos() {
+  const resposta = await fetch('/api/produtos');
+  const produtos = await resposta.json();
+
+  tabela.innerHTML = produtos.map(p => `
+    <tr>
+      <td>${p.id}</td>
+      <td>${p.nome}</td>
+      <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
+      <td>${p.estoque}</td>
+      <td>${p.categoria}</td>
+    </tr>
+  `).join('');
+}
+
+// Carregar produtos automaticamente ao abrir a página
+window.onload = carregarProdutos;
+
+  </script>
+
+</body>
+</html>

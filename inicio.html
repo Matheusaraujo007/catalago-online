@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bem-vindo - ManchinhaPx Arts</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
+    background: #111;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    animation: fadeIn 2s ease forwards;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #FFD700, #FF8C00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: slideIn 2s ease forwards;
+  }
+
+  p {
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: fadeInText 2s 2s forwards;
+  }
+
+  /* ===== ANIMAÇÕES ===== */
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px);}
+    100% { opacity: 1; transform: translateY(0);}
+  }
+
+  @keyframes fadeInText {
+    0% { opacity: 0; transform: translateY(10px);}
+    100% { opacity: 1; transform: translateY(0);}
+  }
+
+  @keyframes slideIn {
+    0% { transform: translateY(-50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ===== BACKGROUND ANIMADO ESTILO CAMINHÃO ===== */
+  .truck-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      45deg,
+      #222 0px,
+      #222 20px,
+      #333 20px,
+      #333 40px
+    );
+    z-index: 1;
+    animation: moveBackground 10s linear infinite;
+  }
+
+  @keyframes moveBackground {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Engrenagens decorativas */
+  .gear {
+    position: absolute;
+    border: 3px solid #888;
+    border-radius: 50%;
+    animation: rotateGear 8s linear infinite;
+  }
+
+  .gear.small { width: 50px; height: 50px; top: 20%; left: 10%; }
+  .gear.medium { width: 80px; height: 80px; top: 60%; left: 70%; animation-duration: 12s; }
+  .gear.large { width: 120px; height: 120px; top: 30%; left: 40%; animation-duration: 16s; }
+
+  @keyframes rotateGear {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="truck-background"></div>
+
+<div class="gear small"></div>
+<div class="gear medium"></div>
+<div class="gear large"></div>
+
+<div class="container">
+  <h1>Bem-vindo à ManchinhaPx Arts</h1>
+  <p>Acessórios de caminhão com estilo e qualidade</p>
+</div>
+
+</body>
+</html>
