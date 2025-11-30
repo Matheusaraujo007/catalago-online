@@ -1653,6 +1653,37 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
 
   // main send: builds message based on cart + placa/luminoso data (if present) and opens WhatsApp
   function sendOrder({ placaData = null, lumData = null, cliente }) {
+
+    async function salvarVendaNoBanco() {
+  const itensParaBanco = cart.map(it => {
+    return {
+      produto_id: it.id === 999999 ? null : it.id, // taxa de arte vai como NULL
+      quantidade: it.qt,
+      preco_unitario: it.price
+    };
+  });
+
+  const venda = {
+    cliente_id: null,
+    valor_total: cart.reduce((s, i) => s + (i.price * i.qt), 0),
+    metodo_pagamento: "WhatsApp",
+    status: "pendente",
+    observacoes: "Pedido vindo da loja online",
+    itens: itensParaBanco
+  };
+
+  const res = await fetch("/api/vendas", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(venda)
+  });
+
+  const data = await res.json();
+  console.log("Venda salva com sucesso:", data);
+}
+
+
+
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
     const resumoItens = cart.map(it => {
 
