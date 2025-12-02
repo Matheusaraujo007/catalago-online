@@ -11,8 +11,8 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0; font-family:"Poppins",sans-serif; background:linear-gradient(180deg,#e5e5e6,#ffffff);
-  color:var(--white);
+  background: linear-gradient(180deg, var(--bg), var(--bg-light));
+  color: var(--white);
 }
 header{
   padding:18px 24px; display:flex; align-items:center; justify-content:space-between;
@@ -835,6 +835,28 @@ footer {
 }
 }
 
+.tipo-entrega {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.radio-opcao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #fff; /* ou #000 se estiver no tema claro */
+  cursor: pointer;
+}
+
+.radio-opcao input {
+  width: 18px;
+  height: 18px;
+  accent-color: #fdd835; /* cor amarela personalizada */
+  cursor: pointer;
+}
 
 
 </style>
@@ -972,9 +994,16 @@ footer {
       <input id="telefoneCliente" type="tel" placeholder="(DDD) 00000-0000">
       <label>Forma de entrega:</label>
       <div class="tipo-entrega">
-        <label><input type="radio" name="tipoEntrega" value="retirada" checked> Retirada Em Loja</label>
-        <label><input type="radio" name="tipoEntrega" value="entrega"> Envio Por Transportadora</label>
-      </div>
+  <label class="radio-opcao">
+    <input type="radio" name="tipoEntrega" value="retirada" checked>
+    <span>Retirada Em Loja</span>
+  </label>
+
+  <label class="radio-opcao">
+    <input type="radio" name="tipoEntrega" value="entrega">
+    <span>Envio Por Transportadora</span>
+  </label>
+</div>
     </div>
     <button id="confirmarCheckout" class="btn-confirmar-pedido">Confirmar Pedido</button>
   </div>
