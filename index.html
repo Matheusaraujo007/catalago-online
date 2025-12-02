@@ -863,7 +863,7 @@ footer {
 </head>
 <body>
 <header class="topo">
-    <img src="/public/" class="logo-topo" alt="Logo">
+    <img src="/public/nivea.jpeg" class="logo-topo" alt="Logo">
 
     <div class="linha-baixo">
         <h1 class="nome-loja">Nome Desejado</h1>
@@ -1681,7 +1681,7 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
   const data = await res.json();
   console.log("Venda salva com sucesso:", data);
 }
-
+  
     
 
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
@@ -1787,6 +1787,7 @@ Contato: (88) 99490-7177
 Pedido feito com Manchinha Px Arts`;
 
     const linkWhats = `https://wa.me/5588993800944?text=${encodeURIComponent(mensagem)}`;
+    
     window.open(linkWhats, '_blank');
     // cleanup
     cart = [];
