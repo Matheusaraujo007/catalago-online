@@ -1828,19 +1828,10 @@ Pedido feito com Manchinha Px Arts`;
   });
 
   // Confirmar checkout main handler: decides the flow
-  document.getElementById('confirmarCheckout').addEventListener('click', async () => {
+  document.getElementById('confirmarCheckout').addEventListener('click', () => {
     const nome = document.getElementById('nomeCliente').value.trim();
     const telefone = document.getElementById('telefoneCliente').value.trim();
-
-    if (!nome || !telefone) {
-        alert('Por favor, preencha pelo menos o nome e o telefone.');
-        return;
-    }
-
-    await salvarClienteNoBanco(nome, telefone);
-
-    sendOrder({ placaData: null, lumData: null, cliente: { nome } });
-
+    if(!nome || !telefone){ alert('Por favor, preencha pelo menos o nome e o telefone.'); return; }
 
     // detect products: check both "Placa Personalizada" variants and "Placas Personalizadas" to be safe
     const temPlaca = cart.some(i => {
