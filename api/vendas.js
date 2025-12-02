@@ -1,82 +1,47 @@
 import { pool } from "../db.js";
 
 export default async function handler(req, res) {
-  // Permitir apenas GET e POST
-  if (req.method !== "POST" && req.method !== "GET") {
-    return res.status(405).json({ error: "Método não permitido" });
-  }
+  const { method } = req;
 
-  // ===========================
-  //      🔹 SALVAR VENDA
-  // ===========================
-  if (req.method === "POST") {
+  if (method === "POST") {
     try {
-      const {
-        cliente_id,
-        valor_total,
-        metodo_pagamento,
-        status,
-        observacoes,
-        itens
-      } = req.body;
+      const { valor_total, metodo_pagamento, status, observacoes, itens } = req.body;
 
-      if (!valor_total || !itens || itens.length === 0) {
-        return res.status(400).json({ error: "Dados incompletos da venda" });
-      }
-
-      // 1️⃣ Inserir venda
-      const vendaRes = await pool.query(
-        `INSERT INTO vendas (cliente_id, valor_total, metodo_pagamento, status, observacoes)
-         VALUES ($1, $2, $3, $4, $5)
+      // 1) Criar venda
+      const vendaResult = await pool.query(
+        `INSERT INTO vendas (valor_total, metodo_pagamento, status, observacoes)
+         VALUES ($1, $2, $3, $4)
          RETURNING id`,
-        [
-          cliente_id || null,
-          valor_total,
-          metodo_pagamento || "WhatsApp",
-          status || "pendente",
-          observacoes || null
-        ]
+        [valor_total, metodo_pagamento, status, observacoes]
       );
 
-      const vendaId = vendaRes.rows[0].id;
+      const vendaId = vendaResult.rows[0].id;
 
-      // 2️⃣ Inserir itens da venda
+      // 2) Criar itens
       for (const item of itens) {
         await pool.query(
-          `INSERT INTO venda_itens (venda_id, produto_id, quantidade, preco_unitario)
+          `INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario)
            VALUES ($1, $2, $3, $4)`,
-          [
-            vendaId,
-            item.produto_id || null, // taxa de arte vem como null
-            item.quantidade,
-            item.preco_unitario
-          ]
+          [vendaId, item.produto_id, item.quantidade, item.preco_unitario]
         );
       }
 
-      return res.status(201).json({
-        message: "Venda registrada com sucesso",
-        vendaId
-      });
+      return res.status(201).json({ message: "Venda salva!", vendaId });
 
     } catch (error) {
       console.error("Erro ao salvar venda:", error);
-      return res.status(500).json({ error: "Erro interno ao salvar venda" });
+      return res.status(500).json({ error: "Erro ao salvar venda" });
     }
   }
 
-  // ===========================
-  //      🔹 LISTAR VENDAS
-  // ===========================
-  if (req.method === "GET") {
+  if (method === "GET") {
     try {
-      const vendas = await pool.query(
-        "SELECT * FROM vendas ORDER BY id DESC"
-      );
+      const vendas = await pool.query("SELECT * FROM vendas ORDER BY id DESC");
       return res.status(200).json(vendas.rows);
     } catch (error) {
-      console.error("Erro ao carregar vendas:", error);
       return res.status(500).json({ error: "Erro ao carregar vendas" });
     }
   }
+
+  return res.status(405).json({ error: "Método não permitido" });
 }
