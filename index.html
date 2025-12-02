@@ -1682,7 +1682,7 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
   console.log("Venda salva com sucesso:", data);
 }
 
-
+    
 
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
     const resumoItens = cart.map(it => {
