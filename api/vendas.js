@@ -1,47 +1,65 @@
 import { pool } from "../db.js";
 
 export default async function handler(req, res) {
-  const { method } = req;
+  if (req.method === "POST") {
+    const { cliente_id, valor_total, metodo_pagamento, status, observacoes, itens } = req.body;
 
-  if (method === "POST") {
     try {
-      const { valor_total, metodo_pagamento, status, observacoes, itens } = req.body;
-
-      // 1) Criar venda
-      const vendaResult = await pool.query(
-        `INSERT INTO vendas (valor_total, metodo_pagamento, status, observacoes)
-         VALUES ($1, $2, $3, $4)
+      // 1️⃣ Inserir venda
+      const venda = await pool.query(
+        `INSERT INTO vendas (cliente_id, valor_total, metodo_pagamento, status, observacoes)
+         VALUES ($1, $2, $3, $4, $5)
          RETURNING id`,
-        [valor_total, metodo_pagamento, status, observacoes]
+        [cliente_id, valor_total, metodo_pagamento, status, observacoes]
       );
 
-      const vendaId = vendaResult.rows[0].id;
+      const vendaId = venda.rows[0].id;
 
-      // 2) Criar itens
-      for (const item of itens) {
+      // 2️⃣ Inserir itens na tabela CERTA -> itens_venda
+      for (let item of itens) {
         await pool.query(
-          `INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario)
-           VALUES ($1, $2, $3, $4)`,
-          [vendaId, item.produto_id, item.quantidade, item.preco_unitario]
+          `INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario, subtotal)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [
+            vendaId,
+            item.produto_id,
+            item.quantidade,
+            item.preco_unitario,
+            item.preco_unitario * item.quantidade
+          ]
         );
       }
 
-      return res.status(201).json({ message: "Venda salva!", vendaId });
-
-    } catch (error) {
-      console.error("Erro ao salvar venda:", error);
-      return res.status(500).json({ error: "Erro ao salvar venda" });
+      res.status(201).json({ message: "Venda registrada", vendaId });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Erro ao salvar venda" });
     }
   }
 
-  if (method === "GET") {
+  if (req.method === "GET") {
     try {
-      const vendas = await pool.query("SELECT * FROM vendas ORDER BY id DESC");
-      return res.status(200).json(vendas.rows);
-    } catch (error) {
-      return res.status(500).json({ error: "Erro ao carregar vendas" });
+      const vendas = await pool.query(`
+        SELECT v.*, 
+          COALESCE(
+            json_agg(
+              json_build_object(
+                'produto_id', i.produto_id,
+                'quantidade', i.quantidade,
+                'preco_unitario', i.preco_unitario,
+                'subtotal', i.subtotal
+              )
+            ) FILTER (WHERE i.id IS NOT NULL), '[]'
+          ) AS itens
+        FROM vendas v
+        LEFT JOIN itens_venda i ON v.id = i.venda_id
+        GROUP BY v.id
+        ORDER BY v.id DESC
+      `);
+
+      res.status(200).json(vendas.rows);
+    } catch (err) {
+      res.status(500).json({ error: "Erro ao carregar vendas" });
     }
   }
-
-  return res.status(405).json({ error: "Método não permitido" });
 }
