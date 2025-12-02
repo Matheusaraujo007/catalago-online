@@ -1,30 +1,30 @@
-import { pool } from "../db.js";
+import { db } from '../_lib/db'; // adapte ao seu banco
 
 export default async function handler(req, res) {
-  const { method } = req;
+  if (req.method === "POST") {
+    const { nome, telefone } = req.body;
 
-  switch (method) {
-    case "GET": {
-      const { rows } = await pool.query("SELECT * FROM clientes ORDER BY id DESC");
-      res.status(200).json(rows);
-      break;
-    }
-    case "POST": {
-      const { nome, email, telefone, endereco } = req.body;
-      await pool.query(
-        "INSERT INTO clientes (nome, email, telefone, endereco) VALUES ($1, $2, $3, $4)",
-        [nome, email, telefone, endereco]
+    try {
+      const result = await db.query(
+        "INSERT INTO clientes (nome, telefone) VALUES ($1, $2) RETURNING id",
+        [nome, telefone]
       );
-      res.status(201).json({ message: "Cliente adicionado com sucesso" });
-      break;
+
+      return res.status(200).json({ success: true, id: result.rows[0].id });
+    } catch (error) {
+      console.log("Erro ao salvar cliente:", error);
+      return res.status(500).json({ error: "Erro ao salvar cliente" });
     }
-    case "DELETE": {
-      const { id } = req.query;
-      await pool.query("DELETE FROM clientes WHERE id = $1", [id]);
-      res.status(200).json({ message: "Cliente excluído" });
-      break;
-    }
-    default:
-      res.status(405).end();
   }
+
+  if (req.method === "GET") {
+    try {
+      const result = await db.query("SELECT * FROM clientes ORDER BY id DESC");
+      return res.status(200).json(result.rows);
+    } catch (error) {
+      return res.status(500).json({ error: "Erro ao buscar clientes" });
+    }
+  }
+
+  return res.status(405).json({ error: "Método não permitido" });
 }

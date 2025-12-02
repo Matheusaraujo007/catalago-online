@@ -1,42 +1,22 @@
 import { pool } from "../db.js";
 
 export default async function handler(req, res) {
-  const { method } = req;
+  if (req.method === "POST") {
+    const { cliente_id, valor_total, metodo_pagamento, status, observacoes, itens } = req.body;
 
-  if (method === "POST") {
     try {
-      const {
-        cliente_id,
-        valor_total,
-        metodo_pagamento,
-        status,
-        observacoes,
-        itens
-      } = req.body;
-
-      // 1️⃣ SALVAR VENDA
-      const vendaRes = await pool.query(
+      // 1️⃣ Inserir venda
+      const venda = await pool.query(
         `INSERT INTO vendas (cliente_id, valor_total, metodo_pagamento, status, observacoes)
          VALUES ($1, $2, $3, $4, $5)
          RETURNING id`,
-        [
-          cliente_id || null,
-          valor_total,
-          metodo_pagamento,
-          status || "pendente",
-          observacoes || ""
-        ]
+        [cliente_id, valor_total, metodo_pagamento, status, observacoes]
       );
 
-      const vendaId = vendaRes.rows[0].id;
+      const vendaId = venda.rows[0].id;
 
-      // 2️⃣ SALVAR ITENS DA VENDA (FORMATO DO SEU BANCO REAL)
+      // 2️⃣ Inserir itens
       for (let item of itens) {
-        if (!item.produto_id) continue; // taxa não entra aqui
-
-        const valorUnitario = Number(item.preco_unitario);
-        const valorTotalItem = valorUnitario * item.quantidade;
-
         await pool.query(
           `INSERT INTO itens_venda (venda_id, produto_id, quantidade, valor_unitario, valor_total)
            VALUES ($1, $2, $3, $4, $5)`,
@@ -44,29 +24,45 @@ export default async function handler(req, res) {
             vendaId,
             item.produto_id,
             item.quantidade,
-            valorUnitario,
-            valorTotalItem
+            item.preco_unitario,                       // valor_unitario
+            item.quantidade * item.preco_unitario      // valor_total
           ]
         );
       }
 
-      return res.status(201).json({
-        message: "Venda salva com sucesso",
-        venda_id: vendaId
-      });
+      res.status(201).json({ message: "Venda registrada", vendaId });
 
     } catch (err) {
-      console.error("❌ ERRO AO SALVAR VENDA:", err);
-      return res.status(500).json({ error: "Erro ao salvar venda" });
+      console.error(err);
+      res.status(500).json({ error: "Erro ao salvar venda" });
     }
   }
 
-  if (method === "GET") {
+  // 3️⃣ Listar vendas com os itens
+  if (req.method === "GET") {
     try {
-      const vendas = await pool.query("SELECT * FROM vendas ORDER BY id DESC");
+      const vendas = await pool.query(`
+        SELECT 
+          v.*,
+          COALESCE(
+            json_agg(
+              json_build_object(
+                'produto_id', i.produto_id,
+                'quantidade', i.quantidade,
+                'valor_unitario', i.valor_unitario,
+                'valor_total', i.valor_total
+              )
+            ) FILTER (WHERE i.id IS NOT NULL),
+          '[]') AS itens
+        FROM vendas v
+        LEFT JOIN itens_venda i ON v.id = i.venda_id
+        GROUP BY v.id
+        ORDER BY v.id DESC
+      `);
+
       res.status(200).json(vendas.rows);
+
     } catch (err) {
-      console.error(err);
       res.status(500).json({ error: "Erro ao carregar vendas" });
     }
   }
