@@ -1840,7 +1840,7 @@ Pedido feito com Manchinha Px Arts`;
     await salvarClienteNoBanco(nome, telefone);
 
     sendOrder({ placaData: null, lumData: null, cliente: { nome } });
-});
+
 
     // detect products: check both "Placa Personalizada" variants and "Placas Personalizadas" to be safe
     const temPlaca = cart.some(i => {
@@ -1955,7 +1955,7 @@ function fullPrev(){
   fetchProdutos();
   carregarBanners();
   updateCartUI();
-
+});
 </script>
 </body>
 </html>
