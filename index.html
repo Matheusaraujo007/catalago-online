@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Loja — ManchinhaPx Arts</title>
+<title>Loja — Disk Ovos</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -992,6 +992,31 @@ footer {
       <input id="nomeCliente" type="text" placeholder="Seu nome">
       <label>Telefone *</label>
       <input id="telefoneCliente" type="tel" placeholder="(DDD) 00000-0000">
+
+      <label style="margin-top:10px;">Forma de pagamento:</label>
+
+<div class="tipo-entrega">
+  <label class="radio-opcao">
+    <input type="radio" name="formaPagamento" value="transferencia" checked>
+    <span>Transferência Bancária (IBAN)</span>
+  </label>
+
+  <label class="radio-opcao">
+    <input type="radio" name="formaPagamento" value="expresso">
+    <span>Pagamento por Expresso</span>
+  </label>
+</div>
+<div id="dadosPagamento" style="
+  background:#f5f5f5;
+  border:1px solid #ddd;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  margin-top:10px;
+  display:none;
+">
+</div>
+
       <label>Forma de entrega:</label>
       <div class="tipo-entrega">
   <label class="radio-opcao">
@@ -1637,6 +1662,10 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
 
   // main send: builds message based on cart + placa/luminoso data (if present) and opens WhatsApp
   function sendOrder({ placaData = null, lumData = null, cliente }) {
+    const formaPagamento =
+  document.querySelector("input[name='formaPagamento']:checked")?.value
+  || "Não informado";
+
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
     const resumoItens = cart.map(it => {
 
@@ -1727,13 +1756,17 @@ Total dos itens: ${money(valor_total)}
 ${secPlaca}
 ${secLum}
 ${secEntrega}   
+Forma de pagamento: ${formaPagamento}
+
+📌 Dados para pagamento serão enviados após confirmação.
+
 Valor da entrega: A DEFINIR
 Valor Total: ${money(valor_total)}
 --------
-Entrega: Manchinha Px Arts
+Entrega: Disk Ovos
 Contato: (88) 99607-7146
 --------
-Pedido feito com Manchinha Px Arts`;
+Pedido feito com Disk Ovos`;
 
     const linkWhats = `https://wa.me/5588993800944?text=${encodeURIComponent(mensagem)}`;
     window.open(linkWhats, '_blank');
@@ -1774,6 +1807,34 @@ Pedido feito com Manchinha Px Arts`;
     window.__order_pending_placa = null;
     window.__order_pending_next = null;
   });
+
+  const dadosPagamento = document.getElementById("dadosPagamento");
+
+document.querySelectorAll("input[name='formaPagamento']").forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "transferencia") {
+      dadosPagamento.style.display = "block";
+      dadosPagamento.innerHTML = `
+        💳 <strong>Transferência Bancária</strong><br>
+        Banco: BAI<br>
+        IBAN: AO06 0006 0000 1234 5678 9012 3<br>
+        Titular: Loja da Nívea<br><br>
+        📌 Após o pagamento, envie o comprovante no WhatsApp.
+      `;
+    }
+
+    if (radio.value === "expresso") {
+      dadosPagamento.style.display = "block";
+      dadosPagamento.innerHTML = `
+        📲 <strong>Pagamento por Expresso</strong><br>
+        Nome: Loja da Nívea<br>
+        Nº: 923 000 000<br><br>
+        📌 Envie o comprovante no WhatsApp após o pagamento.
+      `;
+    }
+  });
+});
+
 
   // Confirmar checkout main handler: decides the flow
   document.getElementById('confirmarCheckout').addEventListener('click', () => {
