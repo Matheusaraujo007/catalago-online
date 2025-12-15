@@ -978,7 +978,7 @@ footer {
     </svg>
 </a>
 
-<footer>© Loja Da Nívea</footer>
+<footer>© Disk Ovos</footer>
 
 <!-- ============================
      CHECKOUT MODAL
@@ -996,12 +996,12 @@ footer {
       <div class="tipo-entrega">
   <label class="radio-opcao">
     <input type="radio" name="tipoEntrega" value="retirada" checked>
-    <span>Retirada Em Loja</span>
+    <span>Retirada</span>
   </label>
 
   <label class="radio-opcao">
     <input type="radio" name="tipoEntrega" value="entrega">
-    <span>Envio Por Transportadora</span>
+    <span>Envio Por Disc Ovos</span>
   </label>
 </div>
     </div>
@@ -1094,36 +1094,25 @@ footer {
 <!-- ========== MODAL ENTREGA J&T EXPRESS ========== -->
 <div id="modalEntrega" class="modal-placa-bg" style="display:none;">
   <div class="modal-placa-box">
-    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📦 Endereço para Entrega</h2>
+    <h2 style="margin-top:0; text-align:center; color:#e0a361;">📦 Endereço para Entrega</h2>
 
     <p style="font-size:14px; opacity:.9; margin-bottom:12px;">
-      📌 Por favor nos envie seu endereço para emitirmos o tag de envio pela transportadora J&T Express!<br>
+      📌 Por favor nos envie seu endereço <br>
       🚨 POR FAVOR, ENVIAR AS INFORMAÇÕES DIGITADAS!
     </p>
 
-    <label>Endereço + número:</label>
-    <input id="ent_endereco" type="text" placeholder="Rua, Nº...">
+    <label>Condomínio:</label>
+    <input id="ent_condominio" type="text" placeholder="Ex: Condomínio das Palmeiras">
 
-    <label>Número telefone:</label>
-    <input id="ent_tel" type="text" placeholder="DDD + número">
+    <label>Prédio:</label>
+    <input id="ent_predio" type="text" placeholder="Ex: Bloco A">
 
-    <label>CEP:</label>
-    <input id="ent_cep" type="text">
+    <label>Andar:</label>
+    <input id="ent_andar" type="text" placeholder="Ex: 3º andar">
 
-    <label>Bairro:</label>
-    <input id="ent_bairro" type="text">
+    <label>Número da Porta:</label>
+    <input id="ent_numero_porta" type="text" placeholder="Ex: 301">
 
-    <label>Complemento:</label>
-    <input id="ent_complemento" type="text">
-
-    <label>Nome completo:</label>
-    <input id="ent_nome" type="text">
-
-    <label>CPF:</label>
-    <input id="ent_cpf" type="text">
-
-    <label>Próximo a:</label>
-    <input id="ent_proximo" type="text">
 
     <div style="display:flex;gap:8px;margin-top:12px">
       <button id="cancelEntrega" class="btn info" style="flex:1;background:transparent">Cancelar</button>
@@ -1183,14 +1172,10 @@ document.getElementById("cancelEntrega").onclick = () => {
 // salvar dados de entrega
 document.getElementById("btnEnviarEntrega").onclick = () => {
   const dadosEntrega = {
-    endereco: document.getElementById("ent_endereco").value.trim(),
-    telefone: document.getElementById("ent_tel").value.trim(),
-    cep: document.getElementById("ent_cep").value.trim(),
-    bairro: document.getElementById("ent_bairro").value.trim(),
-    complemento: document.getElementById("ent_complemento").value.trim(),
-    nome: document.getElementById("ent_nome").value.trim(),
-    cpf: document.getElementById("ent_cpf").value.trim(),
-    proximo: document.getElementById("ent_proximo").value.trim(),
+    condominio: document.getElementById("ent_condominio").value.trim(),
+    predio: document.getElementById("ent_predio").value.trim(),
+    andar: document.getElementById("ent_andar").value.trim(),
+    porta: document.getElementById("ent_numero_porta").value.trim(),
   };
 
   window.__dados_entrega = dadosEntrega;
@@ -1718,22 +1703,18 @@ Detalhes Faixa Refletiva (Luminoso)
         // Recupera dados do modal de entrega
     let dadosEntrega = window.__dados_entrega || null;
 
-    let secEntrega = "";
-    if (dadosEntrega) {
-      secEntrega = `
-📦 *ENDEREÇO PARA ENTREGA (J&T)*
+let secEntrega = "";
+if (dadosEntrega) {
+  secEntrega = `
+📦 *ENDEREÇO PARA ENTREGA*
 
-Endereço: ${dadosEntrega.endereco}
-Telefone: ${dadosEntrega.telefone}
-CEP: ${dadosEntrega.cep}
-Bairro: ${dadosEntrega.bairro}
-Complemento: ${dadosEntrega.complemento}
-Nome: ${dadosEntrega.nome}
-CPF: ${dadosEntrega.cpf}
-Próximo à: ${dadosEntrega.proximo}
+Condomínio: ${dadosEntrega.condominio}
+Prédio: ${dadosEntrega.predio}
+Andar: ${dadosEntrega.andar}
+Número da Porta: ${dadosEntrega.porta}
 --------
 `;
-    }
+}
 
 
     const mensagem = `Olá, meu nome é ${cliente.nome}, esse é o meu pedido realizado através da loja Manchinha Px Arts
