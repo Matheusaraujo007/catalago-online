@@ -858,6 +858,32 @@ footer {
   cursor: pointer;
 }
 
+/* ===== CORREÇÃO MODAL FORMA DE PAGAMENTO ===== */
+
+/* Texto das opções */
+.checkout-box .radio-opcao {
+  color: #000 !important;
+  font-weight: 500;
+}
+
+/* Texto explicativo (IBAN / Expresso) */
+#dadosPagamento {
+  background: #f5f5f5 !important;
+  color: #000 !important;
+  border: 1px solid #ddd !important;
+}
+
+/* Labels do modal */
+.checkout-box label {
+  color: #000 !important;
+}
+
+/* Inputs do modal */
+.checkout-box input {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #ccc !important;
+}
 
 </style>
 </head>
@@ -1818,7 +1844,7 @@ document.querySelectorAll("input[name='formaPagamento']").forEach(radio => {
         💳 <strong>Transferência Bancária</strong><br>
         Banco: BAI<br>
         IBAN: AO06 0006 0000 1234 5678 9012 3<br>
-        Titular: Loja da Nívea<br><br>
+        Titular: Disk Ovos<br><br>
         📌 Após o pagamento, envie o comprovante no WhatsApp.
       `;
     }
@@ -1827,7 +1853,7 @@ document.querySelectorAll("input[name='formaPagamento']").forEach(radio => {
       dadosPagamento.style.display = "block";
       dadosPagamento.innerHTML = `
         📲 <strong>Pagamento por Expresso</strong><br>
-        Nome: Loja da Nívea<br>
+        Nome: Disk Ovos<br>
         Nº: 923 000 000<br><br>
         📌 Envie o comprovante no WhatsApp após o pagamento.
       `;
