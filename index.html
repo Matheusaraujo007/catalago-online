@@ -1346,6 +1346,30 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
     track.style.cursor = "grab";
 }
 
+function carregarCategoriasNoFiltro(produtos) {
+  const select = document.getElementById("filterCategoria");
+
+  // limpa mantendo "Todas categorias"
+  select.innerHTML = `<option value="">Todas categorias</option>`;
+
+  const categoriasUnicas = [];
+
+  produtos.forEach(p => {
+    const cat = p.categoria_nome || p.categoria;
+    if (cat && !categoriasUnicas.includes(cat)) {
+      categoriasUnicas.push(cat);
+    }
+  });
+
+  categoriasUnicas.sort().forEach(cat => {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
+  });
+}
+
+
 
   /* Fetch produtos/promocoes */
   async function fetchProdutos(){
@@ -1353,7 +1377,8 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
       const r = await fetch(API_BASE + '/produtos');
       produtos = await r.json();
 
-      carregarCategoriasNoFiltro(produtos); // 🔥 AQUI É O PULO DO GATO
+      // ✅ AQUI — CARREGA AS CATEGORIAS NO SELECT
+    carregarCategoriasNoFiltro(produtos);
       
       await fetchPromocoes();
       renderProdutos();
@@ -1500,30 +1525,6 @@ function ativarTravamentoDeScroll(track) {
 
 
   function renderProdutos(){
-    function carregarCategoriasNoFiltro(produtos) {
-  const select = document.getElementById("filterCategoria");
-
-  // limpa mantendo "Todas categorias"
-  select.innerHTML = `<option value="">Todas categorias</option>`;
-
-  const categoriasUnicas = [];
-
-  produtos.forEach(p => {
-    const cat = p.categoria_nome || p.categoria;
-    if (cat && !categoriasUnicas.includes(cat)) {
-      categoriasUnicas.push(cat);
-    }
-  });
-
-  categoriasUnicas.sort().forEach(cat => {
-    const option = document.createElement("option");
-    option.value = cat;
-    option.textContent = cat;
-    select.appendChild(option);
-  });
-}
-
-
     const term = q.value.trim().toLowerCase();
     let list = produtos.slice();
     if(term) list = list.filter(p => (p.nome + ' ' + (p.categoria_nome||p.categoria||'')).toLowerCase().includes(term));
