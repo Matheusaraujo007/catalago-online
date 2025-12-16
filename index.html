@@ -3,26 +3,25 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta property="og:title" content="Disk Ovos">
-<meta property="og:description" content="Os Melhores Ovos Você Encontra Aqui 🍃">
-<meta property="og:image" content="https://catalago-online.vercel.app/public/Ovos.png">
-<meta property="og:url" content="https://catalago-online.vercel.app/">
+<meta property="og:title" content="ManchinhaPx Arts — Catálogo Oficial">
+<meta property="og:description" content="Acessórios para Caminhão 🚚✨ Confira nossos produtos e faça seu pedido!">
+<meta property="og:image" content="https://catalago-ashen.vercel.app/public/mpxartss.jpeg">
+<meta property="og:url" content="https://catalago-ashen.vercel.app/">
 <meta property="og:type" content="website">
 
 <!-- Para WhatsApp exibir imagem maior -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://catalago-online.vercel.app/public/Ovos.png">
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title> Disk Ovos</title>
+<meta name="twitter:image" content="https://catalago-ashen.vercel.app/public/mpxartss.jpeg">
+<title>Loja — ManchinhaPx Arts</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#8a8ac2; --card:#565555; --accent:#c38c34; --muted:#bfbfbf; --white:#8e7a0b;
+  --bg:#8a8ac2; --card:#565555; --accent:#ffcc00; --muted:#bfbfbf; --white:#8e7a0b;
 }
 *{box-sizing:border-box}
 body{
-  background: linear-gradient(180deg, var(--bg), var(--bg-light));
-  color: var(--white);
+  margin:0; font-family:"Poppins",sans-serif; background:linear-gradient(180deg,#e5e5e6,#ffffff);
+  color:var(--white);
 }
 header{
   padding:18px 24px; display:flex; align-items:center; justify-content:space-between;
@@ -268,7 +267,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 .checkout-box { background: #121212; padding: 25px; border-radius: 12px; width: 90%; max-width: 420px; color: white; position: relative; }
 .checkout-box input, .checkout-box textarea { width: 100%; padding: 10px; background: #1d1d1d; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 12px; }
 .close-checkout { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; }
-.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: #b89047; color: #000; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: #FDD835; color: #000; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
 /* modal placa / luminoso */
 .modal-placa-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 999999; }
@@ -368,13 +367,15 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 #modalPrice {
   font-size: 18px;
   font-weight: 700;
-  color: var(--accent);
+  color: #000 !important; /* PRETO */
 }
 
 #qty {
   width: 75px;
   padding: 7px;
 }
+
+
 
 
 /* --- CORREÇÃO DEFINITIVA DO MODAL NO MOBILE --- */
@@ -384,6 +385,10 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
     height: 100% !important;
     object-fit: cover;
 }
+
+
+
+
 
   #modalTitle {
     font-size: 18px !important;
@@ -839,6 +844,110 @@ footer {
 }
 }
 
+
+/* Ajuste do botão de menu no mobile */
+@media (max-width: 600px) {
+  #btnMenu {
+    margin-left: -10px !important; /* empurra mais para o canto */
+    margin-right: 0 !important;
+    position: relative;
+    left: -145px; /* ajuste fino opcional */
+  }
+}
+
+#modalDesc {
+  color: #232222 !important;   /* mude a cor aqui */
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ===== AJUSTES DO MODAL ===== */
+
+#modalPrice {
+  color: #000 !important;
+}
+
+#modalPrice div,
+#modalPrice span {
+  color: #000 !important;
+}
+
+#qty {
+  color: #000 !important;
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+}
+
+
+/* SKELETON LOADER PARA OS PRODUTOS */
+.skeleton-card {
+  background: #e3e3e3;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: pulseSkeleton 1.4s infinite ease-in-out;
+}
+
+.skeleton-thumb {
+  width: 100%;
+  height: 160px;
+  background: #d2d2d2;
+  border-radius: 8px;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: #d2d2d2;
+  border-radius: 6px;
+}
+
+@keyframes pulseSkeleton {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* FIX ABSOLUTO PARA iPHONE */
+@supports (-webkit-touch-callout: none) {
+
+    /* força o tamanho REAL dos cards */
+    .product-card,
+    .categoria-track .product-card {
+        min-width: 150px !important;  /* antes estava 170–220 */
+        max-width: 150px !important;
+    }
+
+    /* reduz a imagem */
+    .product-card .thumb,
+    .categoria-track .thumb {
+        height: 115px !important;
+    }
+
+    /* fonte menor */
+    .product-card .title {
+        font-size: 13px !important;
+    }
+
+    .product-card .price {
+        font-size: 14px !important;
+    }
+}
+
+@supports (-webkit-touch-callout: none) {
+
+    .categoria-track {
+        overflow-x: scroll !important;
+        -webkit-overflow-scrolling: touch !important;
+        scroll-snap-type: x mandatory !important;
+    }
+
+    .categoria-track > * {
+        scroll-snap-align: start;
+    }
+}
+
 .tipo-entrega {
   display: flex;
   flex-direction: column;
@@ -858,45 +967,72 @@ footer {
 .radio-opcao input {
   width: 18px;
   height: 18px;
-  accent-color: #ce7a1fc7; /* cor amarela personalizada */
+  accent-color: #fdd835; /* cor amarela personalizada */
   cursor: pointer;
 }
 
-
-/* ===== FORÇAR TEXTO PRETO NO MODAL DE DETALHES ===== */
-
-/* Descrição do produto */
-#modalDesc {
-    color: #000 !important;
+/* ALINHAR BOTÃO CONFIRMAR PEDIDO */
+.btn-confirmar-pedido {
+    display: block;
+    margin: 12px auto 0 auto; /* centraliza horizontalmente */
+    width: 100%;              /* ocupa toda a largura da caixa */
+    text-align: center;
 }
 
-/* Preço principal */
-#modalPrice {
-    color: #000 !important;
+/* ============================
+   LOADING OVERLAY (FULLSCREEN)
+============================ */
+#loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999999; /* fica na frente de tudo */
+  font-family: Poppins, sans-serif;
+  color: #000;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Preço promocional (quando existe div interna) */
-#modalPrice div {
-    color: #54f304 !important;
+/* Texto pulsando */
+.loading-text {
+  font-size: 22px;
+  font-weight: 700;
+  animation: pulseLoading 1.6s infinite ease-in-out;
 }
 
-/* Preço riscado (antes da promoção) */
-#modalPrice small {
-    color: #000 !important;
-    opacity: 0.6;
+@keyframes pulseLoading {
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.6; transform: scale(1); }
 }
 
 </style>
 </head>
 <body>
+  <div id="loadingOverlay">
+  <div class="loading-text">Carregando produtos, aguarde...</div>
+</div>
+
 <header class="topo">
-    <img src="/public/Ovos.png" class="logo-topo" alt="Logo">
+  <button id="btnMenu" style="
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    margin-right: 10px;
+">☰</button>
+
+    <img src="/public/mpxartss.jpeg" class="logo-topo" alt="Logo">
 
     <div class="linha-baixo">
-        <h1 class="nome-loja">Disk Ovos</h1>
+        <h1 class="nome-loja">Manchinha Px Arts</h1>
 
         <!-- AQUI ENTRA A FRASE -->
-        <p class="sub-frase"> Melhores Opções de Ovos Somente Aqui</p>
+        <p class="sub-frase">Acessórios para Caminhão</p>
 
         <input type="text" id="q" class="campo-pesquisa" placeholder="Pesquisar...">
     </div>
@@ -945,6 +1081,115 @@ footer {
     <div class="conteudo-modal" style="display:flex;flex-direction:column;gap:12px;padding:6px">
 
       <h3 id="modalTitle"></h3>
+
+ <!-- ===== SELECTOR DE TAMANHO — MODELO PADRÃO ===== -->
+<!-- 🔵 SOMENTE PARA BONÉ PERSONALIZADO -->
+<div id="infoBone" 
+     style="display:none; 
+            background:#fff3cd;
+            border:1px solid #ffeeba;
+            padding:12px;
+            border-radius:10px;
+            color:#000;
+            font-size:14px;
+            line-height:1.5;
+            margin-top:10px;">
+
+  <strong>Boné Personalizados</strong><br>
+  Unidade — <b>R$ 45,00</b><br>
+  Acima de 10 unidades — <b>R$ 35,00</b><br><br>
+
+  ⚠️ <b>Atenção:</b> Consulte as cores disponíveis no WhatsApp ao finalizar o pedido.
+
+  <div style="margin-top:10px;">
+    <!-- Radio 1 -->
+    <label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+      <input type="radio" name="opcaoBone" value="45" checked>
+      Unidade — R$ 45,00
+    </label>
+
+    <!-- Radio 2 -->
+    <label style="display:flex; align-items:center; gap:8px;">
+      <input type="radio" name="opcaoBone" value="35">
+      Acima de 10 unidades — R$ 35,00
+    </label>
+  </div>
+</div>
+
+<!-- 🔵 SOMENTE PARA PRODUTOS DA CATEGORIA CAMISA -->
+<div id="infoCamisas"
+     style="display:none;
+            background:#e8f4ff;
+            border:1px solid #bcdfff;
+            padding:12px;
+            border-radius:10px;
+            color:#000;
+            font-size:14px;
+            line-height:1.5;
+            margin-top:10px;">
+
+  <strong></strong><br>
+  Escolha o material:<br><br>
+
+  <label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+    <input type="radio" name="opcaoCamisas" value="85">
+    Algodão — R$ 85,00
+  </label>
+
+  <label style="display:flex; align-items:center; gap:8px;">
+    <input type="radio" name="opcaoCamisas" value="65">
+    Poliéster — R$ 65,00
+  </label>
+
+</div>
+
+
+   <!-- 🔵 SOMENTE PARA PERSONALIZE SUA CAMISA -->
+<div id="infoPersCamisa"
+     style="display:none;
+            background:#fff3cd;
+            border:1px solid #ffeeba;
+            padding:12px;
+            border-radius:10px;
+            color:#000;
+            font-size:14px;
+            line-height:1.5;
+            margin-top:10px;">
+
+  <strong>Camisas Personalizadas</strong><br>
+  Fazemos sob encomenda a partir de 10 unidades, com preço especial:<br><br>
+
+  <label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+    <input type="radio" name="opcaoPersCamisa" value="75" checked>
+    Algodão — R$ 75,00 (cada)
+  </label>
+
+  <label style="display:flex; align-items:center; gap:8px;">
+    <input type="radio" name="opcaoPersCamisa" value="55">
+    Poliéster — R$ 55,00 (cada)
+  </label>
+
+  <br>
+  ⚠️ <b>Atenção:</b> Consulte com a vendedora cor e tamanho disponível.
+</div>
+  
+
+<div id="tamanhosBandeira" 
+     style="display:none; margin-top:10px; padding:12px; border-radius:10px; background:#f4f4f4; color:#000;">
+  <h4 style="margin:0 0 8px 0;">📏 Escolha o tamanho:</h4>
+
+  <label style="display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+    <input type="radio" name="opcaoTamanho" value="100x65" data-preco="100">
+    100×65 — R$ 100,00
+  </label>
+
+  <label style="display:flex; align-items:center; gap:6px;">
+    <input type="radio" name="opcaoTamanho" value="120x80" data-preco="120">
+    120×80 — R$ 120,00
+  </label>
+</div>
+
+
       <!-- SOMENTE PARA CATEGORIA BANDEIRA -->
 <div id="artePersonalizadaBox" style="display:none; border:1px solid #ddd;padding:12px;border-radius:10px;background:#f9f9f9;color:#000;">
   <h4 style="margin:0 0 8px 0; font-size:16px;">🎨 Arte Personalizada</h4>
@@ -960,16 +1205,75 @@ footer {
   </label>
 </div>
 
-      <p id="modalDesc" style="color:var(--muted)"></p>
+<!-- 🔵 SOMENTE PARA LUMINOSO ACRÍLICO -->
+<div id="infoLumAcrilico"
+     style="display:none;
+            background:#fff3cd;
+            border:1px solid #ffeeba;
+            padding:12px;
+            border-radius:10px;
+            color:#000;
+            font-size:14px;
+            line-height:1.5;
+            margin-top:10px;">
+
+  <strong>Escolha o tamanho:</strong><br><br>
+
+  <label style="display:flex; align-items:center; gap:8px;">
+    <input type="radio" name="opcaoLumAcrilico" value="380" data-tamanho="50x10">
+    50×10 — R$ 380,00
+  </label>
+
+  <label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+    <input type="radio" name="opcaoLumAcrilico" value="600" data-tamanho="80x12">
+    80×12 — R$ 600,00
+  </label>
+
+</div>
+
+<!-- 🔵 SELECT PARA BRASÃO GRADE DO CAPÔ -->
+<div id="infoBrasaCapo"
+     style="display:none;
+            background:#fff3cd;
+            border:1px solid #ffeeba;
+            padding:12px;
+            border-radius:10px;
+            font-size:14px;
+            color:#000;
+            margin-top:10px;">
+
+  <strong>Escolha o modelo:</strong><br><br>
+
+  <label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+    <input type="radio" name="opcaoBrasaCapo" value="180" data-modelo="710 Plus">
+    710 Plus — R$ 180,00
+  </label>
+
+  <label style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+    <input type="radio" name="opcaoBrasaCapo" value="230" data-modelo="Atego 1111/1315/1313">
+    Atego 1111/1315/1313 — R$ 230,00
+  </label>
+
+  <label style="display:flex; align-items:center; gap:8px;">
+    <input type="radio" name="opcaoBrasaCapo" value="200" data-modelo="1318 / 1620">
+    1318 / 1620 — R$ 200,00
+  </label>
+</div>
+
+
+
+      <p id="modalDesc"></p>
       <div style="margin:8px 0">
         <span style="font-weight:700" id="modalPrice"></span>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <input id="qty" type="number" value="1" min="1"
-  style="width:80px;padding:8px;border-radius:8px;
-  border:1px solid rgba(15, 15, 15, 0.199);
-  background:#0b0b0b;color:var(--white)">
+      <div style="display:flex;flex-direction:column;gap:10px; width:100%;">
+
+    <div style="display:flex;gap:8px;align-items:center">
+        <input id="qty" type="number" value="1" min="1">
         <button class="btn buy" id="addToCartModal">Adicionar ao carrinho</button>
+    </div>
+
+</div>
       </div>
       <button id="btnVoltar" style="background-color:#333;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px;width:100%;">← Voltar</button>
     </div>
@@ -998,14 +1302,14 @@ footer {
 </div>
 
 <!-- BOTÃO WHATSAPP -->
-<a href="https://wa.me/5588993800944?text=Olá!%20Quero%20fazer%20um%20pedido%20🙂" 
+<a href="https://wa.me/5588996077146?text=Olá!%20Quero%20fazer%20um%20pedido%20🙂" 
    target="_blank" class="whatsapp-float" aria-label="Abrir WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
       <path d="M20.52 3.48A11.77 11.77 0 0 0 12 0a11.77 11.77 0 0 0-8.52 3.48A11.77 11.77 0 0 0 0 12a11.58 11.58 0 0 0 1.56 5.82L0 24l6.36-1.62A11.92 11.92 0 0 0 12 23.94h.01A11.77 11.77 0 0 0 20.52 3.48ZM12 21.39a9.63 9.63 0 0 1-4.91-1.35l-.35-.21-3.77.96 1-3.67-.23-.38A9.66 9.66 0 0 1 2.61 12 9.38 9.38 0 0 1 12 2.61 9.38 9.38 0 0 1 21.39 12 9.38 9.38 0 0 1 12 21.39Zm5.14-7.24c-.28-.14-1.65-.81-1.9-.9s-.44-.14-.63.14-.72.9-.89 1.08-.33.21-.6.07a7.94 7.94 0 0 1-2.34-1.44 8.73 8.73 0 0 1-1.62-2c-.17-.28 0-.43.13-.57.13-.14.28-.33.42-.5a1.9 1.9 0 0 0 .28-.47.51.51 0 0 0-.02-.49c-.07-.14-.63-1.51-.86-2.07s-.46-.48-.63-.49h-.54a1 1 0 0 0-.71.33 3 3 0 0 0-.94 2.19A5.34 5.34 0 0 0 7 11.23a12.06 12.06 0 0 0 4.19 4.67c1.55.94 2.15 1.09 2.92.92a2.47 2.47 0 0 0 1.62-1.14 2 2 0 0 0 .14-1.14c-.06-.12-.25-.21-.53-.35Z"/>
     </svg>
 </a>
 
-<footer>© Disk Ovos</footer>
+<footer>© ManchinhaPx Arts</footer>
 
 <!-- ============================
      CHECKOUT MODAL
@@ -1019,41 +1323,16 @@ footer {
       <input id="nomeCliente" type="text" placeholder="Seu nome">
       <label>Telefone *</label>
       <input id="telefoneCliente" type="tel" placeholder="(DDD) 00000-0000">
-
-      <label style="margin-top:10px;">Forma de pagamento:</label>
-
-<div class="tipo-entrega">
-  <label class="radio-opcao">
-    <input type="radio" name="formaPagamento" value="transferencia">
-    <span>Transferência Bancária (IBAN)</span>
-  </label>
-
-  <label class="radio-opcao">
-    <input type="radio" name="formaPagamento" value="expresso">
-    <span>Pagamento por Expresso</span>
-  </label>
-</div>
-<div id="dadosPagamento" style="
-  background:#7a5d3e;
-  border:1px solid #ddd;
-  padding:12px;
-  border-radius:10px;
-  font-size:14px;
-  margin-top:10px;
-  display:none;
-">
-</div>
-
       <label>Forma de entrega:</label>
       <div class="tipo-entrega">
   <label class="radio-opcao">
     <input type="radio" name="tipoEntrega" value="retirada" checked>
-    <span>Retirada</span>
+    <span>Retirada Em Loja</span>
   </label>
 
   <label class="radio-opcao">
     <input type="radio" name="tipoEntrega" value="entrega">
-    <span>Envio Por Disc Ovos</span>
+    <span>Envio Por Transportadora</span>
   </label>
 </div>
     </div>
@@ -1113,6 +1392,44 @@ footer {
   </div>
 </div>
 
+<!-- ============================
+     MODAL FAIXAS PERSONALIZADAS
+============================= -->
+<div id="modalFaixaPersonalizada" class="modal-placa-bg" style="display:none;">
+  <div class="modal-placa-box">
+
+    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📌 Monte Sua Faixa Personalizada</h2>
+
+    <p style="font-size:14px; opacity:.9; margin-bottom:12px;">
+      1️⃣ Escolha o modelo da faixa (01 a 09).<br>
+      2️⃣ Diga o texto ou logo que deseja colocar.<br>
+      3️⃣ Enviamos a arte final personalizada pronta para produção!<br><br>
+
+      ❌ <b>CASO DE MEDIDAS DIFERENTES, ENVIAR AS MEDIDAS!</b> ❌<br>
+      📏 Tamanho padrão: <b>240 × 10 cm</b>
+    </p>
+
+    <label>Modelo da Faixa (01 a 09):</label>
+    <input id="fx_modelo" type="text" placeholder="Ex: 01, 02, 03...">
+
+    <label>Texto / Logo desejado:</label>
+    <input id="fx_texto" type="text" placeholder="Ex: Nome, frase, logo...">
+
+    <label>Medidas personalizadas (caso queira):</label>
+    <input id="fx_medidas" type="text" placeholder="Ex: 300x12 cm">
+
+    <label>Informações adicionais:</label>
+    <textarea id="fx_more" placeholder="Detalhes extras..."></textarea>
+
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="cancelFaixa" class="btn info" style="flex:1;background:transparent">Cancelar</button>
+      <button id="btnEnviarFaixa" class="btn-confirmar-pedido" style="flex:1">Confirmar Faixa</button>
+    </div>
+
+  </div>
+</div>
+
+
 <!-- MODAL FULLSCREEN DE IMAGEM -->
 <div id="imgFull" style="
   position:fixed;
@@ -1146,25 +1463,36 @@ footer {
 <!-- ========== MODAL ENTREGA J&T EXPRESS ========== -->
 <div id="modalEntrega" class="modal-placa-bg" style="display:none;">
   <div class="modal-placa-box">
-    <h2 style="margin-top:0; text-align:center; color:#e0a361;">📦 Endereço para Entrega</h2>
+    <h2 style="margin-top:0; text-align:center; color:#fdd835;">📦 Endereço para Entrega</h2>
 
     <p style="font-size:14px; opacity:.9; margin-bottom:12px;">
-      📌 Por favor nos envie seu endereço <br>
+      📌 Por favor nos envie seu endereço para emitirmos o tag de envio pela transportadora J&T Express!<br>
       🚨 POR FAVOR, ENVIAR AS INFORMAÇÕES DIGITADAS!
     </p>
 
-    <label>Condomínio:</label>
-    <input id="ent_condominio" type="text" placeholder="Ex: Condomínio das Palmeiras">
+    <label>Endereço + número:</label>
+    <input id="ent_endereco" type="text" placeholder="Rua, Nº...">
 
-    <label>Prédio:</label>
-    <input id="ent_predio" type="text" placeholder="Ex: Bloco A">
+    <label>Número telefone:</label>
+    <input id="ent_tel" type="text" placeholder="DDD + número">
 
-    <label>Andar:</label>
-    <input id="ent_andar" type="text" placeholder="Ex: 3º andar">
+    <label>CEP:</label>
+    <input id="ent_cep" type="text">
 
-    <label>Número da Porta:</label>
-    <input id="ent_numero_porta" type="text" placeholder="Ex: 301">
+    <label>Bairro:</label>
+    <input id="ent_bairro" type="text">
 
+    <label>Complemento:</label>
+    <input id="ent_complemento" type="text">
+
+    <label>Nome completo:</label>
+    <input id="ent_nome" type="text">
+
+    <label>CPF:</label>
+    <input id="ent_cpf" type="text">
+
+    <label>Próximo a:</label>
+    <input id="ent_proximo" type="text">
 
     <div style="display:flex;gap:8px;margin-top:12px">
       <button id="cancelEntrega" class="btn info" style="flex:1;background:transparent">Cancelar</button>
@@ -1173,11 +1501,44 @@ footer {
   </div>
 </div>
 
+<aside id="menuLateral" style="
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 260px;
+    background: #ffffff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    transform: translateX(-100%);
+    transition: .3s ease;
+    z-index: 99999;
+    padding: 20px;
+
+/* 🔥 ESSENCIAL */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+">
+    <h3 style="margin-top:0;">Categorias</h3>
+    <div id="listaCategoriasMenu" style="
+    margin-top: 10px;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+">
+</div>
+</aside>
+
+<div id="menuMask" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: none;
+    z-index: 99998;
+"></div>
 
 
 <script>
 /* ========== CONFIG ========= */
-const BACKEND = "https://catalago-online.vercel.app";
+const BACKEND = "https://catalago-ashen.vercel.app";
 const API_BASE = BACKEND + '/api';
 
 let banners = [];
@@ -1190,6 +1551,8 @@ const money = v => Number(v).toLocaleString('pt-BR',{style:'currency',currency:'
 
 document.addEventListener('DOMContentLoaded', () => {
   /* UI Refs */
+  // Mostrar overlay de carregamento
+  const loadingOverlay = document.getElementById("loadingOverlay");
   const grid = document.getElementById('productsGrid');
   const prodCount = document.getElementById('prodCount');
   const q = document.getElementById('q');
@@ -1224,10 +1587,14 @@ document.getElementById("cancelEntrega").onclick = () => {
 // salvar dados de entrega
 document.getElementById("btnEnviarEntrega").onclick = () => {
   const dadosEntrega = {
-    condominio: document.getElementById("ent_condominio").value.trim(),
-    predio: document.getElementById("ent_predio").value.trim(),
-    andar: document.getElementById("ent_andar").value.trim(),
-    porta: document.getElementById("ent_numero_porta").value.trim(),
+    endereco: document.getElementById("ent_endereco").value.trim(),
+    telefone: document.getElementById("ent_tel").value.trim(),
+    cep: document.getElementById("ent_cep").value.trim(),
+    bairro: document.getElementById("ent_bairro").value.trim(),
+    complemento: document.getElementById("ent_complemento").value.trim(),
+    nome: document.getElementById("ent_nome").value.trim(),
+    cpf: document.getElementById("ent_cpf").value.trim(),
+    proximo: document.getElementById("ent_proximo").value.trim(),
   };
 
   window.__dados_entrega = dadosEntrega;
@@ -1307,6 +1674,27 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
     track.style.cursor = "grab";
 }
 
+function mostrarSkeletons() {
+  const grid = document.getElementById("productsGrid");
+
+  grid.innerHTML = `
+    <div style="width:100%;text-align:center;font-size:18px;margin-bottom:12px;color:#555;">
+      🔄 Organizando os Produtos na Vitrine…
+    </div>
+  `;
+
+  for (let i = 0; i < 8; i++) {
+    grid.innerHTML += `
+      <div class="skeleton-card">
+        <div class="skeleton-thumb"></div>
+        <div class="skeleton-line" style="width: 80%"></div>
+        <div class="skeleton-line" style="width: 60%"></div>
+        <div class="skeleton-line" style="width: 40%"></div>
+      </div>
+    `;
+  }
+}
+
 
   /* Fetch produtos/promocoes */
   async function fetchProdutos(){
@@ -1314,8 +1702,28 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
       const r = await fetch(API_BASE + '/produtos');
       produtos = await r.json();
       
+      function preencherFiltroCategorias() {
+    const filter = document.getElementById("filterCategoria");
+
+    // limpa antes de preencher
+    filter.innerHTML = `<option value="">Todas categorias</option>`;
+
+    // pega categorias únicas
+    const categoriasUnicas = [...new Set(produtos.map(p => p.categoria_nome || p.categoria))];
+
+    // adiciona no select
+    categoriasUnicas.forEach(cat => {
+        filter.innerHTML += `<option value="${cat}">${cat}</option>`;
+    });
+}
+
       await fetchPromocoes();
+      renderMenuCategorias();
+      preencherFiltroCategorias(); 
       renderProdutos();
+      // 🔥 Remover overlay quando terminar tudo
+loadingOverlay.style.display = "none";
+
     }catch(e){ console.error('Erro produtos', e); grid.innerHTML = '<div style="color:#f33">Erro ao carregar produtos</div>'; }
   }
   async function fetchPromocoes(){
@@ -1349,7 +1757,29 @@ function renderCategoriasComCarrossel(lista) {
 
     // CRIAR BLOCOS POR CATEGORIA
     Object.keys(grupos).forEach(cat => {
-        const produtosDaCategoria = grupos[cat];
+        let produtosDaCategoria = grupos[cat];
+
+
+        // ⭐ Nomes que sempre vão aparecer primeiro
+const prioridade = [
+    "personalize sua camisa",
+    "personalize sua bandeira",
+    "boné personalizado",
+    "boné personalizados"
+];
+
+// 1️⃣ Converte para minúsculo e filtra os prioritários
+let prioridadeItems = produtosDaCategoria.filter(p =>
+    prioridade.includes((p.nome || "").toLowerCase().trim())
+);
+
+// 2️⃣ Remove eles da lista normal
+let restantes = produtosDaCategoria.filter(p =>
+    !prioridade.includes((p.nome || "").toLowerCase().trim())
+);
+
+// 3️⃣ Junta novamente, com prioridade primeiro
+produtosDaCategoria = [...prioridadeItems, ...restantes];
 
         const bloco = document.createElement("section");
         bloco.className = "categoria-section";
@@ -1379,7 +1809,7 @@ function renderCategoriasComCarrossel(lista) {
 
             track.innerHTML += `
     <article class="product-card" style="min-width:220px;flex-shrink:0;">
-        <div class="thumb"><img src="${img}"></div>
+        <div class="thumb"><img loading="lazy" src="${img}"></div>
         <div class="title">${escapeHtml(p.nome)}</div>
         <div style="color:var(--muted);font-size:13px">${p.categoria_nome || p.categoria}</div>
 
@@ -1573,16 +2003,201 @@ document.querySelectorAll("#carouselTrack img").forEach((img, index) => {
     nextImg.onclick = ()=>{ if(imagens.length){ currentIndex = (currentIndex + 1) % imagens.length; track.style.transform = `translateX(-${currentIndex * 100}%)`; } };
 
     modalTitle.textContent = p.nome;
-    modalDesc.textContent = p.descricao || '';
-    // MOSTRAR OPÇÃO DE ARTE PERSONALIZADA SOMENTE PARA A CATEGORIA BANDEIRA
-const isBandeira = (p.categoria_nome || p.categoria || '').toLowerCase().includes("bandeira");
-const boxArte = document.getElementById("artePersonalizadaBox");
+    modalDesc.innerHTML = (p.descricao || '').replace(/\n/g, "<br>");
 
-if (isBandeira) {
+    
+
+ const categoriaProd = (p.categoria_nome || p.categoria || "").toLowerCase().trim();
+const nomeProd = (p.nome || "").toLowerCase().trim();
+
+/* ===============================
+   LUMINOSO EM ACRÍLICO — EXCLUSIVO
+================================ */
+const infoLumAcrilico = document.getElementById("infoLumAcrilico");
+
+// 🔥 SOMENTE ESTE PRODUTO
+const isLuminosoAcrilico = nomeProd === "luminoso em acrílico";
+
+if (isLuminosoAcrilico) {
+
+    infoLumAcrilico.style.display = "block";
+
+    const radios = document.querySelectorAll("input[name='opcaoLumAcrilico']");
+
+    // remove eventos antigos (evita bug ao abrir várias vezes)
+    radios.forEach(r => {
+        const clone = r.cloneNode(true);
+        r.replaceWith(clone);
+    });
+
+    const novosRadios = document.querySelectorAll("input[name='opcaoLumAcrilico']");
+
+    // padrão: primeira opção
+    if (novosRadios.length > 0) {
+        novosRadios[0].checked = true;
+        modalPrice.textContent = "R$ " + Number(novosRadios[0].value).toFixed(2);
+    }
+
+    // troca preço ao mudar tamanho
+    novosRadios.forEach(r => {
+        r.addEventListener("change", e => {
+            modalPrice.textContent = "R$ " + Number(e.target.value).toFixed(2);
+        });
+    });
+
+} else {
+    infoLumAcrilico.style.display = "none";
+}
+
+
+
+
+
+// 🔥 ESTA LINHA PRECISA EXISTIR!
+const isCamisasCategoria = categoriaProd.includes("camisas");
+
+const infoBone = document.getElementById("infoBone");
+
+if (nomeProd === "boné personalizados" || nomeProd === "boné personalizado") {
+
+    infoBone.style.display = "block";
+
+    modalPrice.textContent = "R$ 45,00";
+
+    document.querySelectorAll("input[name='opcaoBone']").forEach(r => {
+        r.addEventListener("change", e => {
+            const preco = Number(e.target.value);
+            modalPrice.textContent = "R$ " + preco.toFixed(2);
+        });
+    });
+
+} else {
+    infoBone.style.display = "none";
+}
+
+/* ============================
+   REGRAS DOS MÓDULOS DE CAMISA
+=============================== */
+
+
+
+const infoCamisas = document.getElementById("infoCamisas");          // 85 / 65
+const infoPersCamisa = document.getElementById("infoPersCamisa");    // 75 / 55
+
+// 🔵 1 — SE FOR "PERSONALIZE SUA CAMISA" → MOSTRA OS DOIS
+if (nomeProd === "personalize sua camisa") {
+
+    infoCamisas.style.display = "block";       // mostra 85 / 65
+    infoPersCamisa.style.display = "block";    // mostra 75 / 55
+
+    // preço inicial (do personalizado)
+    modalPrice.textContent = "R$ 75,00";
+
+    // listeners do módulo 75/55
+    document.querySelectorAll("input[name='opcaoPersCamisa']").forEach(r => {
+        r.addEventListener("change", e => {
+            modalPrice.textContent = "R$ " + Number(e.target.value).toFixed(2);
+        });
+    });
+
+    // listeners do módulo 85/65
+    document.querySelectorAll("input[name='opcaoCamisas']").forEach(r => {
+        r.addEventListener("change", e => {
+            modalPrice.textContent = "R$ " + Number(e.target.value).toFixed(2);
+        });
+    });
+
+}
+// 🔵 2 — SE FOR CATEGORIA CAMISAS (mas NÃO personalize)
+else if (categoriaProd.includes("camisas")) {
+
+    infoCamisas.style.display = "none";    // mostra só 85/65
+    infoPersCamisa.style.display = "none";  // esconde 75/55
+
+    modalPrice.textContent = "R$ 85,00"; // preço inicial
+
+    document.querySelectorAll("input[name='opcaoCamisas']").forEach(r => {
+        r.addEventListener("change", e => {
+            modalPrice.textContent = "R$ " + Number(e.target.value).toFixed(2);
+        });
+    });
+
+}
+// 🔵 3 — QUALQUER OUTRO PRODUTO → esconder tudo
+else {
+    infoCamisas.style.display = "none";
+    infoPersCamisa.style.display = "none";
+}
+
+
+
+
+// 🔵 REGRA 1: identificar se é um produto de bandeira comum
+const isBandeiraCategoria = categoriaProd.includes("bandeira");
+
+// 🔵 REGRA 2: identificar se é o produto PERSONALIZE SUA BANDEIRA
+const isPersonalize = nomeProd === "personalize sua bandeira";
+
+// 🔵 MOSTRAR TAMANHOS EM AMBOS OS CASOS
+const tamanhoBox = document.getElementById("tamanhosBandeira");
+if (isBandeiraCategoria || isPersonalize) {
+    tamanhoBox.style.display = "block";
+
+    document.querySelectorAll("input[name='opcaoTamanho']").forEach(r => r.checked = false);
+    const defaultRadio = document.querySelector("input[name='opcaoTamanho'][value='100x65']");
+    if (defaultRadio) defaultRadio.checked = true;
+
+    modalPrice.textContent = "R$ 100,00";
+} else {
+    tamanhoBox.style.display = "none";
+}
+
+
+// 🔄 AGORA — QUANDO CLICAR NO TAMANHO → ATUALIZA O PREÇO
+document.querySelectorAll("input[name='opcaoTamanho']").forEach(radio => {
+    radio.addEventListener("change", e => {
+        const precoSelecionado = Number(e.target.dataset.preco);
+        modalPrice.textContent = "R$ " + precoSelecionado.toFixed(2);
+    });
+});
+
+// 🔵 MOSTRAR TAXA DE ARTE APENAS PARA PERSONALIZE SUA BANDEIRA
+const boxArte = document.getElementById("artePersonalizadaBox");
+if (isPersonalize) {
     boxArte.style.display = "block";
 } else {
     boxArte.style.display = "none";
+} 
+
+/* ===============================
+   BRASÃO GRADE DO CAPÔ — MODELOS
+================================ */
+const infoBrasaCapo = document.getElementById("infoBrasaCapo");
+
+// Detecta qualquer variação do nome
+if (nomeProd.includes("brasão") || nomeProd.includes("brasa") || nomeProd.includes("grade do capo")) {
+
+    infoBrasaCapo.style.display = "block";
+
+    const radios = document.querySelectorAll("input[name='opcaoBrasaCapo']");
+
+    // Marca primeira opção como padrão
+    if (radios.length > 0) {
+        radios[0].checked = true;
+        modalPrice.textContent = "R$ " + Number(radios[0].value).toFixed(2);
+    }
+
+    // Atualiza preço ao trocar
+    radios.forEach(r => {
+        r.addEventListener("change", e => {
+            modalPrice.textContent = "R$ " + Number(e.target.value).toFixed(2);
+        });
+    });
+
+} else {
+    infoBrasaCapo.style.display = "none";
 }
+
 
     const promo = aplicarPromocao(p);
     if(promo.preco < Number(p.preco || 0)){
@@ -1599,19 +2214,37 @@ function removeTaxaArte() {
     addToCartModal.onclick = () => {
     const quantidade = Number(qtyInput.value || 1);
 
-    // 1) Remover taxa antiga caso exista
-    removeTaxaArte();
+    // remover taxa anterior
+    cart = cart.filter(x => x.id !== 999999);
 
-    // 2) Verificar categoria é BANDEIRA
-    const isBandeira = (p.categoria_nome || p.categoria || '').toLowerCase().includes("bandeira");
+    // 🔵 ADICIONAR BRASÃO GRADE DO CAPÔ
+if (nomeProd.includes("brasão") || nomeProd.includes("brasa") || nomeProd.includes("grade do capo")) {
 
-    // 3) Se for bandeira, verificar escolha do cliente
-    if (isBandeira) {
+    const r = document.querySelector("input[name='opcaoBrasaCapo']:checked");
+    const preco = Number(r.value);
+    const modelo = r.dataset.modelo;
+    const quantidade = Number(qtyInput.value || 1);
+
+    cart.push({
+        id: p.id,
+        qt: quantidade,
+        price: preco,
+        modelo
+    });
+
+    saveCart();
+    closeModal();
+    return;
+}
+
+
+    // 🔵 SE FOR PERSONALIZE SUA BANDEIRA: verificar taxa
+    if (isPersonalize) {
         const opcao = document.querySelector("input[name='opcaoArte']:checked").value;
 
         if (opcao === "com_taxa") {
             cart.push({
-                id: 999999, // ID reservado para a taxa
+                id: 999999,
                 qt: 1,
                 price: 50,
                 virtual: true,
@@ -1620,11 +2253,117 @@ function removeTaxaArte() {
         }
     }
 
-    // 4) Adicionar o produto normalmente
-    addToCart(p.id, quantidade);
+    // ----- BONÉ: adicionar com preço selecionado -----
+if (nomeProd === "boné personalizados" || nomeProd === "boné personalizado") {
 
+
+    const r = document.querySelector("input[name='opcaoBone']:checked");
+    const precoBone = Number(r.value);
+    const quantidade = Number(qtyInput.value || 1);
+
+    cart.push({
+        id: p.id,
+        qt: quantidade,
+        price: precoBone
+    });
+
+    saveCart();
+    closeModal();
+    return;
+}
+
+
+// 🔵 ADICIONAR LUMINOSO EM ACRÍLICO (EXCLUSIVO)
+if (nomeProd === "luminoso em acrílico") {
+
+    const r = document.querySelector("input[name='opcaoLumAcrilico']:checked");
+    const preco = Number(r.value);
+    const tamanho = r.dataset.tamanho;
+    const quantidade = Number(qtyInput.value || 1);
+
+    cart.push({
+        id: p.id,
+        qt: quantidade,
+        price: preco,
+        tamanho
+    });
+
+    saveCart();
+    closeModal();
+    return;
+}
+
+
+
+    // 🔵 SE FOR BANDEIRA NORMAL OU PERSONALIZE: adicionar com tamanhos
+    if (isBandeiraCategoria || isPersonalize) {
+        const r = document.querySelector("input[name='opcaoTamanho']:checked");
+        const tamanho = r.value;
+        const preco = Number(r.dataset.preco);
+
+        cart.push({
+            id: p.id,
+            qt: quantidade,
+            price: preco,
+            tamanho
+        });
+
+        saveCart();
+        closeModal();
+        return;
+    }
+
+    // 🔵 ADICIONAR CAMISA PERSONALIZADA AO CARRINHO
+     if(nomeProd === "personalize sua camisa") {
+       const r = document.querySelector("input[name='opcaoPersCamisa']:checked");
+        const preco = Number(r.value); const quantidade = Number(qtyInput.value || 1);
+        const material = r.parentElement.textContent.trim(); // <-- pega o texto do rádio
+        
+        cart.push({ id: p.id,
+          qt: quantidade,
+          price: preco,
+          material: material // <-- salva no carrinho
+           });
+        
+         saveCart();
+          closeModal();
+           return; }
+           
+           
+    // 🔵 ADICIONAR CAMISA NO CARRINHO COM O PREÇO ESCOLHIDO
+     if ((categoriaProd.includes("camisa")) && nomeProd !== "personalize sua camisa") {
+
+    const r = document.querySelector("input[name='opcaoCamisas']:checked");
+
+    if (!r) {
+        // se não houver radios, usa o preço normal do produto
+        addToCart(p.id, quantidade);
+        closeModal();
+        return;
+    }
+
+    const precoCamisa = Number(r.value);
+    const material = r.parentElement.textContent.trim();
+
+    cart.push({
+        id: p.id,
+        qt: quantidade,
+        price: precoCamisa,
+        material
+    });
+
+    saveCart();
+    closeModal();
+    return;
+}
+
+
+
+    // 🔵 PRODUTO NORMAL
+    addToCart(p.id, quantidade);
     closeModal();
 };
+
 
 
     modal.style.display = 'flex';
@@ -1687,24 +2426,64 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
     };
   }
 
-  // main send: builds message based on cart + placa/luminoso data (if present) and opens WhatsApp
-  function sendOrder({ placaData = null, lumData = null, cliente }) {
-    const formaPagamento =
-  document.querySelector("input[name='formaPagamento']:checked")?.value
-  || "Não informado";
+  function coletarFaixaPersonalizada() {
+  return {
+    modelo: document.getElementById("fx_modelo").value.trim(),
+    texto: document.getElementById("fx_texto").value.trim(),
+    medidas: document.getElementById("fx_medidas").value.trim(),
+    more: document.getElementById("fx_more").value.trim()
+  };
+}
 
+
+  // main send: builds message based on cart + placa/luminoso data (if present) and opens WhatsApp
+  function sendOrder({ placaData = null, lumData = null, faixaData = null, cliente }) {
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
     const resumoItens = cart.map(it => {
 
-  // --- item especial: taxa de arte personalizada ---
+  // taxa de arte
   if (it.id === 999999) {
     return `${it.qt} x Taxa de Arte Bandeira Personalizada: R$ ${(it.price).toFixed(2)}`;
   }
 
-  // produtos normais
-      const prod = produtos.find(p=>p.id==it.id);
-      return `${it.qt} x ${prod?.nome || 'Produto'}: R$ ${(it.price).toFixed(2)}`;
-    }).join('\n--------\n');
+  const prod = produtos.find(p=>p.id == it.id);
+
+    // 🔵 SE FOR BRASÃO → mostra o MODELO
+  if (it.modelo) {
+    return `${it.qt} x ${prod?.nome || 'Produto'}
+Modelo: ${it.modelo}
+Valor unitário: R$ ${(it.price).toFixed(2)}`;
+  }
+
+   // 🔵 (2) LUMINOSO EM ACRÍLICO — TAMANHO
+  if (it.tamanho && (prod?.nome || "").toLowerCase().includes("luminoso")) {
+    return `${it.qt} x ${prod?.nome}
+Tamanho: ${it.tamanho}
+Valor unitário: R$ ${(it.price).toFixed(2)}`;
+  }
+
+  // Se for bandeira (pois terá tamanho)
+  if (it.tamanho) {
+    return `${it.qt} x ${prod?.nome || 'Produto'}
+Tamanho: ${it.tamanho}
+Valor unitário: R$ ${(it.price).toFixed(2)}`;
+  }
+
+// CAMISAS – mostrar material escolhido
+
+// CAMISAS OU PRODUTO COM MATERIAL
+if (it.material) {
+    return `${it.qt} x ${prod?.nome || 'Produto'}
+Material: ${it.material}
+Valor unitário: R$ ${(it.price).toFixed(2)}`;
+}
+
+// PRODUTO NORMAL
+return `${it.qt} x ${prod?.nome || 'Produto'} : R$ ${(it.price).toFixed(2)}`;
+
+
+}).join('\n--------\n');
+
 
     let secPlaca = '';
     if(placaData){
@@ -1756,21 +2535,46 @@ Detalhes Faixa Refletiva (Luminoso)
 --------`;
     }
 
+    let secFaixa = "";
+if (faixaData) {
+  secFaixa = `
+🎨 FAIXA PERSONALIZADA
+
+1️⃣ Modelo da faixa:
+ ${faixaData.modelo}
+
+2️⃣ Texto / Logo desejado:
+ ${faixaData.texto}
+
+3️⃣ Medidas:
+ ${faixaData.medidas || "Padrão 240 × 10 cm"}
+
+4️⃣ Informações adicionais:
+ ${faixaData.more}
+
+--------`;
+}
+
+
         // Recupera dados do modal de entrega
     let dadosEntrega = window.__dados_entrega || null;
 
-let secEntrega = "";
-if (dadosEntrega) {
-  secEntrega = `
-📦 *ENDEREÇO PARA ENTREGA*
+    let secEntrega = "";
+    if (dadosEntrega) {
+      secEntrega = `
+📦 *ENDEREÇO PARA ENTREGA (J&T)*
 
-Condomínio: ${dadosEntrega.condominio}
-Prédio: ${dadosEntrega.predio}
-Andar: ${dadosEntrega.andar}
-Número da Porta: ${dadosEntrega.porta}
+Endereço: ${dadosEntrega.endereco}
+Telefone: ${dadosEntrega.telefone}
+CEP: ${dadosEntrega.cep}
+Bairro: ${dadosEntrega.bairro}
+Complemento: ${dadosEntrega.complemento}
+Nome: ${dadosEntrega.nome}
+CPF: ${dadosEntrega.cpf}
+Próximo à: ${dadosEntrega.proximo}
 --------
 `;
-}
+    }
 
 
     const mensagem = `Olá, meu nome é ${cliente.nome}, esse é o meu pedido realizado através da loja Manchinha Px Arts
@@ -1782,20 +2586,17 @@ Total dos itens: ${money(valor_total)}
 --------
 ${secPlaca}
 ${secLum}
+${secFaixa}
 ${secEntrega}   
-Forma de pagamento: ${formaPagamento}
-
-📌 Dados para pagamento serão enviados após confirmação.
-
 Valor da entrega: A DEFINIR
 Valor Total: ${money(valor_total)}
 --------
-Entrega: Disk Ovos
-Contato: (88) 99607-7146
+Entrega: Manchinha Px Arts
+Contato: (88) 99490-7177
 --------
-Pedido feito com Disk Ovos`;
+Pedido feito com Manchinha Px Arts`;
 
-    const linkWhats = `https://wa.me/5588993800944?text=${encodeURIComponent(mensagem)}`;
+    const linkWhats = `https://wa.me/5588996077146?text=${encodeURIComponent(mensagem)}`;
     window.open(linkWhats, '_blank');
     // cleanup
     cart = [];
@@ -1835,32 +2636,26 @@ Pedido feito com Disk Ovos`;
     window.__order_pending_next = null;
   });
 
-  const dadosPagamento = document.getElementById("dadosPagamento");
+  // cancelar faixa
+document.getElementById("cancelFaixa").onclick = () => {
+  document.getElementById("modalFaixaPersonalizada").style.display = "none";
+};
 
-document.querySelectorAll("input[name='formaPagamento']").forEach(radio => {
-  radio.addEventListener("change", () => {
-    if (radio.value === "transferencia") {
-      dadosPagamento.style.display = "block";
-      dadosPagamento.innerHTML = `
-        💳 <strong>Transferência Bancária</strong><br>
-        Banco: BAI<br>
-        IBAN: AO06 0006 0000 1234 5678 9012 3<br>
-        Titular: Disk Ovos<br><br>
-        📌 Após o pagamento, envie o comprovante no WhatsApp.
-      `;
-    }
+// enviar informações da faixa
+document.getElementById("btnEnviarFaixa").onclick = () => {
 
-    if (radio.value === "expresso") {
-      dadosPagamento.style.display = "block";
-      dadosPagamento.innerHTML = `
-        📲 <strong>Pagamento por Expresso</strong><br>
-        Nome: Disk Ovos<br>
-        Nº: 923 000 000<br><br>
-        📌 Envie o comprovante no WhatsApp após o pagamento.
-      `;
-    }
+  const faixaData = coletarFaixaPersonalizada();
+  const cliente = { nome: document.getElementById("nomeCliente").value.trim() || "Cliente" };
+
+  sendOrder({
+    placaData: null,
+    lumData: null,
+    faixaData,
+    cliente
   });
-});
+
+  document.getElementById("modalFaixaPersonalizada").style.display = "none";
+};
 
 
   // Confirmar checkout main handler: decides the flow
@@ -1877,42 +2672,71 @@ document.querySelectorAll("input[name='formaPagamento']").forEach(radio => {
       return ['Placa Personalizada','Placas Personalizadas','Placa Personalizadas'].includes(cat);
     });
     const temLum = cart.some(i => {
-      const prod = produtos.find(p=>p.id==i.id);
-      if(!prod) return false;
-      const cat = (prod.categoria_nome || prod.categoria || '').trim();
-      return ['Luminoso','Faixa Refletiva','Faixa'].includes(cat);
+  const prod = produtos.find(p => p.id == i.id);
+  if (!prod) return false;
+
+  const cat = (prod.categoria_nome || prod.categoria || '').trim().toLowerCase();
+
+  return (
+      cat.includes("luminoso") ||
+      cat.includes("faixa refletiva") ||
+      cat.includes("faixa")
+  );
+});
+
+
+    const temFaixaPersonalizada = cart.some(i => {
+      const prod = produtos.find(p => p.id == i.id);
+      if (!prod) return false;
+      const cat = (prod.categoria_nome || prod.categoria || '').trim().toLowerCase();
+      return cat.includes("faixas personalizadas");
     });
 
+    // Se tiver faixas personalizadas → abrir MODAL IMEDIATAMENTE
+if (temFaixaPersonalizada) {
+    modalFaixaPersonalizada = document.getElementById("modalFaixaPersonalizada");
+    modalFaixaPersonalizada.style.display = "flex";
+    return;
+}
+
+
+
     // No special items -> send directly
-    if(!temPlaca && !temLum){
-      // send immediately (no extra modal)
-      const cliente = { nome };
-      sendOrder({ placaData: null, lumData: null, cliente });
-      return;
-    }
 
-    // If both: open placa first, then luminoso
-    if(temPlaca && temLum){
-      // ensure pending flags
-      window.__order_pending_next = 'luminoso';
-      // open placa modal
-      modalPlaca.style.display = 'flex';
-      return;
-    }
+    // 1️⃣ FAIXA PERSONALIZADA → sempre abrir primeiro
+if (temFaixaPersonalizada) {
+    document.getElementById("modalFaixaPersonalizada").style.display = "flex";
+    return;
+}
 
-    // If only placa
-    if(temPlaca && !temLum){
-      window.__order_pending_next = null;
-      modalPlaca.style.display = 'flex';
-      return;
-    }
+// 2️⃣ PLACA + LUMINOSO
+if (temPlaca && temLum) {
+    window.__order_pending_next = 'luminoso';
+    modalPlaca.style.display = 'flex';
+    return;
+}
 
-    // If only luminoso
-    if(temLum && !temPlaca){
-      window.__order_pending_next = null;
-      modalLuminoso.style.display = 'flex';
-      return;
-    }
+// 3️⃣ Só PLACA
+if (temPlaca && !temLum) {
+    window.__order_pending_next = null;
+    modalPlaca.style.display = 'flex';
+    return;
+}
+
+// 4️⃣ Só LUMINOSO
+if (temLum && !temPlaca) {
+    window.__order_pending_next = null;
+    modalLuminoso.style.display = 'flex';
+    return;
+}
+
+// 5️⃣ Nada especial → mandar direto
+if (!temPlaca && !temLum && !temFaixaPersonalizada) {
+    const cliente = { nome };
+    sendOrder({ placaData: null, lumData: null, cliente });
+    return;
+}
+
   });
 
   // Expose some functions globally
@@ -1978,8 +2802,53 @@ function fullPrev(){
   }
 }
 
+// ========== MENU LATERAL ==========
+const menu = document.getElementById("menuLateral");
+const mask = document.getElementById("menuMask");
+const btnMenu = document.getElementById("btnMenu");
+const listaMenu = document.getElementById("listaCategoriasMenu");
+
+btnMenu.onclick = () => {
+    menu.style.transform = "translateX(0)";
+    mask.style.display = "block";
+};
+
+mask.onclick = () => {
+    menu.style.transform = "translateX(-100%)";
+    mask.style.display = "none";
+};
+
+// Montar categorias no menu lateral
+function renderMenuCategorias() {
+    const categoriasUnicas = [...new Set(produtos.map(p => p.categoria_nome || p.categoria))];
+
+    listaMenu.innerHTML = categoriasUnicas.map(cat => `
+        <div class="item-categoria-menu" 
+             onclick="selecionarCategoriaMenu('${cat}')"
+             style="padding: 12px; cursor:pointer; font-size:16px; border-bottom:1px solid #eee;">
+            ${cat}
+        </div>
+    `).join("");
+}
+
+// Quando clicar no menu lateral → filtrar produtos
+window.selecionarCategoriaMenu = (cat) => {
+    document.getElementById("filterCategoria").value = cat;
+    renderProdutos();
+
+    // fechar menu
+    menu.style.transform = "translateX(-100%)";
+    mask.style.display = "none";
+};
+
+
   // initial load
-  fetchProdutos();
+  mostrarSkeletons();
+
+setTimeout(() => {
+    fetchProdutos();
+}, 5); // tempo IDEAL para o skeleton aparecer
+
   carregarBanners();
   updateCartUI();
 });
