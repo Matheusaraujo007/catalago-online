@@ -1225,7 +1225,13 @@ let promocoes = [];
 let categorias = [];
 let cart = JSON.parse(localStorage.getItem('mp_cart') || '[]');
 
-const money = v => Number(v).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const money = v => {
+  return 'Kz ' + Number(v).toLocaleString('pt-PT', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+};
+
 
 document.addEventListener('DOMContentLoaded', () => {
   /* UI Refs */
