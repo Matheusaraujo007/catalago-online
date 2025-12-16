@@ -886,44 +886,7 @@ footer {
     opacity: 0.6;
 }
 
-/* FIX ABSOLUTO PARA iPHONE */
-@supports (-webkit-touch-callout: none) {
 
-    /* força o tamanho REAL dos cards */
-    .product-card,
-    .categoria-track .product-card {
-        min-width: 150px !important;  /* antes estava 170–220 */
-        max-width: 150px !important;
-    }
-
-    /* reduz a imagem */
-    .product-card .thumb,
-    .categoria-track .thumb {
-        height: 115px !important;
-    }
-
-    /* fonte menor */
-    .product-card .title {
-        font-size: 13px !important;
-    }
-
-    .product-card .price {
-        font-size: 14px !important;
-    }
-}
-
-@supports (-webkit-touch-callout: none) {
-
-    .categoria-track {
-        overflow-x: scroll !important;
-        -webkit-overflow-scrolling: touch !important;
-        scroll-snap-type: x mandatory !important;
-    }
-
-    .categoria-track > * {
-        scroll-snap-align: start;
-    }
-}
 
 </style>
 </head>
@@ -1352,29 +1315,9 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
     try{
       const r = await fetch(API_BASE + '/produtos');
       produtos = await r.json();
-
-      function preencherFiltroCategorias() {
-    const filter = document.getElementById("filterCategoria");
-
-    // limpa antes de preencher
-    filter.innerHTML = `<option value="">Todas categorias</option>`;
-
-    // pega categorias únicas
-    const categoriasUnicas = [...new Set(produtos.map(p => p.categoria_nome || p.categoria))];
-
-    // adiciona no select
-    categoriasUnicas.forEach(cat => {
-        filter.innerHTML += `<option value="${cat}">${cat}</option>`;
-    });
-}
-
+      
       await fetchPromocoes();
-      renderMenuCategorias();
-      preencherFiltroCategorias(); 
       renderProdutos();
-      // 🔥 Remover overlay quando terminar tudo
-loadingOverlay.style.display = "none";
-
     }catch(e){ console.error('Erro produtos', e); grid.innerHTML = '<div style="color:#f33">Erro ao carregar produtos</div>'; }
   }
   async function fetchPromocoes(){
