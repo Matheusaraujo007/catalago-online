@@ -92,6 +92,22 @@
   td button:hover {
     background: #c82333;
   }
+
+  /* Botão Editar */
+.btn-editar {
+  background: #007bff; /* azul padrão */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.btn-editar:hover {
+  background: #0056b3; /* azul mais escuro */
+}
+
 </style>
 </head>
 <body>
@@ -100,11 +116,15 @@
 
   <button class="btn-novo" onclick="toggleForm()">➕ Nova Categoria</button>
 
-  <div class="form-container" id="form-categoria">
-    <h2>Criar Nova Categoria</h2>
-    <input type="text" id="nome-categoria" placeholder="Nome da Categoria" required>
-    <button class="salvar" onclick="salvarCategoria()">Salvar Categoria</button>
-  </div>
+ <div class="form-container" id="form-categoria">
+  <h2 id="titulo-form">Criar Nova Categoria</h2>
+
+  <input type="hidden" id="id-edicao">
+  <input type="text" id="nome-categoria" placeholder="Nome da Categoria" required>
+
+  <button class="salvar" onclick="salvarCategoria()">Salvar Categoria</button>
+</div>
+
 
   <h2>Lista de Categorias</h2>
   <table>
@@ -136,22 +156,38 @@
   }
 
   async function salvarCategoria() {
-    const nome = document.getElementById('nome-categoria').value.trim();
-    if (!nome) {
-      alert("Informe o nome da categoria!");
-      return;
-    }
+  const nome = document.getElementById('nome-categoria').value.trim();
+  const id = document.getElementById('id-edicao').value;
 
+  if (!nome) {
+    alert("Informe o nome da categoria!");
+    return;
+  }
+
+  if (id) {
+    // EDITAR
+    await fetch(API_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, nome })
+    });
+  } else {
+    // CRIAR
     await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nome })
     });
-
-    document.getElementById('nome-categoria').value = '';
-    toggleForm();
-    carregarCategorias();
   }
+
+  document.getElementById('id-edicao').value = "";
+  document.getElementById('nome-categoria').value = "";
+  document.getElementById('titulo-form').textContent = "Criar Nova Categoria";
+  form.style.display = "none";
+
+  carregarCategorias();
+}
+
 
   async function removerCategoria(id) {
     await fetch(`${API_URL}?id=${id}`, { method: "DELETE" });
@@ -159,19 +195,32 @@
   }
 
   function atualizarTabela(categorias) {
-    if (categorias.length === 0) {
-      tabela.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#888;">Nenhuma categoria cadastrada</td></tr>`;
-      return;
-    }
-
-    tabela.innerHTML = categorias.map(c => `
-      <tr>
-        <td>${c.id}</td>
-        <td>${c.nome}</td>
-        <td><button onclick="removerCategoria(${c.id})">Excluir</button></td>
-      </tr>
-    `).join('');
+  if (categorias.length === 0) {
+    tabela.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#888;">Nenhuma categoria cadastrada</td></tr>`;
+    return;
   }
+
+  tabela.innerHTML = categorias.map(c => `
+    <tr>
+      <td>${c.id}</td>
+      <td>${c.nome}</td>
+      <td>
+        <button class="btn-editar" onclick="editarCategoria(${c.id}, '${c.nome}')">✏️ Editar</button>
+        <button onclick="removerCategoria(${c.id})">🗑️ Excluir</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function editarCategoria(id, nome) {
+  document.getElementById("titulo-form").textContent = "Editar Categoria";
+  document.getElementById("id-edicao").value = id;
+  document.getElementById("nome-categoria").value = nome;
+
+  form.style.display = "block";
+}
+
+
 
   carregarCategorias();
 </script>
