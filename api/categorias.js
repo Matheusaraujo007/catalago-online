@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // Coloque sua URL do Neon no ambiente da Vercel
+  connectionString: process.env.DATABASE_URL,
 });
 
 export default async function handler(req, res) {
@@ -19,6 +19,25 @@ export default async function handler(req, res) {
       [nome]
     );
     res.status(201).json(result.rows[0]);
+  }
+
+  if (req.method === "PUT") {
+    const { id, nome } = req.body;
+
+    if (!id || !nome) {
+      return res.status(400).json({ error: "ID e novo nome são obrigatórios" });
+    }
+
+    const result = await pool.query(
+      "UPDATE categorias SET nome = $1 WHERE id = $2 RETURNING *",
+      [nome, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Categoria não encontrada" });
+    }
+
+    res.status(200).json(result.rows[0]);
   }
 
   if (req.method === "DELETE") {
