@@ -119,41 +119,34 @@
       <button class="menu-btn" onclick="loadPage('inicio.html')">🏠 Início</button>
 
       <div class="menu-section">
-        <div class="menu-title">Gestão</div>
+  <div class="menu-title">Gestão</div>
 
-        
+  <!-- Produtos -->
+  <button class="menu-btn" id="btn-produtos">📦 Produtos</button>
+  <div class="submenu" id="submenu-produtos">
+    <button class="menu-btn" onclick="loadPage('cadastro.html')">Lista de Produtos</button>
+    <button class="menu-btn" onclick="loadPage('inventario.html')">Inventário</button>
+    <button class="menu-btn" onclick="loadPage('categorias.html')">Categorias</button>
+  </div>
 
-        <!-- Produtos -->
-        <button class="menu-btn" id="btn-produtos">📦 Produtos</button>
-        <div class="submenu" id="submenu-produtos">
-          <button class="menu-btn" onclick="loadPage('cadastro.html')">Lista de Produtos</button>
-          <button class="menu-btn" onclick="loadPage('categorias.html')">Categorias</button>
-        </div>
+  <!-- Descontos -->
+  <button class="menu-btn" id="btn-descontos">🏷️ Descontos</button>
+  <div class="submenu" id="submenu-descontos">
+    <button class="menu-btn" onclick="loadPage('promocao.html')">Promoções</button>
+  </div>
 
-        <!-- Clientes -->
-        
-
-        <!-- Descontos -->
-        <button class="menu-btn" id="btn-descontos">🏷️ Descontos</button>
-        <div class="submenu" id="submenu-descontos">
-          <button class="menu-btn" onclick="loadPage('promocao.html')">Promoções</button>
-        </div>
-
-        <button class="menu-btn" id="btn-marketing">📢 Marketing</button>
-        <div class="submenu" id="submenu-marketing">
-          <button class="menu-btn" onclick="loadPage('banner1.html')">Banner 1</button>
-          
-          
-      </div>
-      </div>
+  <!-- Marketing -->
+  <button class="menu-btn" id="btn-marketing">📢 Marketing</button>
+  <div class="submenu" id="submenu-marketing">
+    <button class="menu-btn" onclick="loadPage('banner1.html')">Banner 1</button>
+  </div>
+</div>
 
       <div class="menu-section">
         <div class="menu-title">Canais de Venda</div>
 
         <!-- Loja Online -->
-        <a href="https://catalago-online.vercel.app/" target="_blank">
-  <button class="menu-btn" id="btn-loja-online">🛍️ Loja Online</button>
-</a>
+        <button class="menu-btn" id="btn-loja-online">🛍️ Loja Online</button>
         <div class="submenu" id="submenu-loja">
           
         </div>
@@ -180,9 +173,7 @@
       this.classList.toggle("active");
     });
 
-    document.getElementById("btn-clientes").addEventListener("click", function() {
-      this.classList.toggle("active");
-    });
+    
 
     document.getElementById("btn-descontos").addEventListener("click", function() {
       this.classList.toggle("active");
