@@ -886,7 +886,44 @@ footer {
     opacity: 0.6;
 }
 
+/* FIX ABSOLUTO PARA iPHONE */
+@supports (-webkit-touch-callout: none) {
 
+    /* força o tamanho REAL dos cards */
+    .product-card,
+    .categoria-track .product-card {
+        min-width: 150px !important;  /* antes estava 170–220 */
+        max-width: 150px !important;
+    }
+
+    /* reduz a imagem */
+    .product-card .thumb,
+    .categoria-track .thumb {
+        height: 115px !important;
+    }
+
+    /* fonte menor */
+    .product-card .title {
+        font-size: 13px !important;
+    }
+
+    .product-card .price {
+        font-size: 14px !important;
+    }
+}
+
+@supports (-webkit-touch-callout: none) {
+
+    .categoria-track {
+        overflow-x: scroll !important;
+        -webkit-overflow-scrolling: touch !important;
+        scroll-snap-type: x mandatory !important;
+    }
+
+    .categoria-track > * {
+        scroll-snap-align: start;
+    }
+}
 
 </style>
 </head>
