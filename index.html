@@ -17,21 +17,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#8a8ac2; --card:#565555; --accent:#c38c34; --muted:#bfbfbf; --white:#8e7a0b;
+  --bg: #FFFFFF;              /* fundo geral */
+  --card: #FFFFFF;            /* cards */
+  --accent: #FFD400;          /* amarelo principal */
+  --danger: #D32F2F;           /* vermelho */
+  --muted: #555555;            /* textos secundários */
+  --white: #000000;            /* texto principal (preto) */
 }
+
 *{box-sizing:border-box}
 body{
   background: linear-gradient(180deg, var(--bg), var(--bg-light));
   color: var(--white);
 }
-header{
-  padding:18px 24px; display:flex; align-items:center; justify-content:space-between;
-  background:linear-gradient(90deg,#2e2e30,#474646); border-bottom:1px solid rgba(109, 106, 106, 0.03);
+header {
+  background: #FFFFFF !important;
+  border-bottom: 3px solid var(--accent);
+  color: #000 !important;
 }
+
 .brand{display:flex; align-items:center; gap:12px}
 .brand .logo{width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,#a5a3a3,#111);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent)}
 .search{flex:1; margin:0 20px}
-.search input{width:100%; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:#0b0b0b; color:var(--white)}
+.search input,
+.campo-pesquisa {
+  background: #FFFFFF !important;
+  color: #000 !important;
+  border: 2px solid var(--accent) !important;
+  border-radius: 25px;
+}
 
 /* Grid produtos */
 .container{max-width:1200px;margin:28px auto;padding:0 18px}
@@ -55,8 +69,8 @@ header{
 .btn{flex:1;padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
 .btn.info{background:transparent;border:1px solid rgba(219, 19, 19, 0.06);color:var(--white)}
 .btn.buy {
-    background: #000 !important;   /* fundo preto */
-    color: #fff !important;         /* texto branco */
+  background: var(--danger) !important;
+  color: #FFFFFF !important;
 }
 
 
@@ -268,17 +282,17 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 .checkout-box { background: #121212; padding: 25px; border-radius: 12px; width: 90%; max-width: 420px; color: white; position: relative; }
 .checkout-box input, .checkout-box textarea { width: 100%; padding: 10px; background: #1d1d1d; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 12px; }
 .close-checkout { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; }
-.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: #b89047; color: #000; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: var(--danger) !important; color: #FFFFFF !important; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
 /* modal placa / luminoso */
 .modal-placa-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 999999; }
 .modal-placa-box {
     width: 90%;
     max-width: 380px; /* diminuímos o tamanho */
-    background: #161616;
+    background: #FFFFFF !important;
     padding: 18px; /* padding menor */
     border-radius: 14px;
-    color: #fff;
+    color: #000 !important;
     animation: placaZoom .25s ease;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
     max-height: 85vh;         /* impede de ultrapassar tela */
@@ -558,12 +572,13 @@ header {
 }
 
 /* Cards */
-.product-card {
-    background: #ffffff !important;
-    border: 1px solid #e6e6e6 !important;
-    border-radius: 12px !important;
-    color: #000 !important;
+.product-card,
+.card {
+  background: #FFFFFF !important;
+  border: 1px solid #e0e0e0;
+  color: #000 !important;
 }
+
 
 /* Nome do produto */
 .product-card .title {
@@ -589,9 +604,9 @@ header {
 
 /* Botões dentro dos cards */
 .btn.info {
-    background: #f0f0f0 !important;
-    color: #000 !important;
-    border: 1px solid #ccc !important;
+  background: #FFFFFF !important;
+  color: #000 !important;
+  border: 2px solid var(--accent) !important;
 }
 
 .btn.buy {
