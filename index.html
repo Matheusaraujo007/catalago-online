@@ -17,13 +17,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg: #FFFFFF;              /* fundo geral */
-  --card: #FFFFFF;            /* cards */
-  --accent: #FFD400;          /* amarelo principal */
-  --danger: #D32F2F;           /* vermelho */
-  --muted: #555555;            /* textos secundários */
-  --white: #000000;            /* texto principal (preto) */
+  --bg: #FFFFFF;
+  --card: #FFFFFF;
+
+  --yellow: #FFD400;   /* amarelo principal */
+  --red: #D32F2F;      /* vermelho principal */
+
+  --accent: var(--yellow);
+  --danger: var(--red);
+
+  --muted: #555555;
+  --white: #000000;
 }
+
 
 *{box-sizing:border-box}
 body{
@@ -253,6 +259,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 }
 
 .product-card {
+  background: #FFFFFF;
   min-width: 220px;
   flex-shrink: 0;
 }
@@ -282,7 +289,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 .checkout-box { background: #121212; padding: 25px; border-radius: 12px; width: 90%; max-width: 420px; color: white; position: relative; }
 .checkout-box input, .checkout-box textarea { width: 100%; padding: 10px; background: #1d1d1d; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 12px; }
 .close-checkout { position: absolute; right: 10px; top: 10px; background: transparent; border: none; color: white; font-size: 20px; cursor: pointer; }
-.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: var(--danger) !important; color: #FFFFFF !important; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+.btn-confirmar-pedido { width: 100%; padding: 12px; margin-top: 10px; border: none; background: var(--red) !important; color: #FFFFFF !important; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
 /* modal placa / luminoso */
 .modal-placa-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; justify-content: center; align-items: center; z-index: 999999; }
@@ -441,6 +448,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 12px;
+  color: var(--yellow);
 }
 
 .categoria-wrap {
@@ -604,13 +612,13 @@ header {
 
 /* Botões dentro dos cards */
 .btn.info {
-  background: #FFFFFF !important;
+  background: #f1dc1c !important;
   color: #000 !important;
   border: 2px solid var(--accent) !important;
 }
 
 .btn.buy {
-    background: #000 !important;
+    background: #b71c1c !important;
     color: #fff !important;
 }
 
@@ -662,12 +670,12 @@ header {
 
 /* Botão flutuante do carrinho */
 .cart-float {
-    background: #d0cccc !important;
+    background: #f3dd17 !important;
 }
 
 .cart-badge {
-    background: #000 !important;
-    color: #fff !important;
+  background: var(--red) !important;
+  color: #FFFFFF !important;
 }
 
 /* Footer */
