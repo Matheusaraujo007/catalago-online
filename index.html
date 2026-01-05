@@ -1226,7 +1226,7 @@ let categorias = [];
 let cart = JSON.parse(localStorage.getItem('mp_cart') || '[]');
 
 const money = v => {
-  return 'Kz ' + Number(v).toLocaleString('pt-PT', {
+  return 'Kz ' + Number(v).toLocaleString('pt-AO', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
@@ -1775,7 +1775,7 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
 
   // produtos normais
       const prod = produtos.find(p=>p.id==it.id);
-      return `${it.qt} x ${prod?.nome || 'Produto'}: R$ ${(it.price).toFixed(2)}`;
+      return `${it.qt} x ${prod?.nome || 'Produto'}: ${money(it.price)}`;
     }).join('\n--------\n');
 
     let secPlaca = '';
