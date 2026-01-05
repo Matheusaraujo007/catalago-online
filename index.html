@@ -1829,17 +1829,27 @@ Detalhes Faixa Refletiva (Luminoso)
     }
 
         // Recupera dados do modal de entrega
-    let dadosEntrega = window.__dados_entrega || null;
+    let secEntrega = "";
 
-let secEntrega = "";
-if (dadosEntrega) {
+if (tipoEntrega === "entrega") {
+  const dadosEntrega = window.__dados_entrega;
+
   secEntrega = `
-📦 *ENDEREÇO PARA ENTREGA*
+📦 *ENTREGA EM DOMICÍLIO*
 
-Condomínio: ${dadosEntrega.condominio}
-Prédio: ${dadosEntrega.predio}
-Andar: ${dadosEntrega.andar}
-Número da Porta: ${dadosEntrega.porta}
+Condomínio: ${dadosEntrega?.condominio || "-"}
+Prédio: ${dadosEntrega?.predio || "-"}
+Andar: ${dadosEntrega?.andar || "-"}
+Número da Porta: ${dadosEntrega?.porta || "-"}
+--------
+`;
+}
+
+if (tipoEntrega === "retirada") {
+  secEntrega = `
+🏪 *RETIRADA NO LOCAL*
+
+O cliente irá retirar o pedido no ponto de atendimento.
 --------
 `;
 }
