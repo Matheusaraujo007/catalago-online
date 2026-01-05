@@ -1092,7 +1092,7 @@ footer {
 
   <label class="radio-opcao">
     <input type="radio" name="tipoEntrega" value="entrega">
-    <span>Envio Por Disc Ovos</span>
+    <span>Envio Por Disque Ovos</span>
   </label>
 </div>
     </div>
@@ -1765,12 +1765,21 @@ document.getElementById('btnCheckout').addEventListener('click', () => {
   document.querySelector("input[name='formaPagamento']:checked")?.value
   || "Não informado";
 
+  const tipoEntrega =
+  document.querySelector("input[name='tipoEntrega']:checked")?.value || "retirada";
+
+// 🔒 validação: se for entrega, exige endereço
+if (tipoEntrega === "entrega" && !window.__dados_entrega) {
+  alert("Por favor, informe o endereço de entrega antes de confirmar o pedido.");
+  return;
+}
+
     const valor_total = cart.reduce((s,i)=>s + ((i.price||0) * (i.qt||0)), 0);
     const resumoItens = cart.map(it => {
 
   // --- item especial: taxa de arte personalizada ---
   if (it.id === 999999) {
-    return `${it.qt} x Taxa de Arte Bandeira Personalizada: R$ ${(it.price).toFixed(2)}`;
+    return `${it.qt} x Taxa de Arte Bandeira Personalizada: ${money(it.price)}`;
   }
 
   // produtos normais
