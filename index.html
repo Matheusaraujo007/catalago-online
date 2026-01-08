@@ -208,10 +208,16 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 
 .banner-track img {
   min-width: 100%;
-  height: 300px;
-  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;       /* NÃO corta e NÃO estoura */
+  image-rendering: auto;
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
   border-radius: 12px;
+  background: #000;          /* fundo elegante se sobrar espaço */
 }
+
 
 .banner-carousel .arrow-btn { width:48px; height:48px; }
 
@@ -484,13 +490,14 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 }
 
 @media (max-width: 600px) {
-  .modal .dialog {
-    max-height: 90vh;
-    overflow-y: auto !important;
-    padding-bottom: 20px; /* espaço para o botão aparecer */
-  }
+    .logo-topo {
+        width: 160px;        /* ⬅️ logo maior no mobile */
+        max-width: 80vw;     /* evita estourar em telas muito pequenas */
+        height: auto;
+        border-radius: 28px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
 }
-
 .modal .dialog {
   display: flex;
   flex-direction: column;
@@ -505,26 +512,24 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 
 
 /* Altura padrão no PC */
-.banner-carousel,
-.banner-track img {
-    height: 300px !important;
+/* Desktop */
+.banner-carousel {
+    height: 360px;
 }
 
-/* Ajuste perfeito no mobile */
+/* Mobile */
 @media (max-width: 600px) {
-    .banner-carousel,
-    .banner-track img {
-        height: 160px !important; /* banner menor e sem cortar */
+    .banner-carousel {
+        height: 220px;
     }
 }
 
-/* Ajuste ainda menor para telas muito pequenas */
 @media (max-width: 400px) {
-    .banner-carousel,
-    .banner-track img {
-        height: 130px !important;
+    .banner-carousel {
+        height: 180px;
     }
 }
+
 
 .logo-img {
   width: 55px;
@@ -924,6 +929,35 @@ footer {
         scroll-snap-align: start;
     }
 }
+
+/* ===== MELHORAR EXIBIÇÃO DA DESCRIÇÃO NO MODAL ===== */
+
+/* Área da descrição */
+#modalDesc {
+    max-height: 90px;              /* mostra um trecho */
+    overflow-y: auto;              /* permite rolar */
+    padding-right: 6px;
+    line-height: 1.4;
+    font-size: 14px;
+}
+
+/* Scroll discreto */
+#modalDesc::-webkit-scrollbar {
+    width: 4px;
+}
+#modalDesc::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* Mobile: mostra um pouco mais */
+@media (max-width: 600px) {
+    #modalDesc {
+        max-height: 120px;          /* mais texto visível no celular */
+        font-size: 13px;
+    }
+}
+
 
 </style>
 </head>
@@ -1878,7 +1912,7 @@ Forma de pagamento: ${formaPagamento}
 
 📌 Dados para pagamento serão enviados após confirmação.
 
-Valor da entrega: A DEFINIR
+Valor da entrega: GRATIS
 Valor Total: ${money(valor_total)}
 --------
 Entrega: Disque Ovos
