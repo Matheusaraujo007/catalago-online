@@ -1679,7 +1679,7 @@ document.querySelectorAll("#carouselTrack img").forEach((img, index) => {
     nextImg.onclick = ()=>{ if(imagens.length){ currentIndex = (currentIndex + 1) % imagens.length; track.style.transform = `translateX(-${currentIndex * 100}%)`; } };
 
     modalTitle.textContent = p.nome;
-    modalDesc.textContent = p.descricao || '';
+    modalDesc.innerHTML = (p.descricao || '').replace(/\n/g, '<br>');
     // MOSTRAR OPÇÃO DE ARTE PERSONALIZADA SOMENTE PARA A CATEGORIA BANDEIRA
 const isBandeira = (p.categoria_nome || p.categoria || '').toLowerCase().includes("bandeira");
 const boxArte = document.getElementById("artePersonalizadaBox");
