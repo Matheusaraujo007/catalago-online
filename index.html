@@ -953,6 +953,50 @@ footer {
     }
 }
 
+/* ===== SELOS OVOS ===== */
+#ovosSelos {
+  margin-top: 12px;
+}
+
+/* Ícones circulares */
+.ovos-icons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.ovos-icons span {
+  border: 2px solid #7a3b2e;
+  color: #7a3b2e;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Tags vermelhas */
+.ovos-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ovos-tags span {
+  background: #8b0e12;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
 
 </style>
 </head>
@@ -1043,6 +1087,23 @@ footer {
     </div>
   </div>
 </div>
+
+<div id="ovosSelos" style="display:none">
+  <div class="ovos-icons">
+    <span>CAT A</span>
+    <span>30 un</span>
+    <span>L / XL</span>
+    <span>GMO</span>
+  </div>
+
+  <div class="ovos-tags">
+    <span>SEM PESTICIDAS</span>
+    <span>RICO EM ÔMEGA 3</span>
+    <span>SEM ANTIBIÓTICOS</span>
+    <span>CRIAÇÃO AO AR LIVRE</span>
+  </div>
+</div>
+
 
 <!-- Carrinho -->
 <aside class="cart" id="cart">
@@ -1680,6 +1741,17 @@ document.querySelectorAll("#carouselTrack img").forEach((img, index) => {
 
     modalTitle.textContent = p.nome;
     modalDesc.innerHTML = (p.descricao || '').replace(/\n/g, '<br>');
+
+    const ovosSelos = document.getElementById("ovosSelos");
+
+const categoria = (p.categoria_nome || p.categoria || "").toLowerCase();
+
+if (categoria.includes("ovo")) {
+  ovosSelos.style.display = "block";
+} else {
+  ovosSelos.style.display = "none";
+}
+
     // MOSTRAR OPÇÃO DE ARTE PERSONALIZADA SOMENTE PARA A CATEGORIA BANDEIRA
 const isBandeira = (p.categoria_nome || p.categoria || '').toLowerCase().includes("bandeira");
 const boxArte = document.getElementById("artePersonalizadaBox");
