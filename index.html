@@ -491,13 +491,14 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 
 @media (max-width: 600px) {
     .logo-topo {
-        width: 160px;        /* ⬅️ logo maior no mobile */
-        max-width: 80vw;     /* evita estourar em telas muito pequenas */
+        width: 180px !important;     /* ⬅️ LOGO MAIOR */
+        max-width: 85vw;
         height: auto;
         border-radius: 28px;
         box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     }
 }
+
 .modal .dialog {
   display: flex;
   flex-direction: column;
@@ -1325,7 +1326,12 @@ document.getElementById("btnEnviarEntrega").onclick = () => {
       const track = document.getElementById('bannerTrack');
       if(!banners.length){ track.innerHTML = '<div style="color:#aaa;text-align:center;width:100%">Nenhum banner cadastrado</div>'; return; }
       track.innerHTML = banners.map(b=>{
-        const img = b.imagem_base64 ? (b.imagem_base64.startsWith('data:image') ? b.imagem_base64 : `data:image/jpeg;base64,${b.imagem_base64}`) : '/placeholder.png';
+        const img = b.imagem_base64
+  ? (b.imagem_base64.startsWith('data:image')
+    ? b.imagem_base64
+    : `data:image/png;base64,${b.imagem_base64}`)
+  : '/placeholder.png';
+
         return b.link ? `<a href="${b.link}" target="_blank"><img src="${img}" alt="${b.titulo||''}">` : `<img src="${img}" alt="${b.titulo||''}">`;
       }).join('');
       startBannerCarousel();
