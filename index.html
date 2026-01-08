@@ -389,10 +389,7 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
     font-size: 18px !important;
   }
 
-  #modalDesc {
-    font-size: 13px !important;
-  }
-
+ 
   #modalPrice {
     font-size: 16px !important;
   }
@@ -925,16 +922,6 @@ footer {
 
 
 /* ===== DESCRIÇÃO DO PRODUTO NO MODAL (VERSÃO FINAL) ===== */
-#modalDesc {
-    max-height: 80px;          
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.45;
-    color: #000 !important;
-    opacity: 0.85;
-    margin: 6px 0;
-    padding-right: 6px;
-}
 
 /* Scroll discreto */
 #modalDesc::-webkit-scrollbar {
@@ -945,13 +932,7 @@ footer {
     border-radius: 10px;
 }
 
-/* Mobile */
-@media (max-width: 600px) {
-    #modalDesc {
-        max-height: 110px;
-        font-size: 13px;
-    }
-}
+
 
 /* ===== SELOS OVOS ===== */
 #ovosSelos {
@@ -1024,12 +1005,20 @@ footer {
     border-radius: 16px;
   }
 
-  /* Dá prioridade visual para a descrição */
-  #modalDesc {
-    max-height: 140px;   /* aumenta área da descrição */
-    font-size: 13px;
-  }
+  /* ===== DESCRIÇÃO DO PRODUTO NO MODAL (FIX REAL) ===== */
+#modalDesc {
+    display: block !important;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000 !important;
+    opacity: 1 !important;
+    margin: 8px 0;
+    white-space: normal;
+    word-break: break-word;
+ }
 }
+
 
 
 
