@@ -997,6 +997,41 @@ footer {
   text-align: center;
 }
 
+/* ===== AJUSTE DOS SELOS OVOS NO MOBILE ===== */
+@media (max-width: 600px) {
+
+  /* Ícones circulares menores */
+  .ovos-icons {
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .ovos-icons span {
+    width: 46px;        /* antes 64px */
+    height: 46px;
+    font-size: 10px;
+    border-width: 1.5px;
+  }
+
+  /* Tags vermelhas mais compactas */
+  .ovos-tags {
+    gap: 6px;
+  }
+
+  .ovos-tags span {
+    padding: 6px 10px;  /* antes 8px 14px */
+    font-size: 11px;
+    border-radius: 16px;
+  }
+
+  /* Dá prioridade visual para a descrição */
+  #modalDesc {
+    max-height: 140px;   /* aumenta área da descrição */
+    font-size: 13px;
+  }
+}
+
+
 
 </style>
 </head>
