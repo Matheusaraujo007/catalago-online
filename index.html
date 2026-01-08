@@ -191,12 +191,19 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 .banner-carousel {
   position: relative;
   width: 100%;
-  height: 300px;
+  aspect-ratio: 16 / 6;   /* PROPORÇÃO DO BANNER */
+  max-height: 360px;      /* limite no desktop */
   overflow: hidden;
-  margin-top: 10px;
   border-radius: 12px;
-  background: #0a0a0a;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  background: #000;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .banner-carousel {
+    aspect-ratio: 4 / 5;  /* MAIS ALTO NO MOBILE */
+    max-height: 260px;
+  }
 }
 
 .banner-track {
@@ -207,18 +214,11 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
 }
 
 .banner-track img {
-  min-width: 100%;
   width: 100%;
   height: 100%;
-  object-fit: contain;       /* NÃO corta e NÃO estoura */
-  image-rendering: auto;
-  image-rendering: crisp-edges;
-  image-rendering: -webkit-optimize-contrast;
-  border-radius: 12px;
-  background: transparent;          /* fundo elegante se sobrar espaço */
+  object-fit: cover;     /* AQUI ESTÁ A CHAVE */
+  object-position: center;
 }
-
-
 .banner-carousel .arrow-btn { width:48px; height:48px; }
 
 .products-grid {
