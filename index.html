@@ -365,12 +365,6 @@ footer{padding:28px 18px;color:var(--muted);text-align:center}
   font-weight: 700;
 }
 
-#modalDesc {
-  font-size: 14px;
-  opacity: 0.8;
-  line-height: 1.4;
-}
-
 #modalPrice {
   font-size: 18px;
   font-weight: 700;
@@ -871,10 +865,6 @@ footer {
 
 /* ===== FORÇAR TEXTO PRETO NO MODAL DE DETALHES ===== */
 
-/* Descrição do produto */
-#modalDesc {
-    color: #000 !important;
-}
 
 /* Preço principal */
 #modalPrice {
@@ -933,13 +923,17 @@ footer {
 
 /* ===== MELHORAR EXIBIÇÃO DA DESCRIÇÃO NO MODAL ===== */
 
-/* Área da descrição */
+
+/* ===== DESCRIÇÃO DO PRODUTO NO MODAL (VERSÃO FINAL) ===== */
 #modalDesc {
-    max-height: 90px;              /* mostra um trecho */
-    overflow-y: auto;              /* permite rolar */
-    padding-right: 6px;
-    line-height: 1.4;
+    max-height: 80px;          
+    overflow-y: auto;
     font-size: 14px;
+    line-height: 1.45;
+    color: #000 !important;
+    opacity: 0.85;
+    margin: 6px 0;
+    padding-right: 6px;
 }
 
 /* Scroll discreto */
@@ -947,14 +941,14 @@ footer {
     width: 4px;
 }
 #modalDesc::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: #bbb;
     border-radius: 10px;
 }
 
-/* Mobile: mostra um pouco mais */
+/* Mobile */
 @media (max-width: 600px) {
     #modalDesc {
-        max-height: 120px;          /* mais texto visível no celular */
+        max-height: 110px;
         font-size: 13px;
     }
 }
